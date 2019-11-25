@@ -47,8 +47,8 @@ public class AlignmentTestActivity extends AppCompatActivity {
 //        ((LayerView) findViewById(R.id.iv_beauty1)).setImage(ImageSource.asset("flame.jpg"));
 //        ((LayerView) findViewById(R.id.iv_landscape)).setImage(ImageSource.asset("landscape.jpg"));
 //        ((LayerView) findViewById(R.id.iv_moon)).setImage(ImageSource.asset("beauty.jpg"));
-		ImageSource imageSource = ImageSource.asset("moon.jpg");
-		String uriString = "moon.jpg";
+		ImageSource imageSource = ImageSource.asset("beauty.jpg");
+		String uriString = "beauty.jpg";
 		uriString = "file:///android_asset/" + uriString;
 		Uri uri = Uri.parse(uriString);
 		Log.i("uritest", uri == null ? "null" : "not null");
