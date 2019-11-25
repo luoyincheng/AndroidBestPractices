@@ -1,0 +1,11 @@
+---
+- MotionEvent.getX()返回的是手指在当前控件中的相对位置,而MotionEvent.getRatX()返回的是手指在屏幕中的相对位置.
+---
+一个事件流结束后,ActionUp事件会在以下所有控件中调用:
+- 该View本身
+- 该View的父View以及父View的父View...
+- 该View所在的Activity
+---
+- 阿道夫我的世界
+- 阿萨德发放
+---

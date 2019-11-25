@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<yincheng.tinytank.sourcecode.operationview.IDrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ahah="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/holo_red_dark"
+    android:padding="10dp">
+
+    <yincheng.tinytank.tinyframe.draggablearea.DraggableAreaWithAlignmentLine
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <yincheng.tinytank.tinyframe.draggablearea.LayerView
+            android:id="@+id/iv_beauty1"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/testwatermelon"
+            ahah:floor="0" />
+
+        <yincheng.tinytank.tinyframe.draggablearea.LayerView
+            android:id="@+id/iv_landscape"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+
+            android:scaleType="centerCrop"
+            android:src="@mipmap/testwatermelon"
+            ahah:floor="1" />
+
+        <yincheng.tinytank.tinyframe.draggablearea.LayerView
+            android:id="@+id/iv_moon"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/testwatermelon"
+            ahah:floor="2" />
+
+        <yincheng.tinytank.tinyframe.draggablearea.LayerView
+            android:id="@+id/iv_beauty2"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/testwatermelon"
+            ahah:floor="3" />
+
+    </yincheng.tinytank.tinyframe.draggablearea.DraggableAreaWithAlignmentLine>
+
+    <LinearLayout
+        android:layout_width="150dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/holo_orange_dark"
+        android:layout_gravity="start">
+
+    </LinearLayout>
+
+</yincheng.tinytank.sourcecode.operationview.IDrawerLayout>

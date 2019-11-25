@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/pb"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@android:color/white"
+        android:progressBackgroundTint="@android:color/black"
+        android:secondaryProgressTint="@android:color/holo_green_dark" />
+
+    <Button
+        android:id="@+id/btn_openservice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开启服务"
+        app:layout_constraintTop_toBottomOf="@+id/pb" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

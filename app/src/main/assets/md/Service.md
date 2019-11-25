@@ -1,0 +1,2 @@
+- Service中启动Activity为什么需要添加Intent.FLAG_ACTIVITY_NEW_TASK属性?
+  假设在电话本应用里面启动一个Service，执行五分钟以后，启动一个Activity，那么很有可能用户在5分钟以后已经不再电话本应用里面了，假如在浏览器里面浏览网页。此时的Activity所在的Task是浏览器的Task，那么这个时候弹出来电话本的Activity，如果这个Activity在当前Task的话，也就是浏览器所在的Task，用户会觉得莫名其妙，(试想一下加入电话本Activity加入到了浏览器的Task中去，你这时候按Home键返回桌面，再次打开浏览器，出现的却是电话本中的Activity，因为浏览器程序没有被销毁),因为弹出的Activity和浏览器在一个Task，而这个弹出的Activity本该属于电话本的

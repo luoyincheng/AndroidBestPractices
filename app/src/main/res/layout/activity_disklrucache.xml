@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <!--<import type="android.graphics.Bitmap" />-->
+
+        <!--<variable-->
+        <!--name="imgResId"-->
+        <!--type="Bitmap" />-->
+
+        <variable
+            name="lruViewModel"
+            type="yincheng.tinytank.tinyframe.lrucache.LruCacheViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <!--保持宽高比-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_top"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@android:color/holo_orange_dark"
+            app:layout_constraintDimensionRatio="6000:2848"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@drawable/brvah_sample_footer_loading" />
+        <!--利用权重-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_line2_left"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/iv_line2_center"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_top"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_line2_center"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toStartOf="@+id/iv_line2_right"
+            app:layout_constraintHorizontal_weight="2"
+            app:layout_constraintStart_toEndOf="@+id/iv_line2_left"
+            app:layout_constraintTop_toBottomOf="@+id/iv_top"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_line2_right"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toEndOf="@+id/iv_line2_center"
+            app:layout_constraintTop_toBottomOf="@+id/iv_top"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <!--bias属性-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iv_line3"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@android:color/holo_red_dark"
+            android:text="center"
+            app:layout_constraintDimensionRatio="9:16"
+            app:layout_constraintHorizontal_bias="0.1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_line2_center"
+            tools:srcCompat="@drawable/brvah_sample_footer_loading" />
+        <!--android:onClick="@{() -> lruViewModel.startWork()}"-->
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="start work"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:onClick="@{() -> lruViewModel.startWork()}" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
