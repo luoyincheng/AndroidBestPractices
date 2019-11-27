@@ -28,7 +28,9 @@ fun fun2(n: Int): Int {
 }
 
 /**
- * 1.暴力法
+ * i:起始台阶　　j:终止台阶
+ * 比如从０到５：f(5) = f(4) + f(3) = f(3) + f(2) + f(2) + f(1) = f(2) + f(1) + f(2) + f(2)
+ *                  + f(1) = 2+1+2+2+1 = 8
  */
 fun violentSolution(i: Int, j: Int): Int {
     if (i > j) return 0
