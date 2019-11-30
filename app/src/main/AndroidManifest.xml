@@ -17,7 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-        <activity android:name=".android_Q_A._1_100._35.CustomizedViewActivity">
+        <activity android:name=".android_Q_A._1_100._33.EventDispatchActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

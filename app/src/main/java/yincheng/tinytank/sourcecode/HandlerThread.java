@@ -74,7 +74,7 @@ public class HandlerThread extends Thread {
 		synchronized (this) {
 			while (isAlive() && mLooper == null) {
 				try {
-					wait();
+					wait();//wait()只能用于循环中
 				} catch (InterruptedException e) {
 				}
 			}

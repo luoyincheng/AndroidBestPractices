@@ -13,12 +13,12 @@ class EventDispatchActivity : AppCompatActivity() {
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {
-        Log.i("EventDispatch", "activity:dispatchTouchEvent:false")
-        return false
+//        Log.i("EventDispatch", "activity:dispatchTouchEvent:false")
+//        return false
 //        Log.i("EventDispatch", "activity:dispatchTouchEvent:true")
 //        return true
-//        Log.i("EventDispatch", "activity:dispatchTouchEvent:${super.dispatchTouchEvent(ev)}")
-//        return super.dispatchTouchEvent(ev)
+        Log.i("EventDispatch", "activity:dispatchTouchEvent:${super.dispatchTouchEvent(ev)}")
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onTouchEvent(event: MotionEvent?): Boolean {
