@@ -35,7 +35,7 @@ public class Observer1Fragment extends Fragment implements Observer {//观察者
 
 //    @Override
 //    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-//        handler = new HandlerTestActivity() {
+//        handler = new HandlerActivity() {
 //            @Override
 //            public void handleMessage(Message msg) {
 //                switch (msg.what) {

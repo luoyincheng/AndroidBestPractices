@@ -19,16 +19,16 @@ public class HttpResponseCodeActivity extends RichTextActivity {
 
 	@Override
 	protected void initView() {
-		RichText.fromMarkdown("- HandlerTestActivity.post(Runnable runnable)" +
+		RichText.fromMarkdown("- HandlerActivity.post(Runnable runnable)" +
 				"方法是有返回值的，只有在Runnable成功放到messageQueue中以后才会返回True，否则返回false\n" +
 				"\n" +
 				"\n" +
-				"|HandlerTestActivity|Looper|Thread|MessageQueue|\n" +
+				"|HandlerActivity|Looper|Thread|MessageQueue|\n" +
 				"|:-----:|:----:|:----:|:----------:|\n" +
 				"|Looper|Looper|Thread|MessageQueue|\n" +
 				"\n" +
 				"``` \n" +
-				"public HandlerTestActivity(Looper looper) {\n" +
+				"public HandlerActivity(Looper looper) {\n" +
 				"    this(looper, null, false);\n" +
 				"}\n" +
 				"```\n" +
@@ -36,7 +36,7 @@ public class HttpResponseCodeActivity extends RichTextActivity {
 				"```\n" +
 				"public class UiThreadExecutor implements Executor {\n" +
 				"\n" +
-				"    private final HandlerTestActivity uiHandler = new HandlerTestActivity(Looper.getMainLooper());\n" +
+				"    private final HandlerActivity uiHandler = new HandlerActivity(Looper.getMainLooper());\n" +
 				"\n" +
 				"    private Thread mUiThread = Looper.getMainLooper().getThread();\n" +
 				"\n" +

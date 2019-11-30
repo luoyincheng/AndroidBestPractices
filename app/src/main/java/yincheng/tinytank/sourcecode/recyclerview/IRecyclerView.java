@@ -3402,7 +3402,7 @@ public class IRecyclerView extends ViewGroup implements ScrollingView, NestedScr
 	 * <p>
 	 * This case may happen if you have some custom logic to change adapter contents in
 	 * response to a View callback (e.g. focus change callback) which might be triggered during a
-	 * layout calculation. In these cases, you should just postpone the change using a HandlerTestActivity or a
+	 * layout calculation. In these cases, you should just postpone the change using a HandlerActivity or a
 	 * similar mechanism.
 	 *
 	 * @return <code>true</code> if RecyclerView is currently computing a layout, <code>false</code>
@@ -7780,7 +7780,7 @@ public class IRecyclerView extends ViewGroup implements ScrollingView, NestedScr
 		 * Calling this method when LayoutManager is not attached to a RecyclerView has no effect.
 		 *
 		 * @param action The Runnable to remove from the message handling queue
-		 * @return true if RecyclerView could ask the HandlerTestActivity to remove the Runnable,
+		 * @return true if RecyclerView could ask the HandlerActivity to remove the Runnable,
 		 * false otherwise. When the returned value is true, the Runnable
 		 * may or may not have been actually removed from the message queue
 		 * (for instance, if the Runnable was not in the queue already.)

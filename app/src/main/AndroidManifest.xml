@@ -46,7 +46,6 @@
         <activity android:name="yincheng.tinytank.ui.activity.MarkdownViewActivity" />
         <activity android:name="yincheng.tinytank.ui.activity.LambdaActivity" />
         <activity android:name="yincheng.tinytank.ui.activity.JavaAdvancedActivity" />
-        <activity android:name="yincheng.tinytank.ui.activity.HandlerActivity" />
         <activity android:name="yincheng.tinytank.ui.activity.XmlActivity" />
         <activity android:name="yincheng.tinytank.ui.activity.IntentServiceActivity" />
         <activity android:name="yincheng.tinytank.ui.activity.CodeViewerActivity" />

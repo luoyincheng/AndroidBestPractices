@@ -1,4 +1,4 @@
-package yincheng.tinytank.sourcecode.handler;
+package yincheng.tinytank.android_Q_A._1_100._32;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import yincheng.tinytank.R;
 import yincheng.tinytank.android_Q_A._1_100._4.ServiceCommunicationActivity;
 
-
-public class HandlerTestActivity extends AppCompatActivity {
+public class HandlerActivity extends AppCompatActivity {
 	private TextView mTextView;
 	private WorkerHandler mWorkerHandler;
 	private MainThreadHandler mMainThreadHandler;

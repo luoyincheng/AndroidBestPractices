@@ -7,6 +7,8 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import yincheng.tinytank.provider.adapter.Utils;
 import yincheng.tinytank.provider.helper.TypefaceHelper;
@@ -19,6 +21,7 @@ import yincheng.tinytank.provider.helper.TypefaceHelper;
 
 public class App extends Application {
 	private static App instance;
+	Set set = new HashSet()
 	public static App getInstance() {
 		return instance;
 	}
