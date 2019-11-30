@@ -92,7 +92,7 @@ public class ItemHolderProvider {
 	// SourceCodeList ==========================================================
 	public static final List<GenericItemHolder> SourceCodeList =
 			Arrays.asList(
-					new GenericItemHolder("HandlerTestActivity"),
+					new GenericItemHolder("HandlerActivity"),
 					new GenericItemHolder("Timer"),
 					new GenericItemHolder("AsyncTask"),
 					new GenericItemHolder("DownloadManager"),
