@@ -21,7 +21,6 @@ import yincheng.tinytank.provider.helper.TypefaceHelper;
 
 public class App extends Application {
 	private static App instance;
-	Set set = new HashSet()
 	public static App getInstance() {
 		return instance;
 	}
