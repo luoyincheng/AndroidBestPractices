@@ -25,7 +25,6 @@ public class MessengerService extends Service {
 					Log.d("wxl", "msg=" + msg.getData().getString("msg"));
 					//4、服务端回复消息给客户端
 					Messenger serviceMessenger = msg.replyTo;
-					LiveData
 					Message replyMessage = Message.obtain(null, MessengerActivity.MSG_FROM_SERVICE);
 					Bundle bundle = new Bundle();
 					bundle.putString("msg", "Hello from service.");
