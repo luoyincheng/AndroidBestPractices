@@ -1,3 +1,0 @@
-- SubsamplingScaleImageView  if (!isEnabledOperation) {//是否为选中状态
-- SubsamplingScaleImageView public boolean onSingleTapConfirmed(MotionEvent e) {
--               
