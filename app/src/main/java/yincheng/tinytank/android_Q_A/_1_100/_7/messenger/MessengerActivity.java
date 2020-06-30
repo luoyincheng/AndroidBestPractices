@@ -1,12 +1,11 @@
 package yincheng.tinytank.android_Q_A._1_100._7.messenger;
 
 import android.content.ComponentName;
-import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
 import android.os.RemoteException;
@@ -37,11 +36,13 @@ public class MessengerActivity extends AppCompatActivity {
 				e.printStackTrace();
 			}
 		}
+
 		@Override
 		public void onServiceDisconnected(ComponentName name) {
 		}
 	};
 	private final Messenger getReplyMessenger = new Messenger(new MessengerHandler());
+
 	private static class MessengerHandler extends Handler {
 		@Override
 		public void handleMessage(Message msg) {
@@ -54,18 +55,57 @@ public class MessengerActivity extends AppCompatActivity {
 			super.handleMessage(msg);
 		}
 	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		// Messenger 进行通信
-		Intent intent = new Intent(this, MessengerService.class);
-		bindService(intent, messengerServiceConnection, Context.BIND_AUTO_CREATE);
+//		// Messenger 进行通信
+//		Intent intent = new Intent(this, MessengerService.class);
+//		bindService(intent, messengerServiceConnection, Context.BIND_AUTO_CREATE);
+		task();
 	}
+
 	@Override
 	protected void onDestroy() {
 		unbindService(messengerServiceConnection);
 		super.onDestroy();
+	}
+
+	private void task() {
+		startTaskThread(new callable() {
+			@Override
+			public void callback(String str) {
+				Log.i("interfaceThread", "isMainThread 1 :" + isMainThread());
+				Log.i("interfaceThread", Thread.currentThread() + " - " + str);
+			}
+		});
+	}
+
+	interface callable {
+		void callback(String str);
+	}
+
+	private void startTaskThread(callable callable) {
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				Log.i("interfaceThread", "isMainThread 2 :" + isMainThread());
+				try {
+					Thread.sleep(5000);
+					if (callable != null) {
+						callable.callback("str from:" + Thread.currentThread());
+					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}).start();
+	}
+
+
+	private boolean isMainThread() {
+		return Looper.getMainLooper() == Looper.myLooper();
 	}
 }
