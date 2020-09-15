@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import java.util.List;
 
 public class StringDiffCallback extends DiffUtil.Callback {
-	private List<String> old_string, new_string;
 	public static final String STRING_KEY = "STRING_KEY";
+	private List<String> old_string, new_string;
 
 	public StringDiffCallback(List old_string, List new_string) {
 		this.old_string = old_string;

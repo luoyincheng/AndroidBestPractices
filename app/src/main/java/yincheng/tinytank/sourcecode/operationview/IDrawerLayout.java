@@ -48,124 +48,84 @@ import java.util.List;
 import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP;
 
 public class IDrawerLayout extends ViewGroup {
-	private static final String TAG = "DrawerLayout";
-
-	private static final int[] THEME_ATTRS = {
-			android.R.attr.colorPrimaryDark
-	};
-
-	@IntDef({STATE_IDLE, STATE_DRAGGING, STATE_SETTLING})
-	@Retention(RetentionPolicy.SOURCE)
-	private @interface State {
-	}
-
 	/**
 	 * Indicates that any drawers are in an idle, settled state. No animation is in progress.
 	 */
 	public static final int STATE_IDLE = ViewDragHelper.STATE_IDLE;
-
 	/**
 	 * Indicates that a drawer is currently being dragged by the user.
 	 */
 	public static final int STATE_DRAGGING = ViewDragHelper.STATE_DRAGGING;
-
 	/**
 	 * Indicates that a drawer is in the process of settling to a final position.
 	 */
 	public static final int STATE_SETTLING = ViewDragHelper.STATE_SETTLING;
-
-	@IntDef({LOCK_MODE_UNLOCKED, LOCK_MODE_LOCKED_CLOSED, LOCK_MODE_LOCKED_OPEN,
-			LOCK_MODE_UNDEFINED})
-	@Retention(RetentionPolicy.SOURCE)
-	private @interface LockMode {
-	}
-
 	/**
 	 * The drawer is unlocked.
 	 */
 	public static final int LOCK_MODE_UNLOCKED = 0;
-
 	/**
 	 * The drawer is locked closed. The user may not open it, though
 	 * the app may open it programmatically.
 	 */
 	public static final int LOCK_MODE_LOCKED_CLOSED = 1;
-
 	/**
 	 * The drawer is locked open. The user may not close it, though the app
 	 * may close it programmatically.
 	 */
 	public static final int LOCK_MODE_LOCKED_OPEN = 2;
-
 	/**
 	 * The drawer's lock state is reset to default.
 	 */
 	public static final int LOCK_MODE_UNDEFINED = 3;
-
-	@IntDef(value = {Gravity.LEFT, Gravity.RIGHT, GravityCompat.START, GravityCompat.END},
-			flag = true)
-	@Retention(RetentionPolicy.SOURCE)
-	private @interface EdgeGravity {
-	}
-
-
-	private static final int MIN_DRAWER_MARGIN = 64; // dp
-	private static final int DRAWER_ELEVATION = 10; //dp
-
-	private static final int DEFAULT_SCRIM_COLOR = 0x99000000;
-
-	/**
-	 * Length of time to delay before peeking the drawer.
-	 */
-	private static final int PEEK_DELAY = 160; // ms
-
-	/**
-	 * Minimum velocity that will be detected as a fling
-	 */
-	private static final int MIN_FLING_VELOCITY = 400; // dips per second
-
-	/**
-	 * Experimental feature.
-	 */
-	private static final boolean ALLOW_EDGE_LOCK = false;
-
-	private static final boolean CHILDREN_DISALLOW_INTERCEPT = true;
-
-	private static final float TOUCH_SLOP_SENSITIVITY = 1.f;
-
 	static final int[] LAYOUT_ATTRS = new int[]{
 			android.R.attr.layout_gravity
 	};
-
 	/**
 	 * Whether we can use NO_HIDE_DESCENDANTS accessibility importance.
 	 */
 	static final boolean CAN_HIDE_DESCENDANTS = Build.VERSION.SDK_INT >= 19;
-
+	private static final String TAG = "DrawerLayout";
+	private static final int[] THEME_ATTRS = {
+			android.R.attr.colorPrimaryDark
+	};
+	private static final int MIN_DRAWER_MARGIN = 64; // dp
+	private static final int DRAWER_ELEVATION = 10; //dp
+	private static final int DEFAULT_SCRIM_COLOR = 0x99000000;
+	/**
+	 * Length of time to delay before peeking the drawer.
+	 */
+	private static final int PEEK_DELAY = 160; // ms
+	/**
+	 * Minimum velocity that will be detected as a fling
+	 */
+	private static final int MIN_FLING_VELOCITY = 400; // dips per second
+	/**
+	 * Experimental feature.
+	 */
+	private static final boolean ALLOW_EDGE_LOCK = false;
+	private static final boolean CHILDREN_DISALLOW_INTERCEPT = true;
+	private static final float TOUCH_SLOP_SENSITIVITY = 1.f;
 	/**
 	 * Whether the drawer shadow comes from setting elevation on the drawer.
 	 */
 	private static final boolean SET_DRAWER_SHADOW_FROM_ELEVATION =
 			Build.VERSION.SDK_INT >= 21;
-
 	private final ChildAccessibilityDelegate mChildAccessibilityDelegate =
 			new ChildAccessibilityDelegate();
-	private float mDrawerElevation;
-
-	private int mMinDrawerMargin;
-
-	private int mScrimColor = DEFAULT_SCRIM_COLOR;
-	private float mScrimOpacity;
-	private Paint mScrimPaint = new Paint();
-
 	private final ViewDragHelper mLeftDragger;
 	private final ViewDragHelper mRightDragger;
 	private final ViewDragCallback mLeftCallback;
 	private final ViewDragCallback mRightCallback;
+	private final ArrayList<View> mNonDrawerViews;
+	private float mDrawerElevation;
+	private int mMinDrawerMargin;
+	private int mScrimColor = DEFAULT_SCRIM_COLOR;
+	private float mScrimOpacity;
+	private Paint mScrimPaint = new Paint();
 	private int mDrawerState;
 	private boolean mInLayout;
 	private boolean mFirstLayout = true;
-
 	private @LockMode
 	int mLockModeLeft = LOCK_MODE_UNDEFINED;
 	private @LockMode
@@ -174,27 +134,20 @@ public class IDrawerLayout extends ViewGroup {
 	int mLockModeStart = LOCK_MODE_UNDEFINED;
 	private @LockMode
 	int mLockModeEnd = LOCK_MODE_UNDEFINED;
-
 	private boolean mDisallowInterceptRequested;
 	private boolean mChildrenCanceledTouch;
-
 	private @Nullable
 	DrawerListener mListener;
 	private List<DrawerListener> mListeners;
-
 	private float mInitialMotionX;
 	private float mInitialMotionY;
-
 	private Drawable mStatusBarBackground;
 	private Drawable mShadowLeftResolved;
 	private Drawable mShadowRightResolved;
-
 	private CharSequence mTitleLeft;
 	private CharSequence mTitleRight;
-
 	private Object mLastInsets;
 	private boolean mDrawStatusBarBackground;
-
 	/**
 	 * Shadow drawables for different gravity
 	 */
@@ -202,69 +155,8 @@ public class IDrawerLayout extends ViewGroup {
 	private Drawable mShadowEnd = null;
 	private Drawable mShadowLeft = null;
 	private Drawable mShadowRight = null;
-
-	private final ArrayList<View> mNonDrawerViews;
-
 	private Rect mChildHitRect;
 	private Matrix mChildInvertedMatrix;
-
-	/**
-	 * Listener for monitoring events about drawers.
-	 */
-	public interface DrawerListener {
-		/**
-		 * Called when a drawer's position changes.
-		 *
-		 * @param drawerView  The child view that was moved
-		 * @param slideOffset The new offset of this drawer within its range, from 0-1
-		 */
-		void onDrawerSlide(@NonNull View drawerView, float slideOffset);
-
-		/**
-		 * Called when a drawer has settled in a completely open state.
-		 * The drawer is interactive at this point.
-		 *
-		 * @param drawerView Drawer view that is now open
-		 */
-		void onDrawerOpened(@NonNull View drawerView);
-
-		/**
-		 * Called when a drawer has settled in a completely closed state.
-		 *
-		 * @param drawerView Drawer view that is now closed
-		 */
-		void onDrawerClosed(@NonNull View drawerView);
-
-		/**
-		 * Called when the drawer motion state changes. The new state will
-		 * be one of {@link #STATE_IDLE}, {@link #STATE_DRAGGING} or {@link #STATE_SETTLING}.
-		 *
-		 * @param newState The new drawer motion state
-		 */
-		void onDrawerStateChanged(@State int newState);
-	}
-
-	/**
-	 * Stub/no-op implementations of all methods of {@link DrawerListener}.
-	 * Override this if you only care about a few of the available callback methods.
-	 */
-	public abstract static class SimpleDrawerListener implements DrawerListener {
-		@Override
-		public void onDrawerSlide(View drawerView, float slideOffset) {
-		}
-
-		@Override
-		public void onDrawerOpened(View drawerView) {
-		}
-
-		@Override
-		public void onDrawerClosed(View drawerView) {
-		}
-
-		@Override
-		public void onDrawerStateChanged(int newState) {
-		}
-	}
 
 	public IDrawerLayout(@NonNull Context context) {
 		this(context, null);
@@ -331,19 +223,39 @@ public class IDrawerLayout extends ViewGroup {
 	}
 
 	/**
-	 * Sets the base elevation of the drawer(s) relative to the parent, in pixels. Note that the
-	 * elevation change is only supported in API 21 and above.
+	 * Simple gravity to string - only supports LEFT and RIGHT for debugging output.
 	 *
-	 * @param elevation The base depth position of the view, in pixels.
+	 * @param gravity Absolute gravity value
+	 * @return LEFT or RIGHT as appropriate, or a hex string
 	 */
-	public void setDrawerElevation(float elevation) {
-		mDrawerElevation = elevation;
-		for (int i = 0; i < getChildCount(); i++) {
-			View child = getChildAt(i);
-			if (isDrawerView(child)) {
-				ViewCompat.setElevation(child, mDrawerElevation);
-			}
+	static String gravityToString(@EdgeGravity int gravity) {
+		if ((gravity & Gravity.LEFT) == Gravity.LEFT) {
+			return "LEFT";
 		}
+		if ((gravity & Gravity.RIGHT) == Gravity.RIGHT) {
+			return "RIGHT";
+		}
+		return Integer.toHexString(gravity);
+	}
+
+	private static boolean hasOpaqueBackground(View v) {
+		final Drawable bg = v.getBackground();
+		if (bg != null) {
+			return bg.getOpacity() == PixelFormat.OPAQUE;
+		}
+		return false;
+	}
+
+	static boolean includeChildForAccessibility(View child) {
+		// If the child is not important for accessibility we make
+		// sure this hides the entire subtree rooted at it as the
+		// IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDATS is not
+		// supported on older platforms but we want to hide the entire
+		// content and not opened drawers if a drawer is opened.
+		return ViewCompat.getImportantForAccessibility(child)
+				!= ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
+				&& ViewCompat.getImportantForAccessibility(child)
+				!= ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO;
 	}
 
 	/**
@@ -358,6 +270,22 @@ public class IDrawerLayout extends ViewGroup {
 			return mDrawerElevation;
 		}
 		return 0f;
+	}
+
+	/**
+	 * Sets the base elevation of the drawer(s) relative to the parent, in pixels. Note that the
+	 * elevation change is only supported in API 21 and above.
+	 *
+	 * @param elevation The base depth position of the view, in pixels.
+	 */
+	public void setDrawerElevation(float elevation) {
+		mDrawerElevation = elevation;
+		for (int i = 0; i < getChildCount(); i++) {
+			View child = getChildAt(i);
+			if (isDrawerView(child)) {
+				ViewCompat.setElevation(child, mDrawerElevation);
+			}
+		}
 	}
 
 	/**
@@ -957,22 +885,6 @@ public class IDrawerLayout extends ViewGroup {
 		return null;
 	}
 
-	/**
-	 * Simple gravity to string - only supports LEFT and RIGHT for debugging output.
-	 *
-	 * @param gravity Absolute gravity value
-	 * @return LEFT or RIGHT as appropriate, or a hex string
-	 */
-	static String gravityToString(@EdgeGravity int gravity) {
-		if ((gravity & Gravity.LEFT) == Gravity.LEFT) {
-			return "LEFT";
-		}
-		if ((gravity & Gravity.RIGHT) == Gravity.RIGHT) {
-			return "RIGHT";
-		}
-		return Integer.toHexString(gravity);
-	}
-
 	@Override
 	protected void onDetachedFromWindow() {
 		super.onDetachedFromWindow();
@@ -1281,14 +1193,6 @@ public class IDrawerLayout extends ViewGroup {
 		if (leftDraggerSettling || rightDraggerSettling) {
 			ViewCompat.postInvalidateOnAnimation(this);
 		}
-	}
-
-	private static boolean hasOpaqueBackground(View v) {
-		final Drawable bg = v.getBackground();
-		if (bg != null) {
-			return bg.getOpacity() == PixelFormat.OPAQUE;
-		}
-		return false;
 	}
 
 	/**
@@ -2038,22 +1942,101 @@ public class IDrawerLayout extends ViewGroup {
 		}
 	}
 
-	static boolean includeChildForAccessibility(View child) {
-		// If the child is not important for accessibility we make
-		// sure this hides the entire subtree rooted at it as the
-		// IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDATS is not
-		// supported on older platforms but we want to hide the entire
-		// content and not opened drawers if a drawer is opened.
-		return ViewCompat.getImportantForAccessibility(child)
-				!= ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS
-				&& ViewCompat.getImportantForAccessibility(child)
-				!= ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO;
+	@IntDef({STATE_IDLE, STATE_DRAGGING, STATE_SETTLING})
+	@Retention(RetentionPolicy.SOURCE)
+	private @interface State {
+	}
+
+	@IntDef({LOCK_MODE_UNLOCKED, LOCK_MODE_LOCKED_CLOSED, LOCK_MODE_LOCKED_OPEN,
+			LOCK_MODE_UNDEFINED})
+	@Retention(RetentionPolicy.SOURCE)
+	private @interface LockMode {
+	}
+
+	@IntDef(value = {Gravity.LEFT, Gravity.RIGHT, GravityCompat.START, GravityCompat.END},
+			flag = true)
+	@Retention(RetentionPolicy.SOURCE)
+	private @interface EdgeGravity {
+	}
+
+	/**
+	 * Listener for monitoring events about drawers.
+	 */
+	public interface DrawerListener {
+		/**
+		 * Called when a drawer's position changes.
+		 *
+		 * @param drawerView  The child view that was moved
+		 * @param slideOffset The new offset of this drawer within its range, from 0-1
+		 */
+		void onDrawerSlide(@NonNull View drawerView, float slideOffset);
+
+		/**
+		 * Called when a drawer has settled in a completely open state.
+		 * The drawer is interactive at this point.
+		 *
+		 * @param drawerView Drawer view that is now open
+		 */
+		void onDrawerOpened(@NonNull View drawerView);
+
+		/**
+		 * Called when a drawer has settled in a completely closed state.
+		 *
+		 * @param drawerView Drawer view that is now closed
+		 */
+		void onDrawerClosed(@NonNull View drawerView);
+
+		/**
+		 * Called when the drawer motion state changes. The new state will
+		 * be one of {@link #STATE_IDLE}, {@link #STATE_DRAGGING} or {@link #STATE_SETTLING}.
+		 *
+		 * @param newState The new drawer motion state
+		 */
+		void onDrawerStateChanged(@State int newState);
+	}
+
+	/**
+	 * Stub/no-op implementations of all methods of {@link DrawerListener}.
+	 * Override this if you only care about a few of the available callback methods.
+	 */
+	public abstract static class SimpleDrawerListener implements DrawerListener {
+		@Override
+		public void onDrawerSlide(View drawerView, float slideOffset) {
+		}
+
+		@Override
+		public void onDrawerOpened(View drawerView) {
+		}
+
+		@Override
+		public void onDrawerClosed(View drawerView) {
+		}
+
+		@Override
+		public void onDrawerStateChanged(int newState) {
+		}
 	}
 
 	/**
 	 * State persisted across instances
 	 */
 	protected static class SavedState extends AbsSavedState {
+		public static final Creator<SavedState> CREATOR = new ClassLoaderCreator<SavedState>() {
+			@Override
+			public SavedState createFromParcel(Parcel in, ClassLoader loader) {
+				return new SavedState(in, loader);
+			}
+
+			@Override
+			public SavedState createFromParcel(Parcel in) {
+				return new SavedState(in, null);
+			}
+
+			@Override
+			public SavedState[] newArray(int size) {
+				return new SavedState[size];
+			}
+		};
 		int openDrawerGravity = Gravity.NO_GRAVITY;
 		@LockMode
 		int lockModeLeft;
@@ -2086,23 +2069,62 @@ public class IDrawerLayout extends ViewGroup {
 			dest.writeInt(lockModeStart);
 			dest.writeInt(lockModeEnd);
 		}
+	}
 
-		public static final Creator<SavedState> CREATOR = new ClassLoaderCreator<SavedState>() {
-			@Override
-			public SavedState createFromParcel(Parcel in, ClassLoader loader) {
-				return new SavedState(in, loader);
-			}
+	public static class LayoutParams extends ViewGroup.MarginLayoutParams {
+		private static final int FLAG_IS_OPENED = 0x1;
+		private static final int FLAG_IS_OPENING = 0x2;
+		private static final int FLAG_IS_CLOSING = 0x4;
 
-			@Override
-			public SavedState createFromParcel(Parcel in) {
-				return new SavedState(in, null);
-			}
+		public int gravity = Gravity.NO_GRAVITY;
+		float onScreen;
+		boolean isPeeking;
+		int openState;
 
-			@Override
-			public SavedState[] newArray(int size) {
-				return new SavedState[size];
+		public LayoutParams(@NonNull Context c, @Nullable AttributeSet attrs) {
+			super(c, attrs);
+
+			final TypedArray a = c.obtainStyledAttributes(attrs, LAYOUT_ATTRS);
+			this.gravity = a.getInt(0, Gravity.NO_GRAVITY);
+			a.recycle();
+		}
+
+		public LayoutParams(int width, int height) {
+			super(width, height);
+		}
+
+		public LayoutParams(int width, int height, int gravity) {
+			this(width, height);
+			this.gravity = gravity;
+		}
+
+		public LayoutParams(@NonNull LayoutParams source) {
+			super(source);
+			this.gravity = source.gravity;
+		}
+
+		public LayoutParams(@NonNull ViewGroup.LayoutParams source) {
+			super(source);
+		}
+
+		public LayoutParams(@NonNull ViewGroup.MarginLayoutParams source) {
+			super(source);
+		}
+	}
+
+	static final class ChildAccessibilityDelegate extends AccessibilityDelegateCompat {
+		@Override
+		public void onInitializeAccessibilityNodeInfo(View child,
+		                                              AccessibilityNodeInfoCompat info) {
+			super.onInitializeAccessibilityNodeInfo(child, info);
+
+			if (!includeChildForAccessibility(child)) {
+				// If we are ignoring the sub-tree rooted at the child,
+				// break the connection to the rest of the node tree.
+				// For details refer to includeChildForAccessibility.
+				info.setParent(null);
 			}
-		};
+		}
 	}
 
 	private class ViewDragCallback extends ViewDragHelper.Callback {
@@ -2272,47 +2294,6 @@ public class IDrawerLayout extends ViewGroup {
 		}
 	}
 
-	public static class LayoutParams extends ViewGroup.MarginLayoutParams {
-		private static final int FLAG_IS_OPENED = 0x1;
-		private static final int FLAG_IS_OPENING = 0x2;
-		private static final int FLAG_IS_CLOSING = 0x4;
-
-		public int gravity = Gravity.NO_GRAVITY;
-		float onScreen;
-		boolean isPeeking;
-		int openState;
-
-		public LayoutParams(@NonNull Context c, @Nullable AttributeSet attrs) {
-			super(c, attrs);
-
-			final TypedArray a = c.obtainStyledAttributes(attrs, LAYOUT_ATTRS);
-			this.gravity = a.getInt(0, Gravity.NO_GRAVITY);
-			a.recycle();
-		}
-
-		public LayoutParams(int width, int height) {
-			super(width, height);
-		}
-
-		public LayoutParams(int width, int height, int gravity) {
-			this(width, height);
-			this.gravity = gravity;
-		}
-
-		public LayoutParams(@NonNull LayoutParams source) {
-			super(source);
-			this.gravity = source.gravity;
-		}
-
-		public LayoutParams(@NonNull ViewGroup.LayoutParams source) {
-			super(source);
-		}
-
-		public LayoutParams(@NonNull ViewGroup.MarginLayoutParams source) {
-			super(source);
-		}
-	}
-
 	class AccessibilityDelegate extends AccessibilityDelegateCompat {
 		private final Rect mTmpRect = new Rect();
 
@@ -2428,21 +2409,6 @@ public class IDrawerLayout extends ViewGroup {
 			dest.setLongClickable(src.isLongClickable());
 
 			dest.addAction(src.getActions());
-		}
-	}
-
-	static final class ChildAccessibilityDelegate extends AccessibilityDelegateCompat {
-		@Override
-		public void onInitializeAccessibilityNodeInfo(View child,
-		                                              AccessibilityNodeInfoCompat info) {
-			super.onInitializeAccessibilityNodeInfo(child, info);
-
-			if (!includeChildForAccessibility(child)) {
-				// If we are ignoring the sub-tree rooted at the child,
-				// break the connection to the rest of the node tree.
-				// For details refer to includeChildForAccessibility.
-				info.setParent(null);
-			}
 		}
 	}
 }

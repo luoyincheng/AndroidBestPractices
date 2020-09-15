@@ -9,28 +9,6 @@ import androidx.annotation.NonNull;
 public class PrettifyHelper {
 
 	@NonNull
-	private static String getHtmlContent(@NonNull String css, @NonNull String text, boolean wrap, boolean isDark) {
-		return "<!DOCTYPE html>\n" +
-				"<html>\n" +
-				"<head>\n" +
-				"    <meta charset=\"utf-8\">\n" +
-				"    <link rel=\"stylesheet\" href=\"./styles/" + css + "\">\n" +
-				"" + (!wrap ? "<meta name=\"viewport\" content=\"width=device-width, height=device-height, " +
-				"initial-scale=.5,user-scalable=yes\"/>\n" : "") + "" +
-				LINE_NO_CSS + "\n" +
-				"    " + (wrap ? WRAPPED_STYLE : "") + "\n" +
-				"<script src=\"./js/prettify.js\"></script>\n" +
-				"<script src=\"./js/prettify_line_number.js\"></script>\n" +
-				"</head>\n" +
-				"<body style=\"" + (isDark && textTooLarge(text) ? "color:white;" : "") + "\">\n" +
-				"<pre><code>" + text + "</code></pre>\n" +
-				"<script>" + (textTooLarge(text) ? "" : "hljs.initHighlightingOnLoad();\nhljs.initLineNumbersOnLoad();") + "</script>\n" +
-				"<script src=\"./js/scrollto.js\"></script>\n" +
-				"</body>\n" +
-				"</html>";
-	}
-
-	@NonNull
 	private static final String WRAPPED_STYLE =
 			"<style>\n " +
 					"td.hljs-ln-code {\n" +
@@ -51,7 +29,6 @@ public class PrettifyHelper {
 					"    text-indent: -12px !important;\n" +
 					"}" +
 					"</style>";
-
 	private static final String LINE_NO_CSS = "<style>\n " +
 			"td.hljs-ln-numbers {\n" +
 			"    -webkit-touch-callout: none;\n" +
@@ -71,6 +48,28 @@ public class PrettifyHelper {
 			"    margin-left: 6px !important;\n" +
 			"}\n" +
 			"</style>";
+
+	@NonNull
+	private static String getHtmlContent(@NonNull String css, @NonNull String text, boolean wrap, boolean isDark) {
+		return "<!DOCTYPE html>\n" +
+				"<html>\n" +
+				"<head>\n" +
+				"    <meta charset=\"utf-8\">\n" +
+				"    <link rel=\"stylesheet\" href=\"./styles/" + css + "\">\n" +
+				"" + (!wrap ? "<meta name=\"viewport\" content=\"width=device-width, height=device-height, " +
+				"initial-scale=.5,user-scalable=yes\"/>\n" : "") + "" +
+				LINE_NO_CSS + "\n" +
+				"    " + (wrap ? WRAPPED_STYLE : "") + "\n" +
+				"<script src=\"./js/prettify.js\"></script>\n" +
+				"<script src=\"./js/prettify_line_number.js\"></script>\n" +
+				"</head>\n" +
+				"<body style=\"" + (isDark && textTooLarge(text) ? "color:white;" : "") + "\">\n" +
+				"<pre><code>" + text + "</code></pre>\n" +
+				"<script>" + (textTooLarge(text) ? "" : "hljs.initHighlightingOnLoad();\nhljs.initLineNumbersOnLoad();") + "</script>\n" +
+				"<script src=\"./js/scrollto.js\"></script>\n" +
+				"</body>\n" +
+				"</html>";
+	}
 
 	@NonNull
 	public static String generateContent(@NonNull String source, String theme) {

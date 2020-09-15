@@ -309,12 +309,12 @@ class IViewInfoStore {
 		static final int FLAG_APPEAR_AND_DISAPPEAR = FLAG_APPEAR | FLAG_DISAPPEARED;
 		static final int FLAG_PRE_AND_POST = FLAG_PRE | FLAG_POST;
 		static final int FLAG_APPEAR_PRE_AND_POST = FLAG_APPEAR | FLAG_PRE | FLAG_POST;
+		static Pools.Pool<InfoRecord> sPool = new Pools.SimplePool<>(20);
 		int flags;
 		@Nullable
 		ItemHolderInfo preInfo;
 		@Nullable
 		ItemHolderInfo postInfo;
-		static Pools.Pool<InfoRecord> sPool = new Pools.SimplePool<>(20);
 
 		private InfoRecord() {
 		}

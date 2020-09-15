@@ -1,6 +1,6 @@
 package yincheng.tinytank.android_Q_A._1_100._3;
 
-public class InterfaceTest implements InterfaceA ,InterfaceB{
+public class InterfaceTest implements InterfaceA, InterfaceB {
 	@Override
 	public void functionA() {
 

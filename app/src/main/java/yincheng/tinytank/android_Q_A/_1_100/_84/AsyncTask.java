@@ -169,8 +169,16 @@ import java.util.concurrent.atomic.AtomicInteger;
  * {@link #THREAD_POOL_EXECUTOR}.</p>
  */
 public abstract class AsyncTask<Params, Progress, Result> {
+	/**
+	 * An {@link Executor} that can be used to execute tasks in parallel.
+	 */
+	public static final Executor THREAD_POOL_EXECUTOR;
+	/**
+	 * An {@link Executor} that executes tasks one at a time in serial
+	 * order. This serialization is global to a particular process.
+	 */
+	public static final Executor SERIAL_EXECUTOR = new SerialExecutor();
 	private static final String LOG_TAG = "AsyncTask";
-
 	private static final int CPU_COUNT = Runtime.getRuntime().availableProcessors();
 	// We want at least 2 threads and at most 4 threads in the core pool,
 	// preferring(更喜欢) to have 1 less than the CPU count to avoid saturating(饱和)
@@ -178,7 +186,6 @@ public abstract class AsyncTask<Params, Progress, Result> {
 	private static final int CORE_POOL_SIZE = Math.max(2, Math.min(CPU_COUNT - 1, 4));
 	private static final int MAXIMUM_POOL_SIZE = CPU_COUNT * 2 + 1;
 	private static final int KEEP_ALIVE_SECONDS = 30;
-
 	private static final ThreadFactory sThreadFactory = new ThreadFactory() {
 		private final AtomicInteger mCount = new AtomicInteger(1);
 
@@ -186,13 +193,12 @@ public abstract class AsyncTask<Params, Progress, Result> {
 			return new Thread(r, "AsyncTask #" + mCount.getAndIncrement());
 		}
 	};
-
 	private static final BlockingQueue<Runnable> sPoolWorkQueue = new LinkedBlockingQueue<Runnable>(128);
-
-	/**
-	 * An {@link Executor} that can be used to execute tasks in parallel.
-	 */
-	public static final Executor THREAD_POOL_EXECUTOR;
+	private static final int MESSAGE_POST_RESULT = 0x1;
+	private static final int MESSAGE_POST_PROGRESS = 0x2;
+	//todo 为什么volatile
+	private static volatile Executor sDefaultExecutor = SERIAL_EXECUTOR;
+	private static InternalHandler sHandler;
 
 	static {
 		ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
@@ -202,103 +208,12 @@ public abstract class AsyncTask<Params, Progress, Result> {
 		THREAD_POOL_EXECUTOR = threadPoolExecutor;
 	}
 
-	/**
-	 * An {@link Executor} that executes tasks one at a time in serial
-	 * order. This serialization is global to a particular process.
-	 */
-	public static final Executor SERIAL_EXECUTOR = new SerialExecutor();
-
-	private static final int MESSAGE_POST_RESULT = 0x1;
-	private static final int MESSAGE_POST_PROGRESS = 0x2;
-
-	//todo 为什么volatile
-	private static volatile Executor sDefaultExecutor = SERIAL_EXECUTOR;
-	private static InternalHandler sHandler;
-
 	private final WorkerRunnable<Params, Result> mWorker;
 	private final FutureTask<Result> mFuture;
-
-	private volatile AsyncTask.Status mStatus = AsyncTask.Status.PENDING;
-
 	private final AtomicBoolean mCancelled = new AtomicBoolean();
 	private final AtomicBoolean mTaskInvoked = new AtomicBoolean();
-
 	private final Handler mHandler;
-
-	/**
-	 * 默认的Executor，下载多个任务的时候，会一个一个去下载，下载完成一个才会去执行下一个下载任务
-	 */
-	private static class SerialExecutor implements Executor {
-		/**
-		 * Deque 接口继承自 Queue接口，但 Deque 支持同时从两端添加或移除元素，因此又被成为双端队列。
-		 * 鉴于此，Deque 接口的实现可以被当作 FIFO队列使用，也可以当作LIFO队列（栈）来使用。官方也是推荐使用 Deque 的实现来替代 Stack。
-		 * ArrayDeque 是 Deque 接口的一种具体实现，是依赖于可变数组来实现的。ArrayDeque 没有容量限制，可根据需求自动进行扩容。
-		 * ArrayDeque不支持值为 null 的元素。
-		 */
-		final ArrayDeque<Runnable> mTasks = new ArrayDeque<Runnable>();//ArrayDeque默认有16个元素
-		Runnable mActive;
-
-		//具体的执行方法
-		public synchronized void execute(final Runnable r) {
-			//将该任务放到队列中去
-			Log.i("SerialExecutor", "mTasks.offer");
-			mTasks.offer(new Runnable() {
-				public void run() {
-					try {
-						r.run();
-					} finally {
-						scheduleNext();
-					}
-				}
-			});
-			if (mActive == null) {
-				scheduleNext();
-			}
-		}
-
-		protected synchronized void scheduleNext() {
-			if ((mActive = mTasks.poll()) != null) {
-				THREAD_POOL_EXECUTOR.execute(mActive);
-			}
-		}
-	}
-
-	/**
-	 * Indicates the current status of the task. Each status will be set only once
-	 * during the lifetime of a task.
-	 */
-	public enum Status {
-		/**
-		 * Indicates that the task has not been executed yet.
-		 */
-		PENDING,
-		RUNNING,
-		FINISHED,
-	}
-
-	/**
-	 * Looper是个final类,Looper.getMainLooper()方法 Returns the application's main looper,
-	 * which lives in the main thread of the application.
-	 * <p>
-	 * 这里的getMainHandler()方法通过 给Handler中传入Looper参数，来返回该Looper相对应的Handler，
-	 * 在这里，因为传入的是MainLooper，所以返回的也是MainHandler
-	 */
-	private static Handler getMainHandler() {
-		synchronized (AsyncTask.class) {// TODO: 2018/3/25  to un
-			if (sHandler == null) {
-				sHandler = new InternalHandler(Looper.getMainLooper());
-			}
-			return sHandler;
-		}
-	}
-
-	private Handler getHandler() {
-		return mHandler;
-	}
-
-	public static void setDefaultExecutor(Executor exec) {
-		sDefaultExecutor = exec;
-	}
+	private volatile AsyncTask.Status mStatus = AsyncTask.Status.PENDING;
 
 	/**
 	 * Creates a new asynchronous task. This constructor must be invoked on the UI thread.
@@ -358,6 +273,43 @@ public abstract class AsyncTask<Params, Progress, Result> {
 		};
 	}
 
+	/**
+	 * Looper是个final类,Looper.getMainLooper()方法 Returns the application's main looper,
+	 * which lives in the main thread of the application.
+	 * <p>
+	 * 这里的getMainHandler()方法通过 给Handler中传入Looper参数，来返回该Looper相对应的Handler，
+	 * 在这里，因为传入的是MainLooper，所以返回的也是MainHandler
+	 */
+	private static Handler getMainHandler() {
+		synchronized (AsyncTask.class) {// TODO: 2018/3/25  to un
+			if (sHandler == null) {
+				sHandler = new InternalHandler(Looper.getMainLooper());
+			}
+			return sHandler;
+		}
+	}
+
+	public static void setDefaultExecutor(Executor exec) {
+		sDefaultExecutor = exec;
+	}
+
+	/**
+	 * Convenience version of {@link #execute(Object...)} for use with
+	 * a simple Runnable object. See {@link #execute(Object[])} for more
+	 * information on the order of execution.
+	 *
+	 * @see #execute(Object[])
+	 * @see #executeOnExecutor(java.util.concurrent.Executor, Object[])
+	 */
+	@MainThread
+	public static void execute(Runnable runnable) {
+		sDefaultExecutor.execute(runnable);
+	}
+
+	private Handler getHandler() {
+		return mHandler;
+	}
+
 	private void postResultIfNotInvoked(Result result) {
 		final boolean wasTaskInvoked = mTaskInvoked.get();
 		if (!wasTaskInvoked) {
@@ -373,7 +325,6 @@ public abstract class AsyncTask<Params, Progress, Result> {
 		message.sendToTarget();
 		return result;
 	}
-
 
 	public final AsyncTask.Status getStatus() {
 		return mStatus;
@@ -632,19 +583,6 @@ public abstract class AsyncTask<Params, Progress, Result> {
 	}
 
 	/**
-	 * Convenience version of {@link #execute(Object...)} for use with
-	 * a simple Runnable object. See {@link #execute(Object[])} for more
-	 * information on the order of execution.
-	 *
-	 * @see #execute(Object[])
-	 * @see #executeOnExecutor(java.util.concurrent.Executor, Object[])
-	 */
-	@MainThread
-	public static void execute(Runnable runnable) {
-		sDefaultExecutor.execute(runnable);
-	}
-
-	/**
 	 * This method can be invoked from {@link #doInBackground} to
 	 * publish updates on the UI thread while the background computation is
 	 * still running. Each transform to this method will trigger(触发) the execution of
@@ -672,6 +610,57 @@ public abstract class AsyncTask<Params, Progress, Result> {
 			onPostExecute(result);
 		}
 		mStatus = AsyncTask.Status.FINISHED;
+	}
+
+	/**
+	 * Indicates the current status of the task. Each status will be set only once
+	 * during the lifetime of a task.
+	 */
+	public enum Status {
+		/**
+		 * Indicates that the task has not been executed yet.
+		 */
+		PENDING,
+		RUNNING,
+		FINISHED,
+	}
+
+	/**
+	 * 默认的Executor，下载多个任务的时候，会一个一个去下载，下载完成一个才会去执行下一个下载任务
+	 */
+	private static class SerialExecutor implements Executor {
+		/**
+		 * Deque 接口继承自 Queue接口，但 Deque 支持同时从两端添加或移除元素，因此又被成为双端队列。
+		 * 鉴于此，Deque 接口的实现可以被当作 FIFO队列使用，也可以当作LIFO队列（栈）来使用。官方也是推荐使用 Deque 的实现来替代 Stack。
+		 * ArrayDeque 是 Deque 接口的一种具体实现，是依赖于可变数组来实现的。ArrayDeque 没有容量限制，可根据需求自动进行扩容。
+		 * ArrayDeque不支持值为 null 的元素。
+		 */
+		final ArrayDeque<Runnable> mTasks = new ArrayDeque<Runnable>();//ArrayDeque默认有16个元素
+		Runnable mActive;
+
+		//具体的执行方法
+		public synchronized void execute(final Runnable r) {
+			//将该任务放到队列中去
+			Log.i("SerialExecutor", "mTasks.offer");
+			mTasks.offer(new Runnable() {
+				public void run() {
+					try {
+						r.run();
+					} finally {
+						scheduleNext();
+					}
+				}
+			});
+			if (mActive == null) {
+				scheduleNext();
+			}
+		}
+
+		protected synchronized void scheduleNext() {
+			if ((mActive = mTasks.poll()) != null) {
+				THREAD_POOL_EXECUTOR.execute(mActive);
+			}
+		}
 	}
 
 	private static class InternalHandler extends Handler {

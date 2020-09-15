@@ -24,14 +24,6 @@ import yincheng.tinytank.view.widget.FontButton;
 public class MessageDialogView extends BaseBottomSheetDialogFragment {
 
 	public static final String TAG = MessageDialogView.class.getSimpleName();
-
-	public interface MessageDialogViewActionCallback {
-
-		void onMessageDialogActionClicked(boolean isOk, @Nullable Bundle bundle);
-
-		void onDialogDismissed();
-	}
-
 	@BindView(R.id.title)
 	FontTextView title;
 	@BindView(R.id.datasource_title)
@@ -50,9 +42,90 @@ public class MessageDialogView extends BaseBottomSheetDialogFragment {
 	FontButton cancel;
 	@BindView(R.id.ok)
 	FontButton ok;
-
 	@Nullable
 	private MessageDialogViewActionCallback callback;
+
+	@NonNull
+	public static MessageDialogView newInstance(@NonNull String bundleTitle, @NonNull
+			String bundleMsg) {
+		return newInstance(bundleTitle, bundleMsg, null);
+	}
+
+	@NonNull
+	public static MessageDialogView newInstance(@NonNull String bundleTitle, @NonNull
+			String bundleMsg, boolean isMarkDown) {
+		return newInstance(bundleTitle, bundleMsg, isMarkDown, null);
+	}
+
+	@NonNull
+	public static MessageDialogView newInstance(@NonNull String bundleTitle, @NonNull
+			String bundleMsg,
+	                                            boolean isMarkDown, boolean hideCancel) {
+		return newInstance(bundleTitle, "", bundleMsg, "", isMarkDown, null, hideCancel);
+	}
+
+	@NonNull
+	public static MessageDialogView newInstance(@NonNull String title,
+	                                            @NonNull String msg,
+	                                            boolean isMarkDown,
+	                                            @Nullable Bundle bundle) {
+		MessageDialogView messageDialogView = new MessageDialogView();
+		messageDialogView.setArguments(getBundle(title, "", msg, "", isMarkDown, bundle,
+				false));
+		return messageDialogView;
+	}
+
+	@NonNull
+	public static MessageDialogView newInstance(String bundleTitle,
+	                                            String bundleData,
+	                                            String bundleMsg,
+	                                            String bundleResult,
+	                                            boolean isMarkDown,
+	                                            Bundle bundle,
+	                                            boolean hideCancel) {
+		MessageDialogView messageDialogView = new MessageDialogView();
+		messageDialogView.setArguments(getBundle(bundleTitle,
+				bundleData,
+				bundleMsg,
+				bundleResult,
+				isMarkDown,
+				bundle,
+				hideCancel));
+		return messageDialogView;
+	}
+
+	@NonNull
+	public static MessageDialogView newInstance(@NonNull String title,
+	                                            @NonNull String msg,
+	                                            @Nullable Bundle bundle) {
+		return newInstance(title, msg, false, bundle);
+	}
+
+	private static Bundle getBundle(String bundleTitle,
+	                                String bundleData,
+	                                String bundleMsg,
+	                                String bundleResult,
+	                                boolean isMarkDown,
+	                                Bundle bundle,
+	                                boolean hideCancel) {
+		return Bundler.create()
+				.put("title", bundleTitle)
+				.put("data", bundleData)
+				.put("msg", bundleMsg)
+				.put("result", bundleResult)
+				.put("bundle", bundle)
+				.put("isMarkDown", isMarkDown)
+				.put("hideCancel", hideCancel)
+				.end();
+	}
+
+	@NonNull
+	public static Bundle getYesNoBundle(@NonNull Context context) {
+		return Bundler.create()
+				.put("primary_extra", context.getString(R.string.yes))
+				.put("secondary_extra", context.getString(R.string.no))
+				.end();
+	}
 
 	@Override
 	public void onAttach(Context context) {
@@ -150,85 +223,10 @@ public class MessageDialogView extends BaseBottomSheetDialogFragment {
 		super.onHidden();
 	}
 
-	@NonNull
-	public static MessageDialogView newInstance(@NonNull String bundleTitle, @NonNull
-			String bundleMsg) {
-		return newInstance(bundleTitle, bundleMsg, null);
-	}
+	public interface MessageDialogViewActionCallback {
 
-	@NonNull
-	public static MessageDialogView newInstance(@NonNull String bundleTitle, @NonNull
-			String bundleMsg, boolean isMarkDown) {
-		return newInstance(bundleTitle, bundleMsg, isMarkDown, null);
-	}
+		void onMessageDialogActionClicked(boolean isOk, @Nullable Bundle bundle);
 
-	@NonNull
-	public static MessageDialogView newInstance(@NonNull String bundleTitle, @NonNull
-			String bundleMsg,
-	                                            boolean isMarkDown, boolean hideCancel) {
-		return newInstance(bundleTitle, "", bundleMsg, "", isMarkDown, null, hideCancel);
-	}
-
-	@NonNull
-	public static MessageDialogView newInstance(@NonNull String title,
-	                                            @NonNull String msg,
-	                                            boolean isMarkDown,
-	                                            @Nullable Bundle bundle) {
-		MessageDialogView messageDialogView = new MessageDialogView();
-		messageDialogView.setArguments(getBundle(title, "", msg, "", isMarkDown, bundle,
-				false));
-		return messageDialogView;
-	}
-
-	@NonNull
-	public static MessageDialogView newInstance(String bundleTitle,
-	                                            String bundleData,
-	                                            String bundleMsg,
-	                                            String bundleResult,
-	                                            boolean isMarkDown,
-	                                            Bundle bundle,
-	                                            boolean hideCancel) {
-		MessageDialogView messageDialogView = new MessageDialogView();
-		messageDialogView.setArguments(getBundle(bundleTitle,
-				bundleData,
-				bundleMsg,
-				bundleResult,
-				isMarkDown,
-				bundle,
-				hideCancel));
-		return messageDialogView;
-	}
-
-	@NonNull
-	public static MessageDialogView newInstance(@NonNull String title,
-	                                            @NonNull String msg,
-	                                            @Nullable Bundle bundle) {
-		return newInstance(title, msg, false, bundle);
-	}
-
-	private static Bundle getBundle(String bundleTitle,
-	                                String bundleData,
-	                                String bundleMsg,
-	                                String bundleResult,
-	                                boolean isMarkDown,
-	                                Bundle bundle,
-	                                boolean hideCancel) {
-		return Bundler.create()
-				.put("title", bundleTitle)
-				.put("data", bundleData)
-				.put("msg", bundleMsg)
-				.put("result", bundleResult)
-				.put("bundle", bundle)
-				.put("isMarkDown", isMarkDown)
-				.put("hideCancel", hideCancel)
-				.end();
-	}
-
-	@NonNull
-	public static Bundle getYesNoBundle(@NonNull Context context) {
-		return Bundler.create()
-				.put("primary_extra", context.getString(R.string.yes))
-				.put("secondary_extra", context.getString(R.string.no))
-				.end();
+		void onDialogDismissed();
 	}
 }

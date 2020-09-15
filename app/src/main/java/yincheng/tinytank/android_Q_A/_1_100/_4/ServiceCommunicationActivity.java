@@ -19,6 +19,8 @@ import yincheng.tinytank.R;
 
 public class ServiceCommunicationActivity extends Activity implements View.OnClickListener {
 
+	IServiceConnection iServiceConnection;
+	IService.MyBinder binder = null;
 	private Intent intent = null;
 	private Button btn_start_service;
 	private Button btn_stop_service;
@@ -27,8 +29,6 @@ public class ServiceCommunicationActivity extends Activity implements View.OnCli
 	private Button btn_sync_data;
 	private EditText et_data;
 	private TextView tv_out;
-	IServiceConnection iServiceConnection;
-	IService.MyBinder binder = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,32 +67,6 @@ public class ServiceCommunicationActivity extends Activity implements View.OnCli
 		}
 	}
 
-	class IServiceConnection implements ServiceConnection {
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			binder = (IService.MyBinder) service;
-			binder.getService().setDataChangedListener(string -> {
-				Message msg = new Message();
-				Bundle bundle = new Bundle();
-				bundle.putString("str", string);
-				msg.setData(bundle);
-				handler.sendMessage(msg);
-			});
-		}
-
-		@SuppressLint("HandlerLeak")
-		Handler handler = new Handler() {
-			public void handleMessage(android.os.Message msg) {
-				tv_out.setText(msg.getData().getString("str"));
-			}
-		};
-
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-			binder = null;
-		}
-	}
-
 	private void loadUI() {
 		btn_start_service = findViewById(R.id.btn_start_service);
 		btn_stop_service = findViewById(R.id.btn_stop_service);
@@ -110,5 +84,31 @@ public class ServiceCommunicationActivity extends Activity implements View.OnCli
 		btn_bind_service.setOnClickListener(this);
 		btn_unbind_service.setOnClickListener(this);
 		btn_sync_data.setOnClickListener(this);
+	}
+
+	class IServiceConnection implements ServiceConnection {
+		@SuppressLint("HandlerLeak")
+		Handler handler = new Handler() {
+			public void handleMessage(android.os.Message msg) {
+				tv_out.setText(msg.getData().getString("str"));
+			}
+		};
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			binder = (IService.MyBinder) service;
+			binder.getService().setDataChangedListener(string -> {
+				Message msg = new Message();
+				Bundle bundle = new Bundle();
+				bundle.putString("str", string);
+				msg.setData(bundle);
+				handler.sendMessage(msg);
+			});
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			binder = null;
+		}
 	}
 }

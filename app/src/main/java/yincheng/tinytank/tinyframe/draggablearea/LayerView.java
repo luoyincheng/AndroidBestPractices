@@ -47,6 +47,22 @@ public class LayerView extends SubSamplingScaleImageView {
 	boolean isDealMotionEventSelf = true;
 	float actionDownX = 0.0f, actionDownY = 0.0f;
 	Matrix mMatrix = getMatrix();
+	// region [twinkling task]
+	Handler handler = new Handler(Looper.getMainLooper());
+	Handler mHandler = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			super.handleMessage(msg);
+			thisLayerView.setRotation(++mRotation);
+		}
+	};
+	Timer timer = new Timer();
+	TimerTask timerTask = new TimerTask() {
+		@Override
+		public void run() {
+			mHandler.sendEmptyMessage(1);
+		}
+	};
 
 	public LayerView(Context context) {
 		this(context, null);
@@ -80,30 +96,17 @@ public class LayerView extends SubSamplingScaleImageView {
 
 //        timer.schedule(timerTask, 0, 1);
 	}
+	// endregion
 
 	public void applyMatrix() {
 //		RectF rectF = new RectF(this.getLeft(),this.getTop(),this.getRight(),this.getBottom());
 //		this.getMatrix().postScale(0.8f,0.8f);
 	}
 
-	// region [twinkling task]
-	Handler handler = new Handler(Looper.getMainLooper());
-
 	private void starkTwink() {
 		for (int i = 0; i < 1000; i++)
 			handler.postDelayed(new TwinklingTask(), 50 * i);
 	}
-
-	class TwinklingTask implements Runnable {
-
-		@Override
-		public void run() {
-			Log.i("TwinklingTask", isRunningUiThread() + "");
-			isEnabledOperation = !isEnabledOperation;
-			invalidate();
-		}
-	}
-	// endregion
 
 	private boolean isRunningUiThread() {
 		return Looper.getMainLooper() == Looper.myLooper();
@@ -271,19 +274,13 @@ public class LayerView extends SubSamplingScaleImageView {
 				.subscribe();
 	}
 
-	Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			thisLayerView.setRotation(++mRotation);
-		}
-	};
+	class TwinklingTask implements Runnable {
 
-	Timer timer = new Timer();
-	TimerTask timerTask = new TimerTask() {
 		@Override
 		public void run() {
-			mHandler.sendEmptyMessage(1);
+			Log.i("TwinklingTask", isRunningUiThread() + "");
+			isEnabledOperation = !isEnabledOperation;
+			invalidate();
 		}
-	};
+	}
 }

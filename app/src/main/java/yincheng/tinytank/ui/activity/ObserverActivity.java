@@ -33,41 +33,20 @@ import yincheng.tinytank.ui.fragment.Observer2Fragment;
  */
 
 public class ObserverActivity extends AppCompatActivity {
-	@BindView(R.id.click)
-	Button click;
-	private static WeakHandler weakHandler;
 	public static String editext_information;
 	public static DrawerLayout drawerLayout;
-	public SearchView searchview_main;
+	private static WeakHandler weakHandler;
 	private static EditText edit_query;
 	private static int getMessageCount;
+	public SearchView searchview_main;
+	@BindView(R.id.click)
+	Button click;
+	Observer1Fragment fragmentMain1;
+	Observer2Fragment fragmentMain2;
 	private LinearLayout search_bar;
 	private Timer timer;
 	private TimerTask timerTask;
 	private Runnable runnable;
-	Observer1Fragment fragmentMain1;
-	Observer2Fragment fragmentMain2;
-
-
-	private static class WeakHandler extends Handler {
-		private final WeakReference<ObserverActivity> activityObserverPatternWeakReference;
-
-		WeakHandler(ObserverActivity activity) {
-			activityObserverPatternWeakReference = new WeakReference<ObserverActivity>(activity);
-		}
-
-		@Override
-		public void handleMessage(Message msg) {
-			ObserverActivity activity = activityObserverPatternWeakReference.get();
-			if (activity != null) {
-				switch (msg.what) {
-					case 0:
-						IObservable.getObservable().sendMessage(edit_query.getText().toString() + getMessageCount++);//用来发送通知(模拟耗时操作)
-						break;
-				}
-			}
-		}
-	}
 
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,6 +81,26 @@ public class ObserverActivity extends AppCompatActivity {
 				}
 			};
 			weakHandler.post(runnable);
+		}
+	}
+
+	private static class WeakHandler extends Handler {
+		private final WeakReference<ObserverActivity> activityObserverPatternWeakReference;
+
+		WeakHandler(ObserverActivity activity) {
+			activityObserverPatternWeakReference = new WeakReference<ObserverActivity>(activity);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			ObserverActivity activity = activityObserverPatternWeakReference.get();
+			if (activity != null) {
+				switch (msg.what) {
+					case 0:
+						IObservable.getObservable().sendMessage(edit_query.getText().toString() + getMessageCount++);//用来发送通知(模拟耗时操作)
+						break;
+				}
+			}
 		}
 	}
 }

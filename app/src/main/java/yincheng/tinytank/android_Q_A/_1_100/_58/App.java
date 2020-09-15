@@ -1,7 +1,8 @@
 package yincheng.tinytank.android_Q_A._1_100._58;
 
 public class App {
-	private void testParam(final String rawString) {
+	public static void main(String[] args) {
+		final String rawString = "hello world";
 		Callback callback = new Callback() {
 			@Override
 			public void call() {
@@ -11,8 +12,7 @@ public class App {
 		callback.call();
 	}
 
-	public static void main(String[] args) {
-		final String rawString = "hello world";
+	private void testParam(final String rawString) {
 		Callback callback = new Callback() {
 			@Override
 			public void call() {

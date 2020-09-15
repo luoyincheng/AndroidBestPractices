@@ -30,6 +30,7 @@ import yincheng.tinytank.provider.helper.ViewHelper;
 public abstract class BaseBottomSheetDialogFragment extends
 		BottomSheetDialogFragment {
 	protected BottomSheetBehavior<View> bottomSheetBehavior;
+	protected boolean isAlreadyHidden;
 	private final BottomSheetBehavior.BottomSheetCallback bottomSheetCallback = new
 			BottomSheetBehavior.BottomSheetCallback() {
 				@Override
@@ -48,7 +49,6 @@ public abstract class BaseBottomSheetDialogFragment extends
 					}
 				}
 			};
-	protected boolean isAlreadyHidden;
 	@Nullable
 	private Unbinder unbinder;
 

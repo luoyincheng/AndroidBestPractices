@@ -13,10 +13,9 @@ public class PrettifyWebView extends NestedWebView {
 		super(context);
 	}
 
-	public interface OnContentChangedListener {
-		void onContentChanged(int progress);
-
-		void onScrollChanged(boolean reachedTop, int scroll);
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent p) {
+		return true;
 	}
 
 //    public PrettifyWebView(Context context) {
@@ -35,11 +34,6 @@ public class PrettifyWebView extends NestedWebView {
 //        initView(attrs);
 //    }
 
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent p) {
-		return true;
-	}
-
 	@SuppressLint("ClickableViewAccessibility")
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -47,6 +41,12 @@ public class PrettifyWebView extends NestedWebView {
 			getParent().requestDisallowInterceptTouchEvent(interceptTouch);
 		}
 		return super.onTouchEvent(event);
+	}
+
+	public interface OnContentChangedListener {
+		void onContentChanged(int progress);
+
+		void onScrollChanged(boolean reachedTop, int scroll);
 	}
 
 //    @SuppressLint("SetJavaScriptEnabled") private void initView(@Nullable AttributeSet attrs) {

@@ -68,16 +68,6 @@ public class MarkdownViewActivity extends BaseActivity {
 
 	public static class MyBean {
 
-		public enum DiasDaSemana {
-			DOMINGO,
-			SEGUNDA,
-			TERCA,
-			QUARTA,
-			QUINTA,
-			SEXTA,
-			SABADO
-		}
-
 		private String hello;
 		private DiasDaSemana diasDaSemana;
 
@@ -95,6 +85,16 @@ public class MarkdownViewActivity extends BaseActivity {
 
 		public void setDiasDaSemana(DiasDaSemana diasDaSemana) {
 			this.diasDaSemana = diasDaSemana;
+		}
+
+		public enum DiasDaSemana {
+			DOMINGO,
+			SEGUNDA,
+			TERCA,
+			QUARTA,
+			QUINTA,
+			SEXTA,
+			SABADO
 		}
 	}
 }

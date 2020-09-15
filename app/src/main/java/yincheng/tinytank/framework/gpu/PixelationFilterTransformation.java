@@ -24,7 +24,7 @@ import jp.co.cyberagent.android.gpuimage.GPUImagePixelationFilter;
 
 /**
  * Applies a Pixelation effect to the image.
- *
+ * <p>
  * The pixel with a default of 10.0.
  */
 public class PixelationFilterTransformation extends GPUFilterTransformation {

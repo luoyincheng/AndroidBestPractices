@@ -16,35 +16,6 @@ public class GenericItemHolder<T> {
 	private boolean hasDoc;
 	private boolean isExtendFromRecyclerActivity = true;
 
-	public enum ITEM_CLASS_TYPE {// TODO: 2018/5/24
-		ACTIVITY, FRAGMENT, DIALOG_FRAGMENT, DIALOG, POPUP_WINDOW,
-		NONE
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public ITEM_CLASS_TYPE getItemClassType() {
-		return itemClassType;
-	}
-
-	public Runnable getmRunnable() {
-		return mRunnable;
-	}
-
-	public Callable<T> getmCallable() {
-		return mCallable;
-	}
-
-	public Class getmClazz() {
-		return mClazz;
-	}
-
-	public boolean isHasDoc() {
-		return hasDoc;
-	}
-
 	public GenericItemHolder(String title) {
 		this(title, ITEM_CLASS_TYPE.ACTIVITY);
 	}
@@ -86,5 +57,34 @@ public class GenericItemHolder<T> {
 		this.hasDoc = hasDoc;
 		this.mRunnable = runnable;
 		this.isExtendFromRecyclerActivity = true;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public ITEM_CLASS_TYPE getItemClassType() {
+		return itemClassType;
+	}
+
+	public Runnable getmRunnable() {
+		return mRunnable;
+	}
+
+	public Callable<T> getmCallable() {
+		return mCallable;
+	}
+
+	public Class getmClazz() {
+		return mClazz;
+	}
+
+	public boolean isHasDoc() {
+		return hasDoc;
+	}
+
+	public enum ITEM_CLASS_TYPE {// TODO: 2018/5/24
+		ACTIVITY, FRAGMENT, DIALOG_FRAGMENT, DIALOG, POPUP_WINDOW,
+		NONE
 	}
 }

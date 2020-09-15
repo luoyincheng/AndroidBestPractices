@@ -39,16 +39,17 @@ public class MaskTransformation extends BitmapTransformation {
 			"jp.wasabeef.glide.transformations.MaskTransformation." + VERSION;
 
 	private static Paint paint = new Paint();
-	private int maskId;
 
 	static {
 		paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
 	}
 
+	private int maskId;
+
 	/**
 	 * @param maskId If you change the mask file, please also rename the mask file, or Glide will get
-	 * the cache with the old mask. Because key() return the same values if using the
-	 * same make file name. If you have a good idea please tell us, thanks.
+	 *               the cache with the old mask. Because key() return the same values if using the
+	 *               same make file name. If you have a good idea please tell us, thanks.
 	 */
 	public MaskTransformation(int maskId) {
 		this.maskId = maskId;

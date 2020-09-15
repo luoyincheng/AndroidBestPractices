@@ -43,33 +43,17 @@ public abstract class BaseDialogFragment extends DialogFragment {
 	 * onDestroyView() -> onDestroy() -> onDetach()
 	 */
 	public View rootView;
+	@BindView(R.id.result_text)
+	public FontTextView result_text;
+	protected volatile List<Integer> layoutIds = new ArrayList<>();
+	Unbinder unbinder;
 	private LinearLayout baseDialogFragmentContainer;
 	private LayoutInflater layoutInflater;
 	private FrameLayout.LayoutParams layoutParams;
-	@BindView(R.id.result_text)
-	public FontTextView result_text;
-	Unbinder unbinder;
-	protected volatile List<Integer> layoutIds = new ArrayList<>();
+	private int times = 0;
 
 	public void setTextviewText(@IdRes int tv_resId, String s) {
 		((TextView) getView().findViewById(tv_resId)).setText(s);
-	}
-
-	@Nullable
-	@Override
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
-			Bundle savedInstanceState) {
-		Logger.e("DialogFragmentLifeCycle", "onCreateView()");
-		rootView = inflater.inflate(R.layout.dialogfragment_base, container, false);
-		unbinder = ButterKnife.bind(this, rootView);
-//      只有父container使用FindViewById来查找，因为父布局在bind之前使用
-//      LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context
-// .LAYOUT_INFLATER_SERVICE);
-//      layoutInflater = LayoutInflater.from(getActivity());
-//      layoutInflater = getLayoutInflater();
-//        View childView = layoutInflater.inflate(getChildLayoutIds(),
-// baseDialogFragmentContainer, true);// TODO: 2018/4/2 第二个参数的意义
-		return rootView;
 	}
 
 //   public void addChildViewWithLayout(Context context, @LayoutRes int layoutRes) {
@@ -88,7 +72,22 @@ public abstract class BaseDialogFragment extends DialogFragment {
 ////            .show();
 //   }
 
-	private int times = 0;
+	@Nullable
+	@Override
+	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
+			Bundle savedInstanceState) {
+		Logger.e("DialogFragmentLifeCycle", "onCreateView()");
+		rootView = inflater.inflate(R.layout.dialogfragment_base, container, false);
+		unbinder = ButterKnife.bind(this, rootView);
+//      只有父container使用FindViewById来查找，因为父布局在bind之前使用
+//      LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context
+// .LAYOUT_INFLATER_SERVICE);
+//      layoutInflater = LayoutInflater.from(getActivity());
+//      layoutInflater = getLayoutInflater();
+//        View childView = layoutInflater.inflate(getChildLayoutIds(),
+// baseDialogFragmentContainer, true);// TODO: 2018/4/2 第二个参数的意义
+		return rootView;
+	}
 
 	public int getTimes() {
 		return times;

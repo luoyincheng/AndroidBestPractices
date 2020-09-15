@@ -44,41 +44,6 @@ public class PrefGetter {
 	public static final int AMBER = 14;
 	public static final int ORANGE = 15;
 	public static final int DEEP_ORANGE = 16;
-
-	@IntDef({
-			LIGHT,
-			DARK,
-			AMLOD,
-			MID_NIGHT_BLUE,
-			BLUISH
-	})
-	@Retention(RetentionPolicy.SOURCE)
-	public @interface ThemeType {
-	}
-
-	@IntDef({
-			RED,
-			PINK,
-			PURPLE,
-			DEEP_PURPLE,
-			INDIGO,
-			BLUE,
-			LIGHT_BLUE,
-			CYAN,
-			TEAL,
-			GREEN,
-			LIGHT_GREEN,
-			LIME,
-			YELLOW,
-			AMBER,
-			ORANGE,
-			DEEP_ORANGE
-	})
-	@Retention(RetentionPolicy.SOURCE)
-	@interface ThemeColor {
-	}
-
-
 	private static final String WHATS_NEW_VERSION = "whats_new";
 	private static final String ADS = "enable_ads";
 	private static final String TOKEN = "token";
@@ -110,16 +75,16 @@ public class PrefGetter {
 	private static final String DISABLE_AUTO_LOAD_IMAGE = "disable_auto_loading_image";
 	private static final String PLAY_STORE_REVIEW_ACTIVITY = "play_store_review_activity";
 
-	public static void setToken(@Nullable String token) {
-		PrefHelper.set(TOKEN, token);
-	}
-
 	public static void setTokenEnterprise(@Nullable String token) {
 		PrefHelper.set(ENTERPRISE_TOKEN, token);
 	}
 
 	public static String getToken() {
 		return PrefHelper.getString(TOKEN);
+	}
+
+	public static void setToken(@Nullable String token) {
+		PrefHelper.set(TOKEN, token);
 	}
 
 	public static String getEnterpriseToken() {
@@ -361,17 +326,17 @@ public class PrefGetter {
 		PrefHelper.set(APP_LANGUAGE, language == null ? "en" : language);
 	}
 
+	@Nullable
+	public static String getProfileBackgroundUrl() {
+		return PrefHelper.getString(PROFILE_BACKGROUND_URL);
+	}
+
 	public static void setProfileBackgroundUrl(@Nullable String url) {
 		if (url == null) {
 			PrefHelper.clearKey(PROFILE_BACKGROUND_URL);
 		} else {
 			PrefHelper.set(PROFILE_BACKGROUND_URL, url);
 		}
-	}
-
-	@Nullable
-	public static String getProfileBackgroundUrl() {
-		return PrefHelper.getString(PROFILE_BACKGROUND_URL);
 	}
 
 	public static void setWhatsNewVersion() {
@@ -477,10 +442,6 @@ public class PrefGetter {
 		PrefHelper.set(NOTIFICATION_SOUND_PATH, uri.toString());
 	}
 
-//   public static boolean isAutoImageDisabled() {
-//      return PrefHelper.getBoolean(DISABLE_AUTO_LOAD_IMAGE) && AppHelper.isDataPlan();
-//   }
-
 	public static boolean isAppAnimationDisabled() {
 		return PrefHelper.getBoolean("app_animation");
 	}
@@ -488,6 +449,10 @@ public class PrefGetter {
 	public static boolean isPlayStoreWarningShowed() {
 		return PrefHelper.getBoolean(PLAY_STORE_REVIEW_ACTIVITY);
 	}
+
+//   public static boolean isAutoImageDisabled() {
+//      return PrefHelper.getBoolean(DISABLE_AUTO_LOAD_IMAGE) && AppHelper.isDataPlan();
+//   }
 
 	public static void setPlayStoreWarningShowed() {
 		PrefHelper.set(PLAY_STORE_REVIEW_ACTIVITY, true);
@@ -522,6 +487,39 @@ public class PrefGetter {
 			PrefHelper.set("pr_long_press_hint", true);
 		}
 		return isPRLongPressHintShowed;
+	}
+
+	@IntDef({
+			LIGHT,
+			DARK,
+			AMLOD,
+			MID_NIGHT_BLUE,
+			BLUISH
+	})
+	@Retention(RetentionPolicy.SOURCE)
+	public @interface ThemeType {
+	}
+
+	@IntDef({
+			RED,
+			PINK,
+			PURPLE,
+			DEEP_PURPLE,
+			INDIGO,
+			BLUE,
+			LIGHT_BLUE,
+			CYAN,
+			TEAL,
+			GREEN,
+			LIGHT_GREEN,
+			LIME,
+			YELLOW,
+			AMBER,
+			ORANGE,
+			DEEP_ORANGE
+	})
+	@Retention(RetentionPolicy.SOURCE)
+	@interface ThemeColor {
 	}
 
 }

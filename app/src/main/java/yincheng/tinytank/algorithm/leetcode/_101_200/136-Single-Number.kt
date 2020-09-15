@@ -1,8 +1,8 @@
 package yincheng.tinytank.algorithm.leetcode._101_200
 
 fun main() {
-    val source = intArrayOf(1, 2, 4, 3, 1, 4, 6, 5, 2, 6, 5)
-    println(findSingleNumber(source))
+   val source = intArrayOf(1, 2, 4, 3, 1, 4, 6, 5, 2, 6, 5)
+   println(findSingleNumber(source))
 }
 
 /**
@@ -11,11 +11,11 @@ fun main() {
  * 运算结果就是题目的答案。
  */
 fun findSingleNumber(numbers: IntArray): Int {
-    var ans = numbers[0]
-    if (numbers.size > 1) {
-        for (i in 1 until numbers.size) {
-            ans = ans xor numbers[i]
-        }
-    }
-    return ans
+   var ans = numbers[0]
+   if (numbers.size > 1) {
+      for (i in 1 until numbers.size) {
+         ans = ans xor numbers[i]
+      }
+   }
+   return ans
 }

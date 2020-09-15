@@ -18,11 +18,6 @@ public class ConCurrent2 implements Callable<String> {
 		this.id = id;
 	}
 
-	@Override
-	public String call() throws Exception {
-		return "任务 " + id + " 执行结束了";
-	}
-
 	public static void main(String[] args) {
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		ArrayList<Future<String>> results = new ArrayList<>();// TODO: 2018/5/30
@@ -41,5 +36,10 @@ public class ConCurrent2 implements Callable<String> {
 				executorService.shutdown();
 			}
 		}
+	}
+
+	@Override
+	public String call() throws Exception {
+		return "任务 " + id + " 执行结束了";
 	}
 }

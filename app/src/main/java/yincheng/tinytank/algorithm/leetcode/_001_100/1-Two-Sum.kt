@@ -10,11 +10,11 @@ package yincheng.tinytank.algorithm.leetcode._001_100
  */
 fun main() {
 //    val source = intArrayOf(2, 3, 6, 9, 11)
-    val source = intArrayOf(1, 3, 4, 8, 9)
+   val source = intArrayOf(1, 3, 4, 8, 9)
 //    val result = bruteForce(source, 10)
 //    val result = twoPassHashTable(source, 10)
-    val result = onePassHashTable(source, 10)
-    result?.forEachIndexed { index, i -> println("$index $i") }
+   val result = onePassHashTable(source, 10)
+   result?.forEachIndexed { index, i -> println("$index $i") }
 }
 
 /**
@@ -22,12 +22,12 @@ fun main() {
  * space complexity  O(1)
  */
 private fun bruteForce(numbers: IntArray, target: Int): IntArray? {
-    numbers.forEachIndexed { index, i ->
-        numbers.forEachIndexed { index1, i1 ->
-            if (i1 == target - i && i1 != i) return intArrayOf(index, index1)
-        }
-    }
-    return null
+   numbers.forEachIndexed { index, i ->
+      numbers.forEachIndexed { index1, i1 ->
+         if (i1 == target - i && i1 != i) return intArrayOf(index, index1)
+      }
+   }
+   return null
 }
 
 /**
@@ -36,14 +36,14 @@ private fun bruteForce(numbers: IntArray, target: Int): IntArray? {
  */
 
 private fun twoPassHashTable(numbers: IntArray, target: Int): IntArray? {
-    val hashMap = hashMapOf<Int, Int>()
-    numbers.forEachIndexed { index, value -> hashMap[value] = index }
-    numbers.forEachIndexed { index, value ->
-        val complement = target - value
-        if (hashMap.containsKey(complement) && hashMap[complement] != index)
-            return intArrayOf(index, hashMap[complement]!!)
-    }
-    return null
+   val hashMap = hashMapOf<Int, Int>()
+   numbers.forEachIndexed { index, value -> hashMap[value] = index }
+   numbers.forEachIndexed { index, value ->
+      val complement = target - value
+      if (hashMap.containsKey(complement) && hashMap[complement] != index)
+         return intArrayOf(index, hashMap[complement]!!)
+   }
+   return null
 }
 
 
@@ -52,13 +52,13 @@ private fun twoPassHashTable(numbers: IntArray, target: Int): IntArray? {
  * space complexity  O(n)
  */
 private fun onePassHashTable(numbers: IntArray, target: Int): IntArray? {
-    val hashMap = hashMapOf<Int, Int>()
-    numbers.forEachIndexed { index, value ->
-        val complement = target - value
-        if (hashMap.contains(complement)) {
-            return intArrayOf(index, hashMap[complement]!!)
-        }
-        hashMap[value] = index
-    }
-    return null
+   val hashMap = hashMapOf<Int, Int>()
+   numbers.forEachIndexed { index, value ->
+      val complement = target - value
+      if (hashMap.contains(complement)) {
+         return intArrayOf(index, hashMap[complement]!!)
+      }
+      hashMap[value] = index
+   }
+   return null
 }

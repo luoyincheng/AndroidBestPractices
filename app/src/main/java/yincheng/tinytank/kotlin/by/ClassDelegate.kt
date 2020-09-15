@@ -5,13 +5,13 @@ package yincheng.tinytank.kotlin.by
  * 类的代理
  */
 interface BaseInterface {
-    fun show()
+   fun show()
 }
 
 open class BaseInterfaceImpl : BaseInterface {
-    override fun show() {
-        println("BaseInterfaceImpl.show()")
-    }
+   override fun show() {
+      println("BaseInterfaceImpl.show()")
+   }
 }
 
 /**
@@ -20,6 +20,6 @@ open class BaseInterfaceImpl : BaseInterface {
 class ClassDelegate(baseInterface: BaseInterface) : BaseInterface by baseInterface
 
 fun main() {
-    val baseInterfaceImpl = BaseInterfaceImpl()
-    ClassDelegate(baseInterfaceImpl).show()
+   val baseInterfaceImpl = BaseInterfaceImpl()
+   ClassDelegate(baseInterfaceImpl).show()
 }

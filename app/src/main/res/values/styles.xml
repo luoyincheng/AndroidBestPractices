@@ -1,119 +1,119 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-    </style>
+   <!-- Base application theme. -->
+   <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+      <!-- Customize your theme here. -->
+      <item name="colorPrimary">@color/colorPrimary</item>
+      <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+      <item name="colorAccent">@color/colorAccent</item>
+   </style>
 
-    <style name="FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">true</item>
-    </style>
+   <style name="FullScreen" parent="Theme.AppCompat.Light.NoActionBar">
+      <item name="android:windowNoTitle">true</item>
+      <item name="android:windowFullscreen">true</item>
+   </style>
 
-    <style name="SwipeBackLayout">
-        <item name="edge_size">50dip</item>
-        <item name="shadow_left">@drawable/shadow_left</item>
-        <item name="shadow_right">@drawable/shadow_right</item>
-        <item name="shadow_bottom">@drawable/shadow_bottom</item>
-    </style>
+   <style name="SwipeBackLayout">
+      <item name="edge_size">50dip</item>
+      <item name="shadow_left">@drawable/shadow_left</item>
+      <item name="shadow_right">@drawable/shadow_right</item>
+      <item name="shadow_bottom">@drawable/shadow_bottom</item>
+   </style>
 
-    <!--<style name="SwitchButton" tools:ignore="ResourceName">-->
-    <!--<item name="kswThumbDrawable">@drawable/ksw_md_thumb</item>-->
-    <!--<item name="kswBackColor">@color/ksw_md_back_color</item>-->
-    <!--<item name="kswThumbRangeRatio">1.45</item>-->
-    <!--<item name="kswThumbMarginLeft">-16dp</item>-->
-    <!--<item name="kswThumbMarginTop">-14dp</item>-->
-    <!--<item name="kswThumbMarginRight">-16dp</item>-->
-    <!--<item name="kswThumbMarginBottom">-14dp</item>-->
-    <!--<item name="kswThumbWidth">@dimen/ksw_md_thumb_ripple_size</item>-->
-    <!--<item name="kswThumbHeight">@dimen/ksw_md_thumb_ripple_size</item>-->
-    <!--</style>-->
-    <style name="result_dialog" parent="android:Theme.Dialog">
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowIsTranslucent">false</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:windowFullscreen">false</item>
-        <item name="android:windowBackground">@color/transparent</item>
-        <item name="android:windowAnimationStyle">@null</item>
-        <item name="android:backgroundDimEnabled">true</item>
-        <item name="android:backgroundDimAmount">0.4</item>
-    </style>
+   <!--<style name="SwitchButton" tools:ignore="ResourceName">-->
+   <!--<item name="kswThumbDrawable">@drawable/ksw_md_thumb</item>-->
+   <!--<item name="kswBackColor">@color/ksw_md_back_color</item>-->
+   <!--<item name="kswThumbRangeRatio">1.45</item>-->
+   <!--<item name="kswThumbMarginLeft">-16dp</item>-->
+   <!--<item name="kswThumbMarginTop">-14dp</item>-->
+   <!--<item name="kswThumbMarginRight">-16dp</item>-->
+   <!--<item name="kswThumbMarginBottom">-14dp</item>-->
+   <!--<item name="kswThumbWidth">@dimen/ksw_md_thumb_ripple_size</item>-->
+   <!--<item name="kswThumbHeight">@dimen/ksw_md_thumb_ripple_size</item>-->
+   <!--</style>-->
+   <style name="result_dialog" parent="android:Theme.Dialog">
+      <item name="android:windowIsFloating">true</item>
+      <item name="android:windowIsTranslucent">false</item>
+      <item name="android:windowNoTitle">true</item>
+      <item name="android:windowFullscreen">false</item>
+      <item name="android:windowBackground">@color/transparent</item>
+      <item name="android:windowAnimationStyle">@null</item>
+      <item name="android:backgroundDimEnabled">true</item>
+      <item name="android:backgroundDimAmount">0.4</item>
+   </style>
 
-    <style name="sampleTheme" parent="@android:style/Theme.Holo">
-        <item name="android:actionBarStyle">@style/sampleActionBar</item>
-        <item name="android:windowBackground">@color/cardview_shadow_end_color</item>
-    </style>
+   <style name="sampleTheme" parent="@android:style/Theme.Holo">
+      <item name="android:actionBarStyle">@style/sampleActionBar</item>
+      <item name="android:windowBackground">@color/cardview_shadow_end_color</item>
+   </style>
 
-    <style name="sampleActionBar" parent="@android:style/Widget.Holo.ActionBar">
-        <item name="android:background">@color/colorAccent</item>
-    </style>
+   <style name="sampleActionBar" parent="@android:style/Widget.Holo.ActionBar">
+      <item name="android:background">@color/colorAccent</item>
+   </style>
 
-    <style name="indexDivider">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">1px</item>
-        <item name="android:background">#333333</item>
-    </style>
+   <style name="indexDivider">
+      <item name="android:layout_width">match_parent</item>
+      <item name="android:layout_height">1px</item>
+      <item name="android:background">#333333</item>
+   </style>
 
-    <style name="indexLink">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <!--<item name="android:background">@drawable/buttonstate_transparent</item>-->
-        <item name="android:gravity">center_horizontal</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:textSize">18sp</item>
-    </style>
+   <style name="indexLink">
+      <item name="android:layout_width">match_parent</item>
+      <item name="android:layout_height">wrap_content</item>
+      <!--<item name="android:background">@drawable/buttonstate_transparent</item>-->
+      <item name="android:gravity">center_horizontal</item>
+      <item name="android:padding">10dp</item>
+      <item name="android:textSize">18sp</item>
+   </style>
 
-    <style name="fill">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-    </style>
+   <style name="fill">
+      <item name="android:layout_width">match_parent</item>
+      <item name="android:layout_height">match_parent</item>
+   </style>
 
-    <style name="mainPanel">
-        <item name="android:layout_alignParentTop">true</item>
-        <!--<item name="android:layout_above">@+id/footer</item>-->
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-    </style>
+   <style name="mainPanel">
+      <item name="android:layout_alignParentTop">true</item>
+      <!--<item name="android:layout_above">@+id/footer</item>-->
+      <item name="android:layout_width">match_parent</item>
+      <item name="android:layout_height">match_parent</item>
+   </style>
 
-    <style name="footer">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_alignParentBottom">true</item>
-        <item name="android:background">#333</item>
-    </style>
+   <style name="footer">
+      <item name="android:layout_width">match_parent</item>
+      <item name="android:layout_height">wrap_content</item>
+      <item name="android:layout_alignParentBottom">true</item>
+      <item name="android:background">#333</item>
+   </style>
 
-    <style name="footerNote">
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:padding">10dp</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:textColor">#FFFFFF</item>
-    </style>
+   <style name="footerNote">
+      <item name="android:layout_height">wrap_content</item>
+      <item name="android:layout_width">match_parent</item>
+      <item name="android:layout_centerVertical">true</item>
+      <item name="android:padding">10dp</item>
+      <item name="android:textSize">14sp</item>
+      <item name="android:textColor">#FFFFFF</item>
+   </style>
 
-    <style name="footerButton">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:background">@drawable/brvah_sample_footer_loading</item>
-        <item name="android:paddingLeft">8dp</item>
-        <item name="android:paddingRight">8dp</item>
-        <item name="android:paddingTop">18dp</item>
-        <item name="android:paddingBottom">18dp</item>
-        <item name="android:src">@drawable/shadow_left</item>
-    </style>
+   <style name="footerButton">
+      <item name="android:layout_width">wrap_content</item>
+      <item name="android:layout_height">wrap_content</item>
+      <item name="android:layout_centerVertical">true</item>
+      <item name="android:background">@drawable/brvah_sample_footer_loading</item>
+      <item name="android:paddingLeft">8dp</item>
+      <item name="android:paddingRight">8dp</item>
+      <item name="android:paddingTop">18dp</item>
+      <item name="android:paddingBottom">18dp</item>
+      <item name="android:src">@drawable/shadow_left</item>
+   </style>
 
-    <style name="previousButton" parent="@style/footerButton">
-        <item name="android:layout_alignParentStart">true</item>
-        <item name="android:src">@drawable/shadow_left</item>
-    </style>
+   <style name="previousButton" parent="@style/footerButton">
+      <item name="android:layout_alignParentStart">true</item>
+      <item name="android:src">@drawable/shadow_left</item>
+   </style>
 
-    <style name="nextButton" parent="@style/footerButton">
-        <item name="android:layout_alignParentEnd">true</item>
-        <item name="android:src">@drawable/shadow_right</item>
-    </style>
+   <style name="nextButton" parent="@style/footerButton">
+      <item name="android:layout_alignParentEnd">true</item>
+      <item name="android:src">@drawable/shadow_right</item>
+   </style>
 
 </resources>

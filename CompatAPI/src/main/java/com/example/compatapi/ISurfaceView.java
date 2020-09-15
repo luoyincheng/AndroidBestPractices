@@ -12,12 +12,12 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public class ISurfaceView extends SurfaceView implements Runnable, SurfaceHolder.Callback {
+	float m_circle_r = 10;
 	private SurfaceHolder mHolder; // 用于控制SurfaceView
 	private Thread t; // 声明一条线程
 	private volatile boolean flag; // 线程运行的标识，用于控制线程
 	private Canvas mCanvas; // 声明一张画布
 	private Paint p; // 声明一支画笔
-	float m_circle_r = 10;
 
 	public ISurfaceView(Context context) {
 		super(context);

@@ -9,24 +9,6 @@ import androidx.annotation.NonNull;
 public class Test2 {
 	static final Student STUDENT = new Student(25, "luoyixiong", "foreveryoung");
 
-	static class Student {
-		int age;
-		String name;
-		String wishes;
-
-		public Student(int age, String name, String wishes) {
-			this.age = age;
-			this.name = name;
-			this.wishes = wishes;
-		}
-
-		@NonNull
-		@Override
-		public String toString() {
-			return age + ":" + name + ":" + wishes;
-		}
-	}
-
 	public static void main(String[] args) {
 		STUDENT.age = 25;
 		STUDENT.name = "luoyixiong";
@@ -52,5 +34,23 @@ public class Test2 {
 		System.out.println((a >>= 1) + "");//赋值，相当于a = a >> 2;
 		System.out.println((a) + "");
 
+	}
+
+	static class Student {
+		int age;
+		String name;
+		String wishes;
+
+		public Student(int age, String name, String wishes) {
+			this.age = age;
+			this.name = name;
+			this.wishes = wishes;
+		}
+
+		@NonNull
+		@Override
+		public String toString() {
+			return age + ":" + name + ":" + wishes;
+		}
 	}
 }

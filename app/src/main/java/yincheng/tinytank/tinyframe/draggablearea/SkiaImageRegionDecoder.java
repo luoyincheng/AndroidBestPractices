@@ -37,14 +37,12 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
  */
 public class SkiaImageRegionDecoder implements ImageRegionDecoder {
 
-	private BitmapRegionDecoder decoder;
-	private final ReadWriteLock decoderLock = new ReentrantReadWriteLock(true);
-
 	private static final String FILE_PREFIX = "file://";
 	private static final String ASSET_PREFIX = FILE_PREFIX + "/android_asset/";
 	private static final String RESOURCE_PREFIX = ContentResolver.SCHEME_ANDROID_RESOURCE + "://";
-
+	private final ReadWriteLock decoderLock = new ReentrantReadWriteLock(true);
 	private final Bitmap.Config bitmapConfig;
+	private BitmapRegionDecoder decoder;
 
 	@Keep
 	@SuppressWarnings("unused")

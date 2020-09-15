@@ -389,6 +389,31 @@ class IChildHelper {
 		return false;
 	}
 
+	interface Callback {
+
+		int getChildCount();
+
+		void addView(View child, int index);
+
+		int indexOfChild(View view);
+
+		void removeViewAt(int index);
+
+		View getChildAt(int offset);
+
+		void removeAllViews();
+
+		IRecyclerView.ViewHolder getChildViewHolder(View view);
+
+		void attachViewToParent(View child, int index, ViewGroup.LayoutParams layoutParams);
+
+		void detachViewFromParent(int offset);
+
+		void onEnteredHiddenState(View child);
+
+		void onLeftHiddenState(View child);
+	}
+
 	/**
 	 * Bitset implementation that provides methods to offset indices.
 	 */
@@ -508,30 +533,5 @@ class IChildHelper {
 			return mNext == null ? Long.toBinaryString(mData)
 					: mNext.toString() + "xx" + Long.toBinaryString(mData);
 		}
-	}
-
-	interface Callback {
-
-		int getChildCount();
-
-		void addView(View child, int index);
-
-		int indexOfChild(View view);
-
-		void removeViewAt(int index);
-
-		View getChildAt(int offset);
-
-		void removeAllViews();
-
-		IRecyclerView.ViewHolder getChildViewHolder(View view);
-
-		void attachViewToParent(View child, int index, ViewGroup.LayoutParams layoutParams);
-
-		void detachViewFromParent(int offset);
-
-		void onEnteredHiddenState(View child);
-
-		void onLeftHiddenState(View child);
 	}
 }

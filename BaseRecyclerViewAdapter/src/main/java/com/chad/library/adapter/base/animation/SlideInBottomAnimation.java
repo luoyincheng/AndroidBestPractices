@@ -9,10 +9,10 @@ import android.view.View;
  * https://github.com/CymChad/BaseRecyclerViewAdapterHelper
  */
 public class SlideInBottomAnimation implements BaseAnimation {
-    @Override
-    public Animator[] getAnimators(View view) {
-        return new Animator[]{
-                ObjectAnimator.ofFloat(view, "translationY", view.getMeasuredHeight(), 0)
-        };
-    }
+	@Override
+	public Animator[] getAnimators(View view) {
+		return new Animator[]{
+				ObjectAnimator.ofFloat(view, "translationY", view.getMeasuredHeight(), 0)
+		};
+	}
 }

@@ -36,15 +36,15 @@ public class Test1 {
 		greetService2.sayMessage("Google");
 	}
 
+	private int operate(int a, int b, MathOperation mathOperation) {
+		return mathOperation.operation(a, b);
+	}
+
 	interface MathOperation {
 		int operation(int a, int b);
 	}
 
 	interface GreetingService {
 		void sayMessage(String message);
-	}
-
-	private int operate(int a, int b, MathOperation mathOperation) {
-		return mathOperation.operation(a, b);
 	}
 }

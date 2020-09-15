@@ -14,18 +14,20 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class Timer {
 	/**
+	 * This ID is used to generate thread names.
+	 */
+	private final static AtomicInteger nextSerialNumber = new AtomicInteger(0);
+	/**
 	 * The timer task queue.  This data structure is shared with the timer
 	 * thread.  The timer produces tasks, via its various schedule calls,
 	 * and the timer thread consumes, executing timer tasks as appropriate,
 	 * and removing them from the queue when they're obsolete.
 	 */
 	private final TaskQueue queue = new TaskQueue();
-
 	/**
 	 * The timer thread.
 	 */
 	private final TimerThread thread = new TimerThread(queue);
-
 	/**
 	 * This object causes the timer's task execution thread to exit
 	 * gracefully when there are no live references to the Timer object and no
@@ -41,15 +43,6 @@ public class Timer {
 			}
 		}
 	};
-
-	/**
-	 * This ID is used to generate thread names.
-	 */
-	private final static AtomicInteger nextSerialNumber = new AtomicInteger(0);
-
-	private static int serialNumber() {
-		return nextSerialNumber.getAndIncrement();
-	}
 
 	/**
 	 * Creates a new timer.  The associated thread does <i>not</i>
@@ -101,6 +94,10 @@ public class Timer {
 		thread.setName(name);
 		thread.setDaemon(isDaemon);
 		thread.start();
+	}
+
+	private static int serialNumber() {
+		return nextSerialNumber.getAndIncrement();
 	}
 
 	/**

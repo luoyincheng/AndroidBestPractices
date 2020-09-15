@@ -12,6 +12,21 @@ import yincheng.tinytank.R;
 
 public class UIThreadToWorkerThreadActivity extends AppCompatActivity {
 
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_handler_communication);
+		final mThread mthread = new mThread();
+		mthread.start();
+		findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Message msg = new Message();
+				mthread.workerHandler.sendMessage(msg);
+			}
+		});
+	}
+
 	public class mThread extends Thread {
 		public Handler workerHandler;
 
@@ -27,20 +42,5 @@ public class UIThreadToWorkerThreadActivity extends AppCompatActivity {
 			};
 			Looper.loop();
 		}
-	}
-
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_handler_communication);
-		final mThread mthread = new mThread();
-		mthread.start();
-		findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				Message msg = new Message();
-				mthread.workerHandler.sendMessage(msg);
-			}
-		});
 	}
 }

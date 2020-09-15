@@ -12,7 +12,6 @@ import java.util.List;
 import yincheng.tinytank.R;
 import yincheng.tinytank.common.GenericItemHolder;
 import yincheng.tinytank.ui.activity.base.GenericActivityWithRecyclerView;
-import yincheng.tinytank.view.FontTextView;
 
 import static yincheng.tinytank.provider.ItemHolderProvider.mainList;
 

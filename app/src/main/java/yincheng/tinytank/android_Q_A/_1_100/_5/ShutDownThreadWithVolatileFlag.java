@@ -6,9 +6,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class ShutDownThreadWithVolatileFlag implements Runnable {
 	private final Vector<Integer> vector = new Vector<Integer>(1000);
-	private volatile boolean done = false;
 	private final AtomicBoolean running = new AtomicBoolean(false);
+	private volatile boolean done = false;
 
+	public static void main(String[] args) throws InterruptedException {
+		ShutDownThreadWithVolatileFlag shutDownThreadWithVolatileFlag = new ShutDownThreadWithVolatileFlag();
+		Thread thread = new Thread(shutDownThreadWithVolatileFlag);
+		thread.start();
+		Thread.sleep(2000);
+		shutDownThreadWithVolatileFlag.shutdown();
+	}
 
 	public Vector<Integer> getVector() {
 		return vector;
@@ -45,13 +52,5 @@ public final class ShutDownThreadWithVolatileFlag implements Runnable {
 //			e.printStackTrace();
 //			System.out.println(e.toString());
 //		}
-	}
-
-	public static void main(String[] args) throws InterruptedException {
-		ShutDownThreadWithVolatileFlag shutDownThreadWithVolatileFlag = new ShutDownThreadWithVolatileFlag();
-		Thread thread = new Thread(shutDownThreadWithVolatileFlag);
-		thread.start();
-		Thread.sleep(2000);
-		shutDownThreadWithVolatileFlag.shutdown();
 	}
 }

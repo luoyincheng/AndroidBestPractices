@@ -1,8 +1,5 @@
 package yincheng.tinytank.android_Q_A._1_100._22;
 
-import android.util.LruCache;
-import android.util.SparseArray;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 

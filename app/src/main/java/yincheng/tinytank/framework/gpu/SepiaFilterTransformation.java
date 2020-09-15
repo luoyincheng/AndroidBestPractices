@@ -24,7 +24,7 @@ import jp.co.cyberagent.android.gpuimage.GPUImageSepiaFilter;
 
 /**
  * Applies a simple sepia effect.
- *
+ * <p>
  * The intensity with a default of 1.0.
  */
 public class SepiaFilterTransformation extends GPUFilterTransformation {

@@ -14,9 +14,9 @@ import androidx.core.view.NestedScrollingChildHelper;
 import androidx.core.view.ViewCompat;
 
 public class NestedWebView extends WebView implements NestedScrollingChild {
-	private int mLastY;
 	private final int[] mScrollOffset = new int[2];
 	private final int[] mScrollConsumed = new int[2];
+	private int mLastY;
 	private int mNestedOffsetY;
 	private NestedScrollingChildHelper mChildHelper;
 	private boolean firstScroll = true;
@@ -91,13 +91,13 @@ public class NestedWebView extends WebView implements NestedScrollingChild {
 	}
 
 	@Override
-	public void setNestedScrollingEnabled(boolean enabled) {
-		mChildHelper.setNestedScrollingEnabled(enabled);
+	public boolean isNestedScrollingEnabled() {
+		return mChildHelper.isNestedScrollingEnabled();
 	}
 
 	@Override
-	public boolean isNestedScrollingEnabled() {
-		return mChildHelper.isNestedScrollingEnabled();
+	public void setNestedScrollingEnabled(boolean enabled) {
+		mChildHelper.setNestedScrollingEnabled(enabled);
 	}
 
 	@Override

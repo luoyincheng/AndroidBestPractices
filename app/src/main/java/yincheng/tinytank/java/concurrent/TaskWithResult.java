@@ -18,11 +18,6 @@ public class TaskWithResult implements Callable<String> {
 		this.id = id;
 	}
 
-	@Override
-	public String call() throws Exception {
-		return "result of TaskWithResult:" + id;
-	}
-
 	public static void main(String[] args) {
 		ExecutorService executorService = Executors.newCachedThreadPool();
 		ArrayList<Future<String>> results = new ArrayList<>();
@@ -41,5 +36,10 @@ public class TaskWithResult implements Callable<String> {
 				executorService.shutdown();
 			}
 		}
+	}
+
+	@Override
+	public String call() throws Exception {
+		return "result of TaskWithResult:" + id;
 	}
 }

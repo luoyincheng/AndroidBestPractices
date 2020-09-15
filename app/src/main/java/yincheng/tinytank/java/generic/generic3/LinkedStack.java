@@ -6,29 +6,20 @@ package yincheng.tinytank.java.generic.generic3;
  * Github : yincheng.luo
  */
 public class LinkedStack<T> {
-	private static class Node<N> {
-		N item;
-		Node<N> next;
-
-		Node() {
-			item = null;
-			next = null;
-		}
-
-		Node(N a, Node<N> b) {
-			this.item = a;
-			this.next = b;
-		}
-
-		boolean end() {
-			return item == null && next == null;
-		}
-	}
-
 	/**
 	 * 必须为private
 	 */
 	private Node<T> top = new Node<>();//end sentinel(末端哨兵)
+
+	public static void main(String[] args) {
+		LinkedStack<String> linkedStack = new LinkedStack<String>();
+		for (String s : "what is broken can be reforged!".split(" ")) {
+			linkedStack.push(s);
+		}
+		String s;
+		while ((s = linkedStack.pop()) != null)
+			System.out.println(s);//打印的顺序将反序
+	}
 
 	/**
 	 * 做两件事：1.将当前Node作为顶端node 2.将操作之前的topNode链接到被push的Node后面
@@ -49,13 +40,22 @@ public class LinkedStack<T> {
 		return result;
 	}
 
-	public static void main(String[] args) {
-		LinkedStack<String> linkedStack = new LinkedStack<String>();
-		for (String s : "what is broken can be reforged!".split(" ")) {
-			linkedStack.push(s);
+	private static class Node<N> {
+		N item;
+		Node<N> next;
+
+		Node() {
+			item = null;
+			next = null;
 		}
-		String s;
-		while ((s = linkedStack.pop()) != null)
-			System.out.println(s);//打印的顺序将反序
+
+		Node(N a, Node<N> b) {
+			this.item = a;
+			this.next = b;
+		}
+
+		boolean end() {
+			return item == null && next == null;
+		}
 	}
 }

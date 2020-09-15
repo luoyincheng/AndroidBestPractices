@@ -3,15 +3,12 @@ package yincheng.tinytank.android_Q_A._1_100._40;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.blankj.utilcode.util.ThreadUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,18 +22,18 @@ public class IAdapter extends RecyclerView.Adapter<IAdapter.ViewHolder> {
 	private Context mContext;
 	private List<String> mData;
 
+	public IAdapter(Context mContext, List<String> data) {
+		this.mContext = mContext;
+		//这里必须根据数据新建一个ArrayList,因为如果在这里直接保存引用，那么在外部通过Adapter.getData()方法获取到mData后修改就直接修改了mData中的数据了。
+		this.mData = new ArrayList<>(data);
+	}
+
 	public List<String> getData() {
 		return mData;
 	}
 
 	public void setData(List<String> mData) {
 		this.mData = mData;
-	}
-
-	public IAdapter(Context mContext, List<String> data) {
-		this.mContext = mContext;
-		//这里必须根据数据新建一个ArrayList,因为如果在这里直接保存引用，那么在外部通过Adapter.getData()方法获取到mData后修改就直接修改了mData中的数据了。
-		this.mData = new ArrayList<>(data);
 	}
 
 	@NonNull

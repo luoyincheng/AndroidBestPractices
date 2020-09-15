@@ -13,37 +13,31 @@ import java.util.Date;
  */
 public abstract class TimerTask implements Runnable {
 	/**
-	 * This object is used to control access to the TimerTask internals.
-	 */
-	final Object lock = new Object();
-
-	/**
-	 * The state of this task, chosen from the constants below.
-	 */
-	int state = VIRGIN;
-
-	/**
 	 * This task has not yet been scheduled.
 	 */
 	static final int VIRGIN = 0;
-
 	/**
 	 * This task is scheduled for execution.  If it is a non-repeating task,
 	 * it has not yet been executed.
 	 */
 	static final int SCHEDULED = 1;
-
 	/**
 	 * This non-repeating task has already executed (or is currently
 	 * executing) and has not been cancelled.
 	 */
 	static final int EXECUTED = 2;
-
 	/**
 	 * This task has been cancelled (with a transform to TimerTask.cancel).
 	 */
 	static final int CANCELLED = 3;
-
+	/**
+	 * This object is used to control access to the TimerTask internals.
+	 */
+	final Object lock = new Object();
+	/**
+	 * The state of this task, chosen from the constants below.
+	 */
+	int state = VIRGIN;
 	/**
 	 * Next execution time for this task in the format returned by
 	 * System.currentTimeMillis, assuming this task is scheduled for execution.

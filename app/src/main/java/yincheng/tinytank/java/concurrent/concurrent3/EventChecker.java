@@ -8,23 +8,12 @@ import java.util.concurrent.Executors;
  * github:luoyincheng
  */
 public class EventChecker implements Runnable {
-	private IntGenerator intGenerator;
 	private final int id;
+	private IntGenerator intGenerator;
 
 	public EventChecker(IntGenerator intGenerator, int id) {
 		this.intGenerator = intGenerator;
 		this.id = id;
-	}
-
-	@Override
-	public void run() {
-		while (!intGenerator.isCanceled()) {
-			int val = intGenerator.next();
-			if (val % 2 != 0) {
-				System.out.println(val + "奇数!");
-				intGenerator.cancel();
-			}
-		}
 	}
 
 	public static void test(IntGenerator intGenerator, int count) {
@@ -40,5 +29,16 @@ public class EventChecker implements Runnable {
 	 */
 	public static void test(IntGenerator intGenerator) {
 		test(intGenerator, 10);
+	}
+
+	@Override
+	public void run() {
+		while (!intGenerator.isCanceled()) {
+			int val = intGenerator.next();
+			if (val % 2 != 0) {
+				System.out.println(val + "奇数!");
+				intGenerator.cancel();
+			}
+		}
 	}
 }

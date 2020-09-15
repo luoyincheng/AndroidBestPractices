@@ -7,25 +7,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class AtomicTest {
-	private AtomicInteger atomicInt = new AtomicInteger();
-
 	Integer lockInt = 0;
 	Lock lock = new ReentrantLock();
-
-	private void lockIncrease() {
-		lock.lock();
-		try {
-			lockInt++;
-		} finally {
-			lock.unlock();
-		}
-	}
-
+	private AtomicInteger atomicInt = new AtomicInteger();
 	private int synchronizedInt = 0;
-
-	private synchronized void increase() {
-		synchronizedInt++;
-	}
 
 	public static void main(String[] args) {
 		AtomicTest atomicTest = new AtomicTest();
@@ -72,5 +57,18 @@ public class AtomicTest {
 		}
 
 		executor.shutdown();
+	}
+
+	private void lockIncrease() {
+		lock.lock();
+		try {
+			lockInt++;
+		} finally {
+			lock.unlock();
+		}
+	}
+
+	private synchronized void increase() {
+		synchronizedInt++;
 	}
 }

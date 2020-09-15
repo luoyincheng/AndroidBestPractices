@@ -1,6 +1,7 @@
 package yincheng.tinytank.kotlin.coroutine
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicLong
 
 fun main() {
@@ -31,14 +32,14 @@ fun main() {
 //    }
 
 
-    // 示例3
-    // 启动一百万个协程 瞬间算完 nb啊
-    val c = AtomicLong()
-    for (i in 1..1_000_000L)
-        GlobalScope.launch {
-            c.addAndGet(i)
-        }
-    println(c.get())
+   // 示例3
+   // 启动一百万个协程 瞬间算完 nb啊
+   val c = AtomicLong()
+   for (i in 1..1_000_000L)
+      GlobalScope.launch {
+         c.addAndGet(i)
+      }
+   println(c.get())
 
 //    // 示例4
 //    // 从协程中返回一个值

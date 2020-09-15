@@ -1,6 +1,9 @@
 package yincheng.tinytank.android_Q_A._1_100._3;
 
 public abstract class AbsA {
+	static void staticFunction() {
+	}
+
 	private void functionA() {
 	}
 
@@ -13,8 +16,5 @@ public abstract class AbsA {
 	//不能用default修饰
 //	default void functionD(){}
 	void functionD() {
-	}
-
-	static void staticFunction() {
 	}
 }

@@ -4,8 +4,6 @@ import android.app.Notification;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -15,13 +13,13 @@ import yincheng.tinytank.R;
 import yincheng.tinytank.ui.activity.MainActivity;
 
 public class ForegroundServiceNew extends Service {
+	private static final String LOG_TAG = "ForegroundService";
 	public static String MAIN_ACTION = "com.truiton.foregroundservice.action.main";
 	public static String PREV_ACTION = "com.truiton.foregroundservice.action.prev";
 	public static String PLAY_ACTION = "com.truiton.foregroundservice.action.play";
 	public static String NEXT_ACTION = "com.truiton.foregroundservice.action.next";
 	public static String STARTFOREGROUND_ACTION = "com.truiton.foregroundservice.action.startforeground";
 	public static String STOPFOREGROUND_ACTION = "com.truiton.foregroundservice.action.stopforeground";
-	private static final String LOG_TAG = "ForegroundService";
 
 	@Override
 	public void onCreate() {
@@ -54,7 +52,7 @@ public class ForegroundServiceNew extends Service {
 			PendingIntent pnextIntent = PendingIntent.getService(this, 0,
 					nextIntent, 0);
 
-			Notification notification = new NotificationCompat.Builder(this,"channelId")
+			Notification notification = new NotificationCompat.Builder(this, "channelId")
 					.setContentTitle("Truiton Music Player")
 					.setTicker("Truiton Music Player")
 					.setContentText("My Music")

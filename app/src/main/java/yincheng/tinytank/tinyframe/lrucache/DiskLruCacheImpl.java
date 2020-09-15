@@ -19,12 +19,12 @@ import java.io.OutputStream;
 import yincheng.tinytank.BuildConfig;
 
 public class DiskLruCacheImpl implements CacheInterface {
-	private DiskLruCache mDiskCache;
-	private Bitmap.CompressFormat mCompressFormat = Bitmap.CompressFormat.JPEG;
-	private int mCompressQuality = 70;
 	private static final int APP_VERSION = 1;
 	private static final int VALUE_COUNT = 1;
 	private static final String TAG = "DiskLruCacheImpl";
+	private DiskLruCache mDiskCache;
+	private Bitmap.CompressFormat mCompressFormat = Bitmap.CompressFormat.JPEG;
+	private int mCompressQuality = 70;
 
 	public DiskLruCacheImpl(Context context, String uniqueName, int diskCacheSize) {
 		try {

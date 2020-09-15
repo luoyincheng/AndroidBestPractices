@@ -15,7 +15,7 @@ public class TaskAffinityActivity2 extends AppCompatActivity {
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_one_button);
-		Log.i("taskAffinity","activity2:taskId:" + getTaskId());
+		Log.i("taskAffinity", "activity2:taskId:" + getTaskId());
 		findViewById(R.id.btnStart).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {

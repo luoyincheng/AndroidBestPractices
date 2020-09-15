@@ -8,28 +8,15 @@ import java.util.concurrent.Executors;
  * github:luoyincheng
  */
 public class ConCurrent1 implements Runnable {
-	protected int countDown = 10;
 	private static int taskCount = 0;
 	private final int id = taskCount++;
+	protected int countDown = 10;
 
 	public ConCurrent1() {
 	}
 
 	public ConCurrent1(int countDown) {
 		this.countDown = countDown;
-	}
-
-	public String status() {
-		return "#" + id + "(" + (countDown > 0 ? countDown : "发射！！") +
-				")," + "时间:" + System.currentTimeMillis();
-	}
-
-	@Override
-	public void run() {
-		while (countDown-- > 0) {
-			System.out.println(status());
-			Thread.yield();
-		}
 	}
 
 	public static void main(String[] args) {
@@ -104,5 +91,18 @@ public class ConCurrent1 implements Runnable {
 		for (int i = 0; i < 5; i++) singleThreadExecutor.execute(new ConCurrent1());
 		singleThreadExecutor.shutdown();
 
+	}
+
+	public String status() {
+		return "#" + id + "(" + (countDown > 0 ? countDown : "发射！！") +
+				")," + "时间:" + System.currentTimeMillis();
+	}
+
+	@Override
+	public void run() {
+		while (countDown-- > 0) {
+			System.out.println(status());
+			Thread.yield();
+		}
 	}
 }

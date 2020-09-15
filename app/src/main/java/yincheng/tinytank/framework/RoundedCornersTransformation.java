@@ -34,15 +34,6 @@ public class RoundedCornersTransformation extends BitmapTransformation {
 
 	private static final int VERSION = 1;
 	private static final String ID = "jp.wasabeef.glide.transformations.RoundedCornersTransformation." + VERSION;
-
-	public enum CornerType {
-		ALL,
-		TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT,
-		TOP, BOTTOM, LEFT, RIGHT,
-		OTHER_TOP_LEFT, OTHER_TOP_RIGHT, OTHER_BOTTOM_LEFT, OTHER_BOTTOM_RIGHT,
-		DIAGONAL_FROM_TOP_LEFT, DIAGONAL_FROM_TOP_RIGHT
-	}
-
 	private int radius;
 	private int diameter;
 	private int margin;
@@ -257,5 +248,13 @@ public class RoundedCornersTransformation extends BitmapTransformation {
 	@Override
 	public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
 		messageDigest.update((ID + radius + diameter + margin + cornerType).getBytes(CHARSET));
+	}
+
+	public enum CornerType {
+		ALL,
+		TOP_LEFT, TOP_RIGHT, BOTTOM_LEFT, BOTTOM_RIGHT,
+		TOP, BOTTOM, LEFT, RIGHT,
+		OTHER_TOP_LEFT, OTHER_TOP_RIGHT, OTHER_BOTTOM_LEFT, OTHER_BOTTOM_RIGHT,
+		DIAGONAL_FROM_TOP_LEFT, DIAGONAL_FROM_TOP_RIGHT
 	}
 }

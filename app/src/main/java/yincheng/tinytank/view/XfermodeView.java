@@ -18,6 +18,7 @@ public class XfermodeView extends View {
 	private int screenW, screenH; //屏幕宽高
 	private Bitmap greenBitmap;
 	//源图和目标图宽高
+	private int hollowWidth = 400;
 
 	public XfermodeView(Context context) {
 		this(context, null);
@@ -58,8 +59,6 @@ public class XfermodeView extends View {
 		// 还原画布
 		canvas.restoreToCount(sc);
 	}
-
-	private int hollowWidth = 400;
 
 	public void invalidateCorner(int width) {
 		hollowWidth = width;

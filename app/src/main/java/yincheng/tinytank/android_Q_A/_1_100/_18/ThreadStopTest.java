@@ -16,11 +16,19 @@ import java.util.Vector;
 public final class ThreadStopTest implements Runnable {
 	private final Vector<Integer> vector = new Vector<Integer>(1000);
 
+	public static void main(String[] args) throws InterruptedException {
+		Thread thread = new Thread(new ThreadStopTest());
+		thread.start();
+		Thread.sleep(2000);
+		thread.stop();
+	}
+
 	public Vector<Integer> getVector() {
 		return vector;
 	}
 
-	@Override public synchronized void run() {
+	@Override
+	public synchronized void run() {
 		Random number = new Random(123L);
 		int i = vector.capacity();
 		while (i > 0) {
@@ -33,12 +41,5 @@ public final class ThreadStopTest implements Runnable {
 				e.printStackTrace();
 			}
 		}
-	}
-
-	public static void main(String[] args) throws InterruptedException {
-		Thread thread = new Thread(new ThreadStopTest());
-		thread.start();
-		Thread.sleep(2000);
-		thread.stop();
 	}
 }

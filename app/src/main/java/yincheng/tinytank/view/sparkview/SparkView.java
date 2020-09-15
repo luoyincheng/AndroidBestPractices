@@ -19,19 +19,14 @@ import java.util.Date;
  **/
 public class SparkView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
 
-	private static SurfaceHolder mHolder;
-
-	private Canvas mCanvas;
-
-	private boolean isRun;
-
-	private SparkManager sparkManager;
-
-	// 当前触摸点X，Y坐标
-	private double X, Y;
-
 	// 屏幕宽高
 	public static int WIDTH, HEIGHT;
+	private static SurfaceHolder mHolder;
+	private Canvas mCanvas;
+	private boolean isRun;
+	private SparkManager sparkManager;
+	// 当前触摸点X，Y坐标
+	private double X, Y;
 
 	public SparkView(Context context) {
 		super(context);

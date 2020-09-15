@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -43,15 +42,15 @@ import yincheng.tinytank.view.FontTextView;
 
 public abstract class GenericActivityWithRecyclerView<T extends Bundle> extends
 		SwipeBackActivity implements ShowResultDialogFragment.onDialogListener {
+	private final String TAG = getClass().getSimpleName();
 	@BindView(R.id.backHome)
 	public ImageView iv_backHome;
 	@BindView(R.id.toolbar_title)
 	public FontTextView toolbar_title;
-	private final String TAG = getClass().getSimpleName();
 	protected AppCompatActivity genericAppCompatActivityContext = this;
-	private Unbinder unbinder;
 	@BindView(R.id.rv_generic)
 	RecyclerView genericRecyclerView;
+	private Unbinder unbinder;
 	private ShowResultDialogFragment showResultDialogFragment;
 
 	private AtomicBoolean isMdPathAdded = new AtomicBoolean(false);
@@ -59,14 +58,13 @@ public abstract class GenericActivityWithRecyclerView<T extends Bundle> extends
 
 	private GenericAdapter genericAdapter;
 	private List<GenericItemHolder> genericItemHolders = getGenericItemHolders();
-
-	protected abstract List<GenericItemHolder> getGenericItemHolders();
-
 	private T resultData = fillResultData();
 	private Handler mHandler;
 	private Intent intent;
 	private ResultDialog resultDialog;
 	private BaseDialog baseDialog;
+
+	protected abstract List<GenericItemHolder> getGenericItemHolders();
 
 	protected T fillResultData() {
 		return (T) new Bundle();// TODO: 2018/4/5

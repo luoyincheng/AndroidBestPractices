@@ -27,52 +27,42 @@ import yincheng.tinytank.sourcecode.swipeback.app.SwipeBackListenerActivityAdapt
  */
 public class SwipeBackLayout extends FrameLayout {
 	/**
-	 * Minimum velocity that will be detected as a fling
-	 */
-	private static final int MIN_FLING_VELOCITY = 400; // dips per second
-
-	private static final int DEFAULT_SCRIM_COLOR = 0x99000000;
-
-	private static final int FULL_ALPHA = 255;
-
-	/**
 	 * Edge flag indicating that the left edge should be affected.
 	 */
 	public static final int EDGE_LEFT = ViewDragHelper.EDGE_LEFT;
-
 	/**
 	 * Edge flag indicating that the right edge should be affected.
 	 */
 	public static final int EDGE_RIGHT = ViewDragHelper.EDGE_RIGHT;
-
 	/**
 	 * Edge flag indicating that the bottom edge should be affected.
 	 */
 	public static final int EDGE_BOTTOM = ViewDragHelper.EDGE_BOTTOM;
-
 	/**
 	 * Edge flag set indicating all edges should be affected.
 	 */
 	public static final int EDGE_ALL = EDGE_LEFT | EDGE_RIGHT | EDGE_BOTTOM;
-
 	/**
 	 * A view is not currently being dragged or animating as a result of a
 	 * fling/snap.
 	 */
 	public static final int STATE_IDLE = ViewDragHelper.STATE_IDLE;
-
 	/**
 	 * A view is currently being dragged. The position is currently changing as
 	 * a result of user input or simulated user input.
 	 */
 	public static final int STATE_DRAGGING = ViewDragHelper.STATE_DRAGGING;
-
 	/**
 	 * A view is currently settling into place as a result of a fling or
 	 * predefined non-interactive motion.
 	 */
 	public static final int STATE_SETTLING = ViewDragHelper.STATE_SETTLING;
-
+	/**
+	 * Minimum velocity that will be detected as a fling
+	 */
+	private static final int MIN_FLING_VELOCITY = 400; // dips per second
+	private static final int DEFAULT_SCRIM_COLOR = 0x99000000;
+	private static final int FULL_ALPHA = 255;
 	/**
 	 * Default threshold of scroll
 	 */
@@ -253,21 +243,6 @@ public class SwipeBackLayout extends FrameLayout {
 			mListeners.remove(listener);
 	}
 
-	public interface SwipeListener {
-		void onScrollStateChanged(int state, float scrollPercent);
-
-		void onEdgeTouched(int edgeFlag);
-
-		/**
-		 * Invoke when scroll percent over the threshold for the first time
-		 */
-		void onScrollOverThreshold();
-	}
-
-	public interface SwipeListenerEx extends SwipeListener {
-		void onContentViewSwipedBack();
-	}
-
 	public void setScrollThresHold(float threshold) {
 		if (threshold >= 1.0f || threshold <= 0) {
 			throw new IllegalArgumentException("Threshold value should be between 0 and 1.0");
@@ -441,6 +416,21 @@ public class SwipeBackLayout extends FrameLayout {
 		if (mDragHelper.continueSettling(true)) {
 			ViewCompat.postInvalidateOnAnimation(this);
 		}
+	}
+
+	public interface SwipeListener {
+		void onScrollStateChanged(int state, float scrollPercent);
+
+		void onEdgeTouched(int edgeFlag);
+
+		/**
+		 * Invoke when scroll percent over the threshold for the first time
+		 */
+		void onScrollOverThreshold();
+	}
+
+	public interface SwipeListenerEx extends SwipeListener {
+		void onContentViewSwipedBack();
 	}
 
 	private class ViewDragCallback extends ViewDragHelper.Callback {

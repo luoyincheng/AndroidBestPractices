@@ -437,12 +437,20 @@ public class SmartisanRefreshableLayout extends LinearLayout {
 		updateAllView(mCurrentStatus, mHeaderHeight, mAnimatorDistance);
 	}
 
+	private boolean isEqualZero(float floatValue) {
+		if (floatValue < ZERO_FOR_COMPARE && floatValue > -ZERO_FOR_COMPARE) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+
 	private static interface UpdateHeaderViewCallback {
 		public void onAnimationUpdate(float animatorValue);
 
 		public void onAnimationEnd();
 	}
-
 
 	public interface PullToRefreshListener {
 		public void onRefresh();
@@ -470,14 +478,6 @@ public class SmartisanRefreshableLayout extends LinearLayout {
 			if (mListener != null) {
 				mListener.onRefreshFinished();
 			}
-		}
-	}
-
-	private boolean isEqualZero(float floatValue) {
-		if (floatValue < ZERO_FOR_COMPARE && floatValue > -ZERO_FOR_COMPARE) {
-			return true;
-		} else {
-			return false;
 		}
 	}
 }

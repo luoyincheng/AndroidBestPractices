@@ -16,6 +16,9 @@ public class PathView extends BaseView {
 	private Path mPath;
 	private int bezierMarginTop = 250;//最高点距离顶部的距离
 	private int thirdPointY;
+	private float downY;
+	private float nowY;
+	private float preY;
 
 	public PathView(Context context) {
 		this(context, null);
@@ -60,10 +63,6 @@ public class PathView extends BaseView {
 		mPath.close();
 		canvas.drawPath(mPath, mPaint);
 	}
-
-	private float downY;
-	private float nowY;
-	private float preY;
 
 	public void answerFinger(MotionEvent event) {
 		switch (event.getAction()) {

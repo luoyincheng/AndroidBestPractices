@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+   android:layout_width="match_parent"
+   android:layout_height="match_parent">
 
-    <yincheng.tinytank.android_Q_A._1_100._35.SolidRatioView
-        android:layout_width="500dp"
-        android:layout_height="800dp"
-        android:background="@android:color/background_dark" />
+   <yincheng.tinytank.android_Q_A._1_100._35.SolidRatioView
+      android:layout_width="500dp"
+      android:layout_height="800dp"
+      android:background="@android:color/background_dark" />
 
 </FrameLayout>

@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+   xmlns:app="http://schemas.android.com/apk/res-auto"
+   android:layout_width="match_parent"
+   android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_download_single_thread"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="单线程下载"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/btn_cancel_download" />
+   <Button
+      android:id="@+id/btn_download_single_thread"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:text="单线程下载"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toLeftOf="@+id/btn_cancel_download" />
 
-    <Button
-        android:id="@+id/btn_cancel_download"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text="取消下载"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/btn_download_single_thread"
-        app:layout_constraintRight_toLeftOf="@+id/btn_download_multi_thread" />
+   <Button
+      android:id="@+id/btn_cancel_download"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:text="取消下载"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintLeft_toRightOf="@+id/btn_download_single_thread"
+      app:layout_constraintRight_toLeftOf="@+id/btn_download_multi_thread" />
 
-    <Button
-        android:id="@+id/btn_download_multi_thread"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:text="多线程下载"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/btn_cancel_download"
-        app:layout_constraintRight_toRightOf="parent" />
+   <Button
+      android:id="@+id/btn_download_multi_thread"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:text="多线程下载"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintLeft_toRightOf="@+id/btn_cancel_download"
+      app:layout_constraintRight_toRightOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_show"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textColor="@android:color/black"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/btn_download_multi_thread"
-        app:layout_constraintTop_toTopOf="parent" />
+   <TextView
+      android:id="@+id/tv_show"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:textColor="@android:color/black"
+      android:textSize="16dp"
+      app:layout_constraintBottom_toTopOf="@+id/btn_download_multi_thread"
+      app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

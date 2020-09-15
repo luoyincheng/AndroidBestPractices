@@ -14,6 +14,7 @@ import java.util.Random;
  */
 public class CoffeeGenerator implements Generator<Coffee>, Iterable<Coffee> {
 
+	private static Random random = new Random(47);
 	private Class[] coffeeTypes = new Class[]{
 			Latte.class,
 			Mocha.class,
@@ -21,16 +22,26 @@ public class CoffeeGenerator implements Generator<Coffee>, Iterable<Coffee> {
 			Americano.class,
 			Breve.class
 	};
-
-	private static Random random = new Random(47);
+	private int size = 0;
 
 	public CoffeeGenerator() {
 	}
 
-	private int size = 0;
-
 	public CoffeeGenerator(int sz) {
 		size = sz;
+	}
+
+	public static void main(String[] args) {
+		CoffeeGenerator coffeeGenerator = new CoffeeGenerator();
+		for (int i = 0; i < 5; i++) {
+			System.out.println(coffeeGenerator.next());
+		}
+
+		/**
+		 * 之所以这个for语句有效是因为CoffeeGenerator实现了iterable接口
+		 */
+		for (Coffee coffee : new CoffeeGenerator(5))
+			System.out.println(coffee);
 	}
 
 	@Override
@@ -40,6 +51,10 @@ public class CoffeeGenerator implements Generator<Coffee>, Iterable<Coffee> {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public CoffeeIterator iterator() {
+		return new CoffeeIterator();
 	}
 
 	class CoffeeIterator implements Iterator<Coffee> {
@@ -59,22 +74,5 @@ public class CoffeeGenerator implements Generator<Coffee>, Iterable<Coffee> {
 		public void remove() {
 			throw new UnsupportedOperationException();
 		}
-	}
-
-	public CoffeeIterator iterator() {
-		return new CoffeeIterator();
-	}
-
-	public static void main(String[] args) {
-		CoffeeGenerator coffeeGenerator = new CoffeeGenerator();
-		for (int i = 0; i < 5; i++) {
-			System.out.println(coffeeGenerator.next());
-		}
-
-		/**
-		 * 之所以这个for语句有效是因为CoffeeGenerator实现了iterable接口
-		 */
-		for (Coffee coffee : new CoffeeGenerator(5))
-			System.out.println(coffee);
 	}
 }

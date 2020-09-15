@@ -1,13 +1,11 @@
 package yincheng.tinytank.algorithm.leetcode._401_500
 
-import yincheng.tinytank.algorithm.AlgorithmUtil.printArray
-
 
 fun main() {
 //    val data = intArrayOf(4, 3, 2, 7, 8, 2, 3, 1)
 //    val data = intArrayOf(2,2)
-    val data = intArrayOf(5, 4, 6, 7, 9, 3, 10, 9, 5, 6)
-    println(findDuplicates(data))
+   val data = intArrayOf(5, 4, 6, 7, 9, 3, 10, 9, 5, 6)
+   println(findDuplicates(data))
 }
 
 /**
@@ -22,11 +20,11 @@ fun main() {
  * [2,3]
  */
 fun findDuplicates(nums: IntArray): List<Int> {
-    val result = ArrayList<Int>()
-    nums.forEachIndexed { index, i ->
-        if (nums[i - 1] != 0) {
+   val result = ArrayList<Int>()
+   nums.forEachIndexed { index, i ->
+      if (nums[i - 1] != 0) {
 
-        }
+      }
 //        if (i != 0 && nums[i - 1] != 0) {
 //            if (i != -1) {
 //                if (nums[i - 1] == -1) {
@@ -46,6 +44,6 @@ fun findDuplicates(nums: IntArray): List<Int> {
 //            }
 //        }
 //        println(printArray(nums))
-    }
-    return result
+   }
+   return result
 }

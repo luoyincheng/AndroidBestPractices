@@ -27,19 +27,42 @@ public class MatrixImageView extends AppCompatImageView {
 	private static final float MIN_SCALE_FACTOR = 1.0f; // 默认最小缩放比例为0.3
 	private static final float INIT_SCALE_FACTOR = 1.2f; // 默认适应控件大小后的初始化缩放比例
 	private static final int DEFAULT_REVERT_DURATION = 300;
-
+	private static final int SCALE_BY_IMAGE_CENTER = 0; // 以图片中心为缩放中心
+	private static final int SCALE_BY_FINGER_MID_POINT = 1; // 以所有手指的中点为缩放中心
+	private static final int HORIZONTAL = 0;
+	private static final int VERTICAL = 1;
+	protected Matrix mMatrix = new Matrix(); // 用于图片旋转、平移、缩放的矩阵
+	protected RectF mImageRect = new RectF(); // 保存图片所在区域矩形，坐标为相对于本View的坐标
+	protected PointF mLastMidPoint = new PointF(); // 图片平移时记录上一次ACTION_MOVE的点
+	protected boolean mCanDrag = false; // 是否可以平移
+	protected boolean isTransforming = false; // 图片是否正在变化
 	private int mRevertDuration = DEFAULT_REVERT_DURATION; // 回弹动画时间
 	private float mMaxScaleFactor = MAX_SCALE_FACTOR; // 最大缩放比例
 	private float mMinScaleFactor = UNSPECIFIED_SCALE_FACTOR; // 此最小缩放比例优先级高于下面两个
 	private float mVerticalMinScaleFactor = MIN_SCALE_FACTOR; // 图片最初的最小缩放比例
 	private float mHorizontalMinScaleFactor = MIN_SCALE_FACTOR; // 图片旋转90（或-90）度后的的最小缩放比例
-	protected Matrix mMatrix = new Matrix(); // 用于图片旋转、平移、缩放的矩阵
-	protected RectF mImageRect = new RectF(); // 保存图片所在区域矩形，坐标为相对于本View的坐标
 	private boolean mOpenScaleRevert = false; // 是否开启缩放回弹
 	private boolean mOpenRotateRevert = false; // 是否开启旋转回弹
 	private boolean mOpenTranslateRevert = false; // 是否开启平移回弹
 	private boolean mOpenAnimator = false; // 是否开启动画
-
+	private PaintFlagsDrawFilter mDrawFilter =
+			new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
+	private PointF mLastPoint1 = new PointF(); // 上次事件的第一个触点
+	private PointF mLastPoint2 = new PointF(); // 上次事件的第二个触点
+	private PointF mCurrentPoint1 = new PointF(); // 本次事件的第一个触点
+	private PointF mCurrentPoint2 = new PointF(); // 本次事件的第二个触点
+	private float mScaleFactor = 1.0f; // 当前的缩放倍数
+	private boolean mCanScale = false; // 是否可以缩放
+	private PointF mCurrentMidPoint = new PointF(); // 当前各触点的中点
+	private PointF mLastVector = new PointF(); // 记录上一次触摸事件两指所表示的向量
+	private PointF mCurrentVector = new PointF(); // 记录当前触摸事件两指所表示的向量
+	private boolean mCanRotate = false; // 判断是否可以旋转
+	private MatrixRevertAnimator mRevertAnimator = new MatrixRevertAnimator(); // 回弹动画
+	private float[] mFromMatrixValue = new float[9]; // 动画初始时矩阵值
+	private float[] mToMatrixValue = new float[9]; // 动画终结时矩阵值
+	private int mScaleBy = SCALE_BY_IMAGE_CENTER;
+	private PointF scaleCenter = new PointF();
+	private float[] xAxis = new float[]{1f, 0f}; // 表示与x轴同方向的向量
 
 	public MatrixImageView(Context context) {
 		this(context, null);
@@ -124,35 +147,11 @@ public class MatrixImageView extends AppCompatImageView {
 		}
 	}
 
-	private PaintFlagsDrawFilter mDrawFilter =
-			new PaintFlagsDrawFilter(0, Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
-
 	@Override
 	protected void onDraw(Canvas canvas) {
 		canvas.setDrawFilter(mDrawFilter);
 		super.onDraw(canvas);
 	}
-
-	private PointF mLastPoint1 = new PointF(); // 上次事件的第一个触点
-	private PointF mLastPoint2 = new PointF(); // 上次事件的第二个触点
-	private PointF mCurrentPoint1 = new PointF(); // 本次事件的第一个触点
-	private PointF mCurrentPoint2 = new PointF(); // 本次事件的第二个触点
-	private float mScaleFactor = 1.0f; // 当前的缩放倍数
-	private boolean mCanScale = false; // 是否可以缩放
-
-	protected PointF mLastMidPoint = new PointF(); // 图片平移时记录上一次ACTION_MOVE的点
-	private PointF mCurrentMidPoint = new PointF(); // 当前各触点的中点
-	protected boolean mCanDrag = false; // 是否可以平移
-
-	private PointF mLastVector = new PointF(); // 记录上一次触摸事件两指所表示的向量
-	private PointF mCurrentVector = new PointF(); // 记录当前触摸事件两指所表示的向量
-	private boolean mCanRotate = false; // 判断是否可以旋转
-
-	private MatrixRevertAnimator mRevertAnimator = new MatrixRevertAnimator(); // 回弹动画
-	private float[] mFromMatrixValue = new float[9]; // 动画初始时矩阵值
-	private float[] mToMatrixValue = new float[9]; // 动画终结时矩阵值
-
-	protected boolean isTransforming = false; // 图片是否正在变化
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
@@ -276,11 +275,6 @@ public class MatrixImageView extends AppCompatImageView {
 		return mCurrentMidPoint;
 	}
 
-	private static final int SCALE_BY_IMAGE_CENTER = 0; // 以图片中心为缩放中心
-	private static final int SCALE_BY_FINGER_MID_POINT = 1; // 以所有手指的中点为缩放中心
-	private int mScaleBy = SCALE_BY_IMAGE_CENTER;
-	private PointF scaleCenter = new PointF();
-
 	/**
 	 * 获取图片的缩放中心，该属性可在外部设置，或通过xml文件设置
 	 * 默认中心点为图片中心
@@ -350,8 +344,6 @@ public class MatrixImageView extends AppCompatImageView {
 		mMatrix.postRotate(degree - currentDegree, mImageRect.centerX(), mImageRect.centerY());
 	}
 
-	private float[] xAxis = new float[]{1f, 0f}; // 表示与x轴同方向的向量
-
 	/**
 	 * 获取当前图片旋转角度
 	 *
@@ -394,9 +386,6 @@ public class MatrixImageView extends AppCompatImageView {
 		mMatrix.postScale(scaleFactor, scaleFactor, scaleCenter.x, scaleCenter.y);
 		mScaleFactor *= scaleFactor;
 	}
-
-	private static final int HORIZONTAL = 0;
-	private static final int VERTICAL = 1;
 
 	/**
 	 * 判断图片当前是水平还是垂直
@@ -473,6 +462,12 @@ public class MatrixImageView extends AppCompatImageView {
 
 	//-----Aninmator-------------------
 
+	public void setmMaxScaleFactor(float mMaxScaleFactor) {
+		this.mMaxScaleFactor = mMaxScaleFactor;
+	}
+
+	//-------getter and setter---------
+
 	/**
 	 * 图片回弹动画
 	 */
@@ -517,11 +512,5 @@ public class MatrixImageView extends AppCompatImageView {
 			}
 		}
 
-	}
-
-	//-------getter and setter---------
-
-	public void setmMaxScaleFactor(float mMaxScaleFactor) {
-		this.mMaxScaleFactor = mMaxScaleFactor;
 	}
 }

@@ -30,27 +30,33 @@ import java.util.concurrent.TimeUnit;
 final class IGapWorker implements Runnable {
 
 	static final ThreadLocal<IGapWorker> sGapWorker = new ThreadLocal<>();
+	static Comparator<Task> sTaskComparator = new Comparator<Task>() {
+		@Override
+		public int compare(Task lhs, Task rhs) {
+			// first, prioritize non-cleared tasks
+			if ((lhs.view == null) != (rhs.view == null)) {
+				return lhs.view == null ? 1 : -1;
+			}
 
+			// then prioritize immediate
+			if (lhs.immediate != rhs.immediate) {
+				return lhs.immediate ? -1 : 1;
+			}
+
+			// then prioritize _highest_ view velocity
+			int deltaViewVelocity = rhs.viewVelocity - lhs.viewVelocity;
+			if (deltaViewVelocity != 0) return deltaViewVelocity;
+
+			// then prioritize _lowest_ distance to item
+			int deltaDistanceToItem = lhs.distanceToItem - rhs.distanceToItem;
+			if (deltaDistanceToItem != 0) return deltaDistanceToItem;
+
+			return 0;
+		}
+	};
 	ArrayList<IRecyclerView> mIRecyclerViews = new ArrayList<>();
 	long mPostTimeNs;
 	long mFrameIntervalNs;
-
-	static class Task {
-		public boolean immediate;
-		public int viewVelocity;
-		public int distanceToItem;
-		public IRecyclerView view;
-		public int position;
-
-		public void clear() {
-			immediate = false;
-			viewVelocity = 0;
-			distanceToItem = 0;
-			view = null;
-			position = 0;
-		}
-	}
-
 	/**
 	 * Temporary storage for prefetch Tasks that execute in {@link #prefetch(long)}. Task objects
 	 * are pooled in the ArrayList, and never removed to avoid allocations, but always cleared
@@ -58,101 +64,17 @@ final class IGapWorker implements Runnable {
 	 */
 	private ArrayList<Task> mTasks = new ArrayList<>();
 
-	/**
-	 * Prefetch information associated with a specific RecyclerView.
-	 */
-	static class LayoutPrefetchRegistryImpl
-			implements IRecyclerView.LayoutManager.LayoutPrefetchRegistry {
-		int mPrefetchDx;
-		int mPrefetchDy;
-		int[] mPrefetchArray;
-
-		int mCount;
-
-		void setPrefetchVector(int dx, int dy) {
-			mPrefetchDx = dx;
-			mPrefetchDy = dy;
-		}
-
-		void collectPrefetchPositionsFromView(IRecyclerView view, boolean nested) {
-			mCount = 0;
-			if (mPrefetchArray != null) {
-				Arrays.fill(mPrefetchArray, -1);
-			}
-
-			final IRecyclerView.LayoutManager layout = view.mLayout;
-			if (view.mAdapter != null
-					&& layout != null
-					&& layout.isItemPrefetchEnabled()) {
-				if (nested) {
-					// nested prefetch, only if no adapter updates pending. Note: we don't query
-					// view.hasPendingAdapterUpdates(), as first layout may not have occurred
-					if (!view.mIAdapterHelper.hasPendingUpdates()) {
-						layout.collectInitialPrefetchPositions(view.mAdapter.getItemCount(), this);
-					}
-				} else {
-					// momentum based prefetch, only if we trust current child/adapter state
-					if (!view.hasPendingAdapterUpdates()) {
-						layout.collectAdjacentPrefetchPositions(mPrefetchDx, mPrefetchDy,
-								view.mState, this);
-					}
-				}
-
-				if (mCount > layout.mPrefetchMaxCountObserved) {
-					layout.mPrefetchMaxCountObserved = mCount;
-					layout.mPrefetchMaxObservedInInitialPrefetch = nested;
-					view.mRecycler.updateViewCacheSize();
-				}
+	static boolean isPrefetchPositionAttached(IRecyclerView view, int position) {
+		final int childCount = view.mIChildHelper.getUnfilteredChildCount();
+		for (int i = 0; i < childCount; i++) {
+			View attachedView = view.mIChildHelper.getUnfilteredChildAt(i);
+			IRecyclerView.ViewHolder holder = IRecyclerView.getChildViewHolderInt(attachedView);
+			// Note: can use mPosition here because adapter doesn't have pending updates
+			if (holder.mPosition == position && !holder.isInvalid()) {
+				return true;
 			}
 		}
-
-		@Override
-		public void addPosition(int layoutPosition, int pixelDistance) {
-			if (layoutPosition < 0) {
-				throw new IllegalArgumentException("Layout positions must be non-negative");
-			}
-
-			if (pixelDistance < 0) {
-				throw new IllegalArgumentException("Pixel distance must be non-negative");
-			}
-
-			// allocate or expand array as needed, doubling when needed
-			final int storagePosition = mCount * 2;
-			if (mPrefetchArray == null) {
-				mPrefetchArray = new int[4];
-				Arrays.fill(mPrefetchArray, -1);
-			} else if (storagePosition >= mPrefetchArray.length) {
-				final int[] oldArray = mPrefetchArray;
-				mPrefetchArray = new int[storagePosition * 2];
-				System.arraycopy(oldArray, 0, mPrefetchArray, 0, oldArray.length);
-			}
-
-			// sell position
-			mPrefetchArray[storagePosition] = layoutPosition;
-			mPrefetchArray[storagePosition + 1] = pixelDistance;
-
-			mCount++;
-		}
-
-		boolean lastPrefetchIncludedPosition(int position) {
-			if (mPrefetchArray != null) {
-				final int count = mCount * 2;
-				for (int i = 0; i < count; i += 2) {
-					if (mPrefetchArray[i] == position) return true;
-				}
-			}
-			return false;
-		}
-
-		/**
-		 * Called when prefetch indices are no longer valid for cache prioritization.
-		 */
-		void clearPrefetchPositions() {
-			if (mPrefetchArray != null) {
-				Arrays.fill(mPrefetchArray, -1);
-			}
-			mCount = 0;
-		}
+		return false;
 	}
 
 	public void add(IRecyclerView IRecyclerView) {
@@ -185,31 +107,6 @@ final class IGapWorker implements Runnable {
 
 		IRecyclerView.mPrefetchRegistry.setPrefetchVector(prefetchDx, prefetchDy);
 	}
-
-	static Comparator<Task> sTaskComparator = new Comparator<Task>() {
-		@Override
-		public int compare(Task lhs, Task rhs) {
-			// first, prioritize non-cleared tasks
-			if ((lhs.view == null) != (rhs.view == null)) {
-				return lhs.view == null ? 1 : -1;
-			}
-
-			// then prioritize immediate
-			if (lhs.immediate != rhs.immediate) {
-				return lhs.immediate ? -1 : 1;
-			}
-
-			// then prioritize _highest_ view velocity
-			int deltaViewVelocity = rhs.viewVelocity - lhs.viewVelocity;
-			if (deltaViewVelocity != 0) return deltaViewVelocity;
-
-			// then prioritize _lowest_ distance to item
-			int deltaDistanceToItem = lhs.distanceToItem - rhs.distanceToItem;
-			if (deltaDistanceToItem != 0) return deltaDistanceToItem;
-
-			return 0;
-		}
-	};
 
 	private void buildTaskList() {
 		// Update PrefetchRegistry in each view
@@ -258,19 +155,6 @@ final class IGapWorker implements Runnable {
 
 		// ... and priority sort
 		Collections.sort(mTasks, sTaskComparator);
-	}
-
-	static boolean isPrefetchPositionAttached(IRecyclerView view, int position) {
-		final int childCount = view.mIChildHelper.getUnfilteredChildCount();
-		for (int i = 0; i < childCount; i++) {
-			View attachedView = view.mIChildHelper.getUnfilteredChildAt(i);
-			IRecyclerView.ViewHolder holder = IRecyclerView.getChildViewHolderInt(attachedView);
-			// Note: can use mPosition here because adapter doesn't have pending updates
-			if (holder.mPosition == position && !holder.isInvalid()) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	private IRecyclerView.ViewHolder prefetchPositionWithDeadline(IRecyclerView view,
@@ -401,6 +285,119 @@ final class IGapWorker implements Runnable {
 		} finally {
 			mPostTimeNs = 0;
 			TraceCompat.endSection();
+		}
+	}
+
+	static class Task {
+		public boolean immediate;
+		public int viewVelocity;
+		public int distanceToItem;
+		public IRecyclerView view;
+		public int position;
+
+		public void clear() {
+			immediate = false;
+			viewVelocity = 0;
+			distanceToItem = 0;
+			view = null;
+			position = 0;
+		}
+	}
+
+	/**
+	 * Prefetch information associated with a specific RecyclerView.
+	 */
+	static class LayoutPrefetchRegistryImpl
+			implements IRecyclerView.LayoutManager.LayoutPrefetchRegistry {
+		int mPrefetchDx;
+		int mPrefetchDy;
+		int[] mPrefetchArray;
+
+		int mCount;
+
+		void setPrefetchVector(int dx, int dy) {
+			mPrefetchDx = dx;
+			mPrefetchDy = dy;
+		}
+
+		void collectPrefetchPositionsFromView(IRecyclerView view, boolean nested) {
+			mCount = 0;
+			if (mPrefetchArray != null) {
+				Arrays.fill(mPrefetchArray, -1);
+			}
+
+			final IRecyclerView.LayoutManager layout = view.mLayout;
+			if (view.mAdapter != null
+					&& layout != null
+					&& layout.isItemPrefetchEnabled()) {
+				if (nested) {
+					// nested prefetch, only if no adapter updates pending. Note: we don't query
+					// view.hasPendingAdapterUpdates(), as first layout may not have occurred
+					if (!view.mIAdapterHelper.hasPendingUpdates()) {
+						layout.collectInitialPrefetchPositions(view.mAdapter.getItemCount(), this);
+					}
+				} else {
+					// momentum based prefetch, only if we trust current child/adapter state
+					if (!view.hasPendingAdapterUpdates()) {
+						layout.collectAdjacentPrefetchPositions(mPrefetchDx, mPrefetchDy,
+								view.mState, this);
+					}
+				}
+
+				if (mCount > layout.mPrefetchMaxCountObserved) {
+					layout.mPrefetchMaxCountObserved = mCount;
+					layout.mPrefetchMaxObservedInInitialPrefetch = nested;
+					view.mRecycler.updateViewCacheSize();
+				}
+			}
+		}
+
+		@Override
+		public void addPosition(int layoutPosition, int pixelDistance) {
+			if (layoutPosition < 0) {
+				throw new IllegalArgumentException("Layout positions must be non-negative");
+			}
+
+			if (pixelDistance < 0) {
+				throw new IllegalArgumentException("Pixel distance must be non-negative");
+			}
+
+			// allocate or expand array as needed, doubling when needed
+			final int storagePosition = mCount * 2;
+			if (mPrefetchArray == null) {
+				mPrefetchArray = new int[4];
+				Arrays.fill(mPrefetchArray, -1);
+			} else if (storagePosition >= mPrefetchArray.length) {
+				final int[] oldArray = mPrefetchArray;
+				mPrefetchArray = new int[storagePosition * 2];
+				System.arraycopy(oldArray, 0, mPrefetchArray, 0, oldArray.length);
+			}
+
+			// sell position
+			mPrefetchArray[storagePosition] = layoutPosition;
+			mPrefetchArray[storagePosition + 1] = pixelDistance;
+
+			mCount++;
+		}
+
+		boolean lastPrefetchIncludedPosition(int position) {
+			if (mPrefetchArray != null) {
+				final int count = mCount * 2;
+				for (int i = 0; i < count; i += 2) {
+					if (mPrefetchArray[i] == position) return true;
+				}
+			}
+			return false;
+		}
+
+		/**
+		 * Called when prefetch indices are no longer valid for cache prioritization.
+		 */
+		void clearPrefetchPositions() {
+			if (mPrefetchArray != null) {
+				Arrays.fill(mPrefetchArray, -1);
+			}
+			mCount = 0;
 		}
 	}
 }

@@ -18,6 +18,7 @@ import yincheng.tinytank.R;
 public class MessengerActivity extends AppCompatActivity {
 	public static final int MSG_FROM_CLIENT = 1000;
 	public static final int MSG_FROM_SERVICE = 1001;
+	private final Messenger getReplyMessenger = new Messenger(new MessengerHandler());
 	private Messenger clientMessenger;
 	private ServiceConnection messengerServiceConnection = new ServiceConnection() {
 		@Override
@@ -41,20 +42,6 @@ public class MessengerActivity extends AppCompatActivity {
 		public void onServiceDisconnected(ComponentName name) {
 		}
 	};
-	private final Messenger getReplyMessenger = new Messenger(new MessengerHandler());
-
-	private static class MessengerHandler extends Handler {
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case MessengerActivity.MSG_FROM_SERVICE:
-					//5、服务端回复消息给客户端，客户端接送消息
-					Log.d("wxl", "msg=" + msg.getData().getString("msg"));
-					break;
-			}
-			super.handleMessage(msg);
-		}
-	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -83,10 +70,6 @@ public class MessengerActivity extends AppCompatActivity {
 		});
 	}
 
-	interface callable {
-		void callback(String str);
-	}
-
 	private void startTaskThread(callable callable) {
 		new Thread(new Runnable() {
 			@Override
@@ -104,8 +87,24 @@ public class MessengerActivity extends AppCompatActivity {
 		}).start();
 	}
 
-
 	private boolean isMainThread() {
 		return Looper.getMainLooper() == Looper.myLooper();
+	}
+
+	interface callable {
+		void callback(String str);
+	}
+
+	private static class MessengerHandler extends Handler {
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case MessengerActivity.MSG_FROM_SERVICE:
+					//5、服务端回复消息给客户端，客户端接送消息
+					Log.d("wxl", "msg=" + msg.getData().getString("msg"));
+					break;
+			}
+			super.handleMessage(msg);
+		}
 	}
 }

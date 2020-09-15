@@ -1,17 +1,9 @@
 package yincheng.tinytank;
 
 import android.app.Application;
-import android.view.View;
-
-import androidx.lifecycle.LiveData;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.Set;
 
 import yincheng.tinytank.provider.adapter.Utils;
 import yincheng.tinytank.provider.helper.TypefaceHelper;
@@ -24,6 +16,7 @@ import yincheng.tinytank.provider.helper.TypefaceHelper;
 
 public class App extends Application {
 	private static App instance;
+
 	public static App getInstance() {
 		return instance;
 	}

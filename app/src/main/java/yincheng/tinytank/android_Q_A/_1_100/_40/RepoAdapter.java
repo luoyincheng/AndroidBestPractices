@@ -29,7 +29,7 @@ public class RepoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 		return super.getItemViewType(position);
 	}
 
-	public static class InnerViewHolder extends RecyclerView.ViewHolder{
+	public static class InnerViewHolder extends RecyclerView.ViewHolder {
 
 		public InnerViewHolder(@NonNull View itemView) {
 			super(itemView);

@@ -18,108 +18,18 @@ import androidx.customview.widget.ViewDragHelper;
  */
 public class SwipeLayout extends FrameLayout {
 
+	float touchSlop;
+	float downX, downY;
+	long downTime;
 	private View contentView;
 	private View deleteView;
 	private int contentWidth;
 	private int deleteWidth;
 	private ViewDragHelper dragHelper;
 	private int dragWidth;
-
 	private int STATE_OPEN = 0;
 	private int STATE_CLOSE = 1;
 	private int mState = STATE_CLOSE;
-	float touchSlop;
-
-	public SwipeLayout(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		init();
-	}
-
-
-	private void init() {
-
-		dragHelper = ViewDragHelper.create(this, callback);
-		// 获取系统认为的滑动的临界值
-		touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-	}
-
-	/**
-	 * 将拦截事件交给ViewDragHelper处理
-	 */
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		// 这里只是为了保证onTouchEvent可以执行
-		if (!SwipeLayoutManager.getInstance().isCouldSwipe(SwipeLayout.this)) {
-			return true;
-		}
-		return dragHelper.shouldInterceptTouchEvent(ev);
-	}
-
-
-	float downX, downY;
-	long downTime;
-
-	/**
-	 * 将触摸事件交给ViewDragHelper处理
-	 */
-	@Override
-	public boolean onTouchEvent(MotionEvent event) {
-		// SwipeLayout不可以侧滑时，关闭已经打开的SwipeLayout
-		if (!SwipeLayoutManager.getInstance().isCouldSwipe(SwipeLayout.this)) {
-			SwipeLayoutManager.getInstance().closeOpenInstance();
-			return false;  // 这里返回true崩溃什么鬼 。
-		}
-
-		switch (event.getAction()) {
-
-			case MotionEvent.ACTION_DOWN:
-				downX = event.getX();
-				downY = event.getY();
-				// 记录按下的时间
-				downTime = System.currentTimeMillis();
-				break;
-			case MotionEvent.ACTION_MOVE:
-
-				float moveX = event.getX();
-				float moveY = event.getY();
-
-				// 水平滑动,不让listView拦截事件
-				if (Math.abs(moveY - downY) < Math.abs(moveX - downX)) {
-					// 请求父View不拦截事件
-					requestDisallowInterceptTouchEvent(true);
-				}
-
-				break;
-			case MotionEvent.ACTION_UP:
-				// 记录抬起的时间点
-				long upTime = System.currentTimeMillis();
-				// 计算抬起的坐标
-				float upX = event.getX();
-				float upY = event.getY();
-				// 计算按下和抬起的时间差
-				long touchDuration = upTime - downTime;
-				// 计算按下点和抬起点的距离
-				float touchD = getDistanceBetween2Points(new PointF(downX, downY), new PointF(upX, upY));
-
-				// 模拟点击事件
-				if (touchDuration < 400 && touchD < touchSlop) {
-					// 打开状态则关闭，否则执行点击事件
-					if (SwipeLayoutManager.getInstance().isOpenInstance(SwipeLayout.this)) {
-						SwipeLayoutManager.getInstance().closeOpenInstance();
-					} else {
-						if (listener != null) {
-							listener.onClick();
-						}
-					}
-
-				}
-				break;
-		}
-
-		dragHelper.processTouchEvent(event);
-		return true;
-	}
-
 	ViewDragHelper.Callback callback = new ViewDragHelper.Callback() {
 
 		/** 确定需要触摸的View */
@@ -200,6 +110,103 @@ public class SwipeLayout extends FrameLayout {
 			}
 		}
 	};
+	private OnSwipeLayoutClickListener listener;
+
+	public SwipeLayout(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		init();
+	}
+
+	/**
+	 * 获得两点之间的距离
+	 *
+	 * @param p0
+	 * @param p1
+	 * @return
+	 */
+	public static float getDistanceBetween2Points(PointF p0, PointF p1) {
+		return (float) Math.sqrt(Math.pow(p0.y - p1.y, 2) + Math.pow(p0.x - p1.x, 2));
+	}
+
+	private void init() {
+
+		dragHelper = ViewDragHelper.create(this, callback);
+		// 获取系统认为的滑动的临界值
+		touchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+	}
+
+	/**
+	 * 将拦截事件交给ViewDragHelper处理
+	 */
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		// 这里只是为了保证onTouchEvent可以执行
+		if (!SwipeLayoutManager.getInstance().isCouldSwipe(SwipeLayout.this)) {
+			return true;
+		}
+		return dragHelper.shouldInterceptTouchEvent(ev);
+	}
+
+	/**
+	 * 将触摸事件交给ViewDragHelper处理
+	 */
+	@Override
+	public boolean onTouchEvent(MotionEvent event) {
+		// SwipeLayout不可以侧滑时，关闭已经打开的SwipeLayout
+		if (!SwipeLayoutManager.getInstance().isCouldSwipe(SwipeLayout.this)) {
+			SwipeLayoutManager.getInstance().closeOpenInstance();
+			return false;  // 这里返回true崩溃什么鬼 。
+		}
+
+		switch (event.getAction()) {
+
+			case MotionEvent.ACTION_DOWN:
+				downX = event.getX();
+				downY = event.getY();
+				// 记录按下的时间
+				downTime = System.currentTimeMillis();
+				break;
+			case MotionEvent.ACTION_MOVE:
+
+				float moveX = event.getX();
+				float moveY = event.getY();
+
+				// 水平滑动,不让listView拦截事件
+				if (Math.abs(moveY - downY) < Math.abs(moveX - downX)) {
+					// 请求父View不拦截事件
+					requestDisallowInterceptTouchEvent(true);
+				}
+
+				break;
+			case MotionEvent.ACTION_UP:
+				// 记录抬起的时间点
+				long upTime = System.currentTimeMillis();
+				// 计算抬起的坐标
+				float upX = event.getX();
+				float upY = event.getY();
+				// 计算按下和抬起的时间差
+				long touchDuration = upTime - downTime;
+				// 计算按下点和抬起点的距离
+				float touchD = getDistanceBetween2Points(new PointF(downX, downY), new PointF(upX, upY));
+
+				// 模拟点击事件
+				if (touchDuration < 400 && touchD < touchSlop) {
+					// 打开状态则关闭，否则执行点击事件
+					if (SwipeLayoutManager.getInstance().isOpenInstance(SwipeLayout.this)) {
+						SwipeLayoutManager.getInstance().closeOpenInstance();
+					} else {
+						if (listener != null) {
+							listener.onClick();
+						}
+					}
+
+				}
+				break;
+		}
+
+		dragHelper.processTouchEvent(event);
+		return true;
+	}
 
 	public void closeDeleteMenu() {
 		dragHelper.smoothSlideViewTo(contentView, 0, contentView.getTop());
@@ -266,9 +273,6 @@ public class SwipeLayout extends FrameLayout {
 		return contentView;
 	}
 
-
-	private OnSwipeLayoutClickListener listener;
-
 	public void setOnSwipeLayoutClickListener(OnSwipeLayoutClickListener listener) {
 		this.listener = listener;
 	}
@@ -278,16 +282,5 @@ public class SwipeLayout extends FrameLayout {
 	 */
 	public interface OnSwipeLayoutClickListener {
 		void onClick();
-	}
-
-	/**
-	 * 获得两点之间的距离
-	 *
-	 * @param p0
-	 * @param p1
-	 * @return
-	 */
-	public static float getDistanceBetween2Points(PointF p0, PointF p1) {
-		return (float) Math.sqrt(Math.pow(p0.y - p1.y, 2) + Math.pow(p0.x - p1.x, 2));
 	}
 }

@@ -1,10 +1,9 @@
 package yincheng.tinytank.sourcecode.swipeback.app;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.view.View;
 
 import yincheng.tinytank.common.annotation.Recite;
 import yincheng.tinytank.sourcecode.swipeback.SwipeBackLayout;

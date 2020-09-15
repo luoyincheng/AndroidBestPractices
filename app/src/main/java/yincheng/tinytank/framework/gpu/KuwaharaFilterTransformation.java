@@ -24,7 +24,7 @@ import jp.co.cyberagent.android.gpuimage.GPUImageKuwaharaFilter;
 
 /**
  * Kuwahara all the colors in the image.
- *
+ * <p>
  * The radius to sample from when creating the brush-stroke effect, with a default of 25.
  * The larger the radius, the slower the filter.
  */

@@ -1,27 +1,27 @@
 package yincheng.tinytank.algorithm.leetcode._101_200
 
 fun main() {
-    val source1 = intArrayOf(1, 2, 3, 4, 5, 6)
-    rotate1(source1, 2)
-    println(source1.contentToString())
+   val source1 = intArrayOf(1, 2, 3, 4, 5, 6)
+   rotate1(source1, 2)
+   println(source1.contentToString())
 
-    val source2 = intArrayOf(1, 2, 3, 4, 5, 6)
-    rotate2(source2, 2)
-    println(source2.contentToString())
+   val source2 = intArrayOf(1, 2, 3, 4, 5, 6)
+   rotate2(source2, 2)
+   println(source2.contentToString())
 
-    val source3 = intArrayOf(1, 2, 3, 4, 5, 6)
-    rotate3(source3, 2)
-    println(source3.contentToString())
+   val source3 = intArrayOf(1, 2, 3, 4, 5, 6)
+   rotate3(source3, 2)
+   println(source3.contentToString())
 }
 
 fun rotate1(source: IntArray, step: Int) {
-    for (i in 1..step) {
-        for (j in source.size - 1 downTo 1) {
-            val temp = source[j]
-            source[j] = source[j - 1]
-            source[j - 1] = temp
-        }
-    }
+   for (i in 1..step) {
+      for (j in source.size - 1 downTo 1) {
+         val temp = source[j]
+         source[j] = source[j - 1]
+         source[j - 1] = temp
+      }
+   }
 }
 
 /**
@@ -39,47 +39,47 @@ fun rotate1(source: IntArray, step: Int) {
  *
  */
 fun rotate2(source: IntArray, step: Int) {
-    var fakeIndex = 0
-    var indexShouldBe = (fakeIndex + step) % source.size
-    if (fakeIndex == indexShouldBe) return
-    var tempData: Int
-    var exchangedCount = 0
-    for (i in 1 until source.size) {
-        if (indexShouldBe == fakeIndex) {
-            exchangedCount++
-            if (exchangedCount == source.size) break
-            else {
-                ++fakeIndex
-                indexShouldBe = (fakeIndex + step) % source.size
-            }
-        }
+   var fakeIndex = 0
+   var indexShouldBe = (fakeIndex + step) % source.size
+   if (fakeIndex == indexShouldBe) return
+   var tempData: Int
+   var exchangedCount = 0
+   for (i in 1 until source.size) {
+      if (indexShouldBe == fakeIndex) {
+         exchangedCount++
+         if (exchangedCount == source.size) break
+         else {
+            ++fakeIndex
+            indexShouldBe = (fakeIndex + step) % source.size
+         }
+      }
 
-        tempData = source[fakeIndex]
-        source[fakeIndex] = source[indexShouldBe]
-        source[indexShouldBe] = tempData
-        exchangedCount++
+      tempData = source[fakeIndex]
+      source[fakeIndex] = source[indexShouldBe]
+      source[indexShouldBe] = tempData
+      exchangedCount++
 
-        indexShouldBe = (indexShouldBe + step) % source.size
-    }
+      indexShouldBe = (indexShouldBe + step) % source.size
+   }
 }
 
 fun rotate3(numbers: IntArray, k: Int) {
-    var k = k
-    k %= numbers.size
-    var exchangeCount = 0
-    var startIndex = 0
-    while (exchangeCount < numbers.size) {
-        var nowIndex = startIndex
-        var prev = numbers[startIndex]
-        do {
-            val indexShouldBe = (nowIndex + k) % numbers.size
-            val temp = numbers[indexShouldBe]
-            numbers[indexShouldBe] = prev
-            prev = temp
-            exchangeCount++
+   var k = k
+   k %= numbers.size
+   var exchangeCount = 0
+   var startIndex = 0
+   while (exchangeCount < numbers.size) {
+      var nowIndex = startIndex
+      var prev = numbers[startIndex]
+      do {
+         val indexShouldBe = (nowIndex + k) % numbers.size
+         val temp = numbers[indexShouldBe]
+         numbers[indexShouldBe] = prev
+         prev = temp
+         exchangeCount++
 
-            nowIndex = indexShouldBe
-        } while (startIndex != nowIndex)
-        startIndex++
-    }
+         nowIndex = indexShouldBe
+      } while (startIndex != nowIndex)
+      startIndex++
+   }
 }

@@ -7,22 +7,17 @@ package yincheng.tinytank.view.widget;
  */
 public class SwipeLayoutManager {
 
-	private SwipeLayoutManager() {
-	}
+	/**
+	 * 记录当前打开的SwipeLayout
+	 */
+	private SwipeLayout openInstance;
 
-	// 静态内部类模式单例
-	private static class LazyHolder {
-		private static final SwipeLayoutManager INSTANCE = new SwipeLayoutManager();
+	private SwipeLayoutManager() {
 	}
 
 	public static SwipeLayoutManager getInstance() {
 		return LazyHolder.INSTANCE;
 	}
-
-	/**
-	 * 记录当前打开的SwipeLayout
-	 */
-	private SwipeLayout openInstance;
 
 	/**
 	 * 设置当前打开的SwipeLayout
@@ -61,6 +56,11 @@ public class SwipeLayoutManager {
 			openInstance.closeDeleteMenu();
 			openInstance = null;
 		}
+	}
+
+	// 静态内部类模式单例
+	private static class LazyHolder {
+		private static final SwipeLayoutManager INSTANCE = new SwipeLayoutManager();
 	}
 
 }

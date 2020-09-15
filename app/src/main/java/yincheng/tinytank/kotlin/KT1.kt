@@ -9,7 +9,7 @@ fun main() {
 //    if (-1 !in 0..list.lastIndex) {
 //        println("-f is out of range ${list.lastIndex}")
 //    }
-    /*list.indices 返回的是一个IntRange对象，这里指的是０..2*/
+   /*list.indices 返回的是一个IntRange对象，这里指的是０..2*/
 //    if (list.size !in list.indices) {
 //        println("list size is out of valid list indices range,too ${list.indices}")
 //    }
@@ -78,7 +78,7 @@ fun main() {
 //    a = b.also { b = a }
 //    println("$a $b")
 
-    // *****
+   // *****
 //    val a : Int? = 127
 //    val b : Int? = 127
 //    val c : Int? = 128
@@ -126,57 +126,57 @@ fun main() {
 //    val dd: Char = '1'
 
 
-    println(charToInt('1'))
+   println(charToInt('1'))
 }
 
 fun charToInt(char: Char): Int {
-    if (char !in '0'..'9') throw java.lang.IllegalArgumentException("out of range")
-    return char.toInt() - '0'.toInt()
+   if (char !in '0'..'9') throw java.lang.IllegalArgumentException("out of range")
+   return char.toInt() - '0'.toInt()
 }
 
 
 class MyTurtle {
-    fun penDown() {}
-    fun forWard100() {}
-    fun turn90() {}
-    fun penUp() {}
+   fun penDown() {}
+   fun forWard100() {}
+   fun turn90() {}
+   fun penUp() {}
 }
 
 fun arrayOfMinusOnes(size: Int): IntArray {
-    return IntArray(size).apply { fill(-1) }
+   return IntArray(size).apply { fill(-1) }
 }
 
 fun decribe(obj: Any): String =
-        when (obj) {
-            1 -> "one"
-            "hello" -> "greeting"
-            is Long -> "Long"
-            !is String -> "Not a String"
-            else -> "unknown"
-        }
+      when (obj) {
+         1 -> "one"
+         "hello" -> "greeting"
+         is Long -> "Long"
+         !is String -> "Not a String"
+         else -> "unknown"
+      }
 
 fun String.extendedFunction() {
-    println("这是一个String类的扩展函数")
+   println("这是一个String类的扩展函数")
 }
 
 fun transform(param: String): Int {
-    return when (param) {
-        "red" -> 1
-        "green" -> 2
-        "blue" -> 3
-        "alpha" -> 4
-        else -> throw IllegalArgumentException("参数错误")
-    }
+   return when (param) {
+      "red" -> 1
+      "green" -> 2
+      "blue" -> 3
+      "alpha" -> 4
+      else -> throw IllegalArgumentException("参数错误")
+   }
 }
 
 fun tryCatchFun(): String {
-    return try {
-        transform("1")
-    } catch (e: IllegalArgumentException) {
-        println(e.toString())
-    } finally {
-        println("这里可以做回收操作")
-    } as String
+   return try {
+      transform("1")
+   } catch (e: IllegalArgumentException) {
+      println(e.toString())
+   } finally {
+      println("这里可以做回收操作")
+   } as String
 }
 
 

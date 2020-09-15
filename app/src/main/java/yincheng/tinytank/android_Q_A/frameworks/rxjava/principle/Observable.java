@@ -21,14 +21,6 @@ public class Observable<T> {
 		mOnSubscribe.startWork(subscriber);
 	}
 
-	public interface onSubscribe<T> {
-		void startWork(Subscriber<? super T> subscriber);
-	}
-
-	public interface Transformer<T, R> {
-		R transform(T from);
-	}
-
 	/**
 	 * 将一个Observable转化成另外一种类型的Observable
 	 *
@@ -69,8 +61,6 @@ public class Observable<T> {
 		};
 		return create(mapOnSubscribe);
 	}
-
-	//region [Scheduler]
 
 	/**
 	 * 将lastSubscriber放到新线程中执行
@@ -135,6 +125,16 @@ public class Observable<T> {
 				});
 			}
 		});
+	}
+
+	//region [Scheduler]
+
+	public interface onSubscribe<T> {
+		void startWork(Subscriber<? super T> subscriber);
+	}
+
+	public interface Transformer<T, R> {
+		R transform(T from);
 	}
 	//endregion
 

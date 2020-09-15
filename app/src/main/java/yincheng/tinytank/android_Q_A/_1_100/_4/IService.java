@@ -6,6 +6,7 @@ import android.os.Binder;
 import android.os.IBinder;
 
 public class IService extends Service {
+	DataChangedListener dataChangedListener = null;
 	private String data = "默认消息";
 	private boolean serviceRunning = false;
 
@@ -13,16 +14,6 @@ public class IService extends Service {
 	public IBinder onBind(Intent intent) {
 		System.out.println("onBind()");
 		return new MyBinder();
-	}
-
-	public class MyBinder extends Binder {
-		IService getService() {
-			return IService.this;
-		}
-
-		public void setData(String data) {
-			IService.this.data = data;
-		}
 	}
 
 	@Override
@@ -71,13 +62,21 @@ public class IService extends Service {
 		super.onDestroy();
 	}
 
-	DataChangedListener dataChangedListener = null;
-
 	public void setDataChangedListener(DataChangedListener dataChangedListener) {
 		this.dataChangedListener = dataChangedListener;
 	}
 
 	public interface DataChangedListener {
 		void onDataChanged(String str);
+	}
+
+	public class MyBinder extends Binder {
+		IService getService() {
+			return IService.this;
+		}
+
+		public void setData(String data) {
+			IService.this.data = data;
+		}
 	}
 }

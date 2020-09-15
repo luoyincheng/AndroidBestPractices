@@ -20,7 +20,7 @@ public class WorkerThreadToUIThreadActivity extends AppCompatActivity {
 		uiHandler = new Handler() {
 			@Override
 			public void handleMessage(Message msg) {
-				((TextView)findViewById(R.id.tv_result)).setText("result");
+				((TextView) findViewById(R.id.tv_result)).setText("result");
 			}
 		};
 		findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {

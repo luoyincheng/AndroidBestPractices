@@ -5,11 +5,11 @@ import com.vladsch.flexmark.ast.DelimitedNode;
 import com.vladsch.flexmark.util.sequence.BasedSequence;
 
 public class MathJax extends CustomNode implements DelimitedNode {
+	protected final boolean isInline;
 	protected BasedSequence openingMarker = BasedSequence.NULL;
 	protected BasedSequence text = BasedSequence.NULL;
 	protected BasedSequence closingMarker = BasedSequence.NULL;
 	protected String superscriptBlockText;
-	protected final boolean isInline;
 
 	public MathJax() {
 		isInline = true;

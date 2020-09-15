@@ -29,6 +29,12 @@ public class Bundler {
 		return new Bundler();
 	}
 
+	public static boolean isValidBundleSize(@NonNull Bundle bundle) {
+		Parcel parcel = Parcel.obtain();
+		bundle.writeToParcel(parcel, 0);
+		return parcel.dataSize() < 500000;
+	}
+
 	public Bundler put(@NonNull String key, boolean value) {
 		bundle.putBoolean(key, value);
 		return this;
@@ -229,12 +235,6 @@ public class Bundler {
 			bundle.clear();
 		}
 		return get();
-	}
-
-	public static boolean isValidBundleSize(@NonNull Bundle bundle) {
-		Parcel parcel = Parcel.obtain();
-		bundle.writeToParcel(parcel, 0);
-		return parcel.dataSize() < 500000;
 	}
 
 	private void clearBundle(Bundle safeBundle) {

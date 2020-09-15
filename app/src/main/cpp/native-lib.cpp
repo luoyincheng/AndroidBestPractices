@@ -6,8 +6,8 @@ JNIEXPORT jstring
 
 JNICALL
 Java_yincheng_tinytank_ui_activity_MainActivity_stringFromJNI(
-        JNIEnv *env,
-        jobject /* this */) {
-    std::string hello = "Hello from C++";
-    return env->NewStringUTF(hello.c_str());
+      JNIEnv *env,
+      jobject /* this */) {
+   std::string hello = "Hello from C++";
+   return env->NewStringUTF(hello.c_str());
 }

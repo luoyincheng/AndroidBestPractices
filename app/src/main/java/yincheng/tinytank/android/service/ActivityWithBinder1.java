@@ -21,9 +21,20 @@ import yincheng.tinytank.R;
 public class ActivityWithBinder1 extends AppCompatActivity {
 
 	private Service2Activity1 service2Activity1;
+	ServiceConnection conn = new ServiceConnection() {
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+
+		}
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			service2Activity1 = ((Service2Activity1.MsgBinder) service).getService();
+
+		}
+	};
 	private int progress = 0;
 	private ProgressBar mProgressBar;
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,19 +78,6 @@ public class ActivityWithBinder1 extends AppCompatActivity {
 			}
 		}).start();
 	}
-
-	ServiceConnection conn = new ServiceConnection() {
-		@Override
-		public void onServiceDisconnected(ComponentName name) {
-
-		}
-
-		@Override
-		public void onServiceConnected(ComponentName name, IBinder service) {
-			service2Activity1 = ((Service2Activity1.MsgBinder) service).getService();
-
-		}
-	};
 
 	@Override
 	protected void onDestroy() {

@@ -31,7 +31,7 @@ public class AlignmentTestActivity extends AppCompatActivity {
 //		} catch (InterruptedException e) {
 //			e.printStackTrace();
 //		} finally {
-			setContentView(R.layout.activity_test);
+		setContentView(R.layout.activity_test);
 //		}
 //				setContentView(new SparkView(this));
 

@@ -14,7 +14,7 @@ public class AlgorithmUtil {
 		System.out.println(stringBuilder.substring(0, stringBuilder.length() - 2));
 	}
 
-	public static void printArray(ArrayList<Integer> arrayList){
+	public static void printArray(ArrayList<Integer> arrayList) {
 		StringBuilder stringBuilder = new StringBuilder();
 		for (Integer integer : arrayList) {
 			stringBuilder.append(integer + " -> ");

@@ -12,38 +12,6 @@ import yincheng.tinytank.R;
  * github:luoyincheng
  */
 public abstract class RichTextActivity extends BaseActivity {
-	@BindView(R.id.richcontent)
-	public TextView richContent;
-
-	@Override
-	protected int getLayoutId() {
-		return R.layout.activity_richtext;
-	}
-
-	@Override
-	protected void initData() {
-		RichText.initCacheDir(this);
-		RichText.debugMode = true;
-
-		String test_text_2 = "<B>Start</B> <img src='http://wx1.sinaimg" +
-				".cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' />" +
-				"<img src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' /><img " +
-				"src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' />" +
-				"<img src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' /><img " +
-				"src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' />" +
-				"<img src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' /><img " +
-				"src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' />" +
-				"<img src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' /><img " +
-				"src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' /><B>End</B>";
-
-
-	}
-
-	@Override
-	protected void initView() {
-
-	}
-
 	private static final String IMAGE = "<img title=\"\" src=\"http://g.hiphotos.baidu" +
 			".com/image/pic/item/241f95cad1c8a7866f726fe06309c93d71cf5087.jpg\"  style=\"cursor: " +
 			"pointer;\"><br><br>" +
@@ -59,15 +27,11 @@ public abstract class RichTextActivity extends BaseActivity {
 			"/><p><a href=\"http://www.baidu.com\">baidu</a>" +
 			"hello asdkjfgsduk <a href=\"http://www.jd.com\">jd</a></p><br><br><br><br><br><br><br" +
 			"><br><br><br><br><br><br><br><br><br><br><br>bottom";
-
-
 	private static final String GIF_TEST = "<img src=\"http://ww4.sinaimg" +
 			".cn/large/5cfc088ejw1f3jcujb6d6g20ap08mb2c.gif\">";
-
 	private static final String markdown_test = "image:![image](http://image.tianjimedia" +
 			".com/uploadImages/2015/129/56/J63MI042Z4P8.jpg)\n[link](https://github" +
 			".com/zzhoujay/RichText/issues)";
-
 	private static final String gif_test = "<h3>Test1</h3><img src=\"http://www.aikf" +
 			".com/ask/resources/images/facialExpression/qq/1.gif\" />" +
 			"            <h3>Test2</h3><img src=\"http://www.aikf" +
@@ -86,7 +50,6 @@ public abstract class RichTextActivity extends BaseActivity {
 			".com/ask/resources/images/facialExpression/qq/8.gif\" />" +
 			"            <h3>Test9</h3><img src=\"http://www.aikf" +
 			".com/ask/resources/images/facialExpression/qq/9.gif\" />";
-
 	private static final String list_test = "<ol>\n" +
 			"   <li>Coffee</li>\n" +
 			"   <li>Tea</li>\n" +
@@ -98,10 +61,8 @@ public abstract class RichTextActivity extends BaseActivity {
 			"   <li>Tea</li>\n" +
 			"   <li>Milk</li>\n" +
 			"</ul>";
-
 	private static final String large_image = "<img src=\"http://static.tme" +
 			".im/article_1_1471686391302fue\"/>";
-
 	private static final String text = "";
 	private static final String TAG = "MainActivityTest";
 	private static final String assets_image_test = "<h1>Assets Image Test</h1><img " +
@@ -215,10 +176,41 @@ public abstract class RichTextActivity extends BaseActivity {
 			".com/642def77-373f-434f-8e68-42dedbd9f880'/><br><img " +
 			"src='http://cuncxforum-10008003.image.myqcloud" +
 			".com/bf153d9f-e8c3-4dcc-a23e-bfe0358cb429'/>";
+	@BindView(R.id.richcontent)
+	public TextView richContent;
 	int loading = 0;
 	int failure = 0;
 	int ready = 0;
 	int init = 0;
+
+	@Override
+	protected int getLayoutId() {
+		return R.layout.activity_richtext;
+	}
+
+	@Override
+	protected void initData() {
+		RichText.initCacheDir(this);
+		RichText.debugMode = true;
+
+		String test_text_2 = "<B>Start</B> <img src='http://wx1.sinaimg" +
+				".cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' />" +
+				"<img src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' /><img " +
+				"src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' />" +
+				"<img src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' /><img " +
+				"src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' />" +
+				"<img src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' /><img " +
+				"src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' />" +
+				"<img src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' /><img " +
+				"src='http://wx1.sinaimg.cn/mw690/eaaf2affly1fihvjpekzwj21el0qotfq.jpg' /><B>End</B>";
+
+
+	}
+
+	@Override
+	protected void initView() {
+
+	}
 
 	@Override
 	protected void onDestroy() {

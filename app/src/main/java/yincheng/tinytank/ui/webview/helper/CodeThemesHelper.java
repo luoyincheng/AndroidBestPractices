@@ -18,35 +18,6 @@ import yincheng.tinytank.provider.helper.PrefGetter;
 
 public class CodeThemesHelper {
 
-	@NonNull
-	public static List<String> listThemes() {
-		try {
-			List<String> list = Stream.of(App.getInstance().getAssets().list("highlight/styles/themes"))
-					.map(s -> "themes/" + s)
-					.toList();
-			list.add(0, "prettify.css");
-			list.add(1, "prettify_dark.css");
-			return list;
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return Collections.emptyList();
-	}
-
-	@NonNull
-	public static String getTheme(boolean isDark) {
-		String theme = PrefGetter.getCodeTheme();
-		if (InputHelper.isEmpty(theme) || !exists(theme)) {
-			return !isDark ? "prettify.css" : "prettify_dark.css";
-		}
-		return theme;
-	}
-
-	private static boolean exists(@NonNull String theme) {
-		return listThemes().contains(theme);
-	}
-
-
 	public static final String CODE_EXAMPLE =
 			"class ThemeCodeActivity : BaseActivity<ThemeCodeMvp.View, ThemeCodePresenter>(), ThemeCodeMvp.View {\n" +
 					"\n" +
@@ -98,4 +69,32 @@ public class CodeThemesHelper {
 					"\n" +
 					"    override fun onScrollChanged(reachedTop: Boolean, scroll: Int) {}\n" +
 					"}";
+
+	@NonNull
+	public static List<String> listThemes() {
+		try {
+			List<String> list = Stream.of(App.getInstance().getAssets().list("highlight/styles/themes"))
+					.map(s -> "themes/" + s)
+					.toList();
+			list.add(0, "prettify.css");
+			list.add(1, "prettify_dark.css");
+			return list;
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return Collections.emptyList();
+	}
+
+	@NonNull
+	public static String getTheme(boolean isDark) {
+		String theme = PrefGetter.getCodeTheme();
+		if (InputHelper.isEmpty(theme) || !exists(theme)) {
+			return !isDark ? "prettify.css" : "prettify_dark.css";
+		}
+		return theme;
+	}
+
+	private static boolean exists(@NonNull String theme) {
+		return listThemes().contains(theme);
+	}
 }

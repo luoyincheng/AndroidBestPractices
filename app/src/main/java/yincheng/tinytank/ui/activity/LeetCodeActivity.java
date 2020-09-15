@@ -1,19 +1,9 @@
 package yincheng.tinytank.ui.activity;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
-import io.reactivex.ObservableOnSubscribe;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.internal.operators.observable.ObservableCreate;
-import io.reactivex.schedulers.Schedulers;
 import yincheng.tinytank.common.GenericItemHolder;
-import yincheng.tinytank.provider.BundleConstant;
-import yincheng.tinytank.provider.helper.Bundler;
 import yincheng.tinytank.ui.activity.base.AlgorithmRunnableRecyclerViewActivity;
-import yincheng.tinytank.ui.dialog.MessageDialogView;
 
 
 /**

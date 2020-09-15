@@ -26,38 +26,6 @@ import java.io.File;
 public class DownloadAppService extends Service {
 	private static DownloadManager downloadManager;
 	private static long downloadTaskId;
-
-	@Override
-	public int onStartCommand(Intent intent, int flags, int startId) {
-		// 注册广播, 设置只接受下载完成的广播
-		registerReceiver(receiver, new IntentFilter(
-				DownloadManager.ACTION_DOWNLOAD_COMPLETE));
-		String upgradeurl = intent.getStringExtra("url");
-		if (TextUtils.isEmpty(upgradeurl))
-			return super.onStartCommand(intent, flags, startId);
-		downloadBelowNought(this, upgradeurl);
-		return super.onStartCommand(intent, flags, startId);
-	}
-
-	@Override
-	public IBinder onBind(Intent intent) {
-		return null;
-	}
-
-	@Override
-	public void onDestroy() {
-		super.onDestroy();
-		unregisterReceiver(receiver);
-	}
-
-	public static void downloadBelowNought(final Context context, final String apkDownloadUrl) {
-		downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
-		DownloadManager.Request request = new DownloadManager.Request(Uri.parse(apkDownloadUrl));
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-			request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "AndroidInterviewPoint");
-		downloadTaskId = downloadManager.enqueue(request);
-	}
-
 	BroadcastReceiver receiver = new BroadcastReceiver() {
 		@Override
 		public void onReceive(Context context, Intent intent) {
@@ -89,6 +57,37 @@ public class DownloadAppService extends Service {
 			}
 		}
 	};
+
+	public static void downloadBelowNought(final Context context, final String apkDownloadUrl) {
+		downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+		DownloadManager.Request request = new DownloadManager.Request(Uri.parse(apkDownloadUrl));
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+			request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "AndroidInterviewPoint");
+		downloadTaskId = downloadManager.enqueue(request);
+	}
+
+	@Override
+	public int onStartCommand(Intent intent, int flags, int startId) {
+		// 注册广播, 设置只接受下载完成的广播
+		registerReceiver(receiver, new IntentFilter(
+				DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+		String upgradeurl = intent.getStringExtra("url");
+		if (TextUtils.isEmpty(upgradeurl))
+			return super.onStartCommand(intent, flags, startId);
+		downloadBelowNought(this, upgradeurl);
+		return super.onStartCommand(intent, flags, startId);
+	}
+
+	@Override
+	public IBinder onBind(Intent intent) {
+		return null;
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		unregisterReceiver(receiver);
+	}
 
 	private void noughtBelowInstall(Uri data) {
 		Intent intent = new Intent(Intent.ACTION_VIEW)

@@ -21,6 +21,19 @@ import yincheng.tinytank.provider.utils.ToastUtils;
 
 public class GenericTextAdapter extends BaseQuickAdapter<Status, BaseViewHolder> {
 
+	ClickableSpan clickableSpan = new ClickableSpan() {
+		@Override
+		public void onClick(View widget) {
+			ToastUtils.showShortToast("事件触发了 landscapes and nedes");
+		}
+
+		@Override
+		public void updateDrawState(TextPaint ds) {
+			ds.setColor(Utils.getContext().getResources().getColor(R.color.cardview_dark_background));
+			ds.setUnderlineText(true);
+		}
+	};
+
 	public GenericTextAdapter(List<Status> data) {
 		super(R.layout.layout_animation, data);
 	}
@@ -48,17 +61,4 @@ public class GenericTextAdapter extends BaseQuickAdapter<Status, BaseViewHolder>
 		((TextView) helper.getView(R.id.tweetText)).setClickable(false);
 		((TextView) helper.getView(R.id.tweetText)).setLongClickable(false);
 	}
-
-	ClickableSpan clickableSpan = new ClickableSpan() {
-		@Override
-		public void onClick(View widget) {
-			ToastUtils.showShortToast("事件触发了 landscapes and nedes");
-		}
-
-		@Override
-		public void updateDrawState(TextPaint ds) {
-			ds.setColor(Utils.getContext().getResources().getColor(R.color.cardview_dark_background));
-			ds.setUnderlineText(true);
-		}
-	};
 }

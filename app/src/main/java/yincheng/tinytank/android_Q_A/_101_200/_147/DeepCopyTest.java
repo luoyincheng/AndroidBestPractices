@@ -26,6 +26,15 @@ public class DeepCopyTest {
 		private String name;
 		private Email email;
 
+		public Person(String name, Email email) {
+			this.name = name;
+			this.email = email;
+		}
+
+		public Person(String name) {
+			this.name = name;
+		}
+
 		public String getName() {
 			return name;
 		}
@@ -40,15 +49,6 @@ public class DeepCopyTest {
 
 		public void setEmail(Email email) {
 			this.email = email;
-		}
-
-		public Person(String name, Email email) {
-			this.name = name;
-			this.email = email;
-		}
-
-		public Person(String name) {
-			this.name = name;
 		}
 
 		protected Person clone() {
@@ -68,16 +68,16 @@ public class DeepCopyTest {
 	public static class Email implements Cloneable {
 		private String content;
 
+		public Email(String string) {
+			this.content = string;
+		}
+
 		public String getContent() {
 			return content;
 		}
 
 		public void setContent(String content) {
 			this.content = content;
-		}
-
-		public Email(String string) {
-			this.content = string;
 		}
 	}
 }

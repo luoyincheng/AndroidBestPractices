@@ -26,12 +26,12 @@ import yincheng.tinytank.java.concurrent.TaskWithResult;
  */
 
 public class ShowResultDialogFragment extends BaseDialogFragment {
-	private LinearLayout baseDialogFragmentContainer;
-	private LayoutInflater layoutInflater;
-	private FrameLayout.LayoutParams layoutParams;
 	public onDialogListener mOnDialogListener;
 	ExecutorService executors = Executors.newCachedThreadPool();
 	ArrayList<Future<String>> results = new ArrayList<>();
+	private LinearLayout baseDialogFragmentContainer;
+	private LayoutInflater layoutInflater;
+	private FrameLayout.LayoutParams layoutParams;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -83,13 +83,13 @@ public class ShowResultDialogFragment extends BaseDialogFragment {
 			mOnDialogListener.onDialogDismiss();
 	}
 
+	@Override
+	protected void setData() {
+	}
+
 	public interface onDialogListener {
 		void onDialogCancel();
 
 		void onDialogDismiss();
-	}
-
-	@Override
-	protected void setData() {
 	}
 }

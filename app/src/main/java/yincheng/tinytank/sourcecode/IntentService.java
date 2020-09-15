@@ -51,18 +51,6 @@ public abstract class IntentService extends Service {
 	private String mName;
 	private boolean mRedelivery;
 
-	private final class ServiceHandler extends Handler {
-		public ServiceHandler(Looper looper) {
-			super(looper);
-		}
-
-		@Override
-		public void handleMessage(Message msg) {
-			onHandleIntent((Intent) msg.obj);
-			stopSelf(msg.arg1);
-		}
-	}
-
 	/**
 	 * Creates an IntentService.  Invoked by your subclass's constructor.
 	 *
@@ -164,4 +152,16 @@ public abstract class IntentService extends Service {
 	 */
 	@WorkerThread
 	protected abstract void onHandleIntent(@Nullable Intent intent);
+
+	private final class ServiceHandler extends Handler {
+		public ServiceHandler(Looper looper) {
+			super(looper);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			onHandleIntent((Intent) msg.obj);
+			stopSelf(msg.arg1);
+		}
+	}
 }

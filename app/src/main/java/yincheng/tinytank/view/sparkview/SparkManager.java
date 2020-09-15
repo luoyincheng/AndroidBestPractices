@@ -13,34 +13,25 @@ import java.util.Random;
  **/
 class SparkManager {
 
-	// 画笔对象
-	private Paint mSparkPaint;
-
-	// 花火半径
-	private float radius = 0;
-
-	// 火花喷射距离
-	private float mDistance = 0;
-
-	// 当前喷射距离
-	private float mCurDistance = 0;
-
 	// 火花半径
 	private static final float SPARK_RADIUS = 4.0F;
-
 	// 火花外侧阴影大小
 	private static final float BLUR_SIZE = 10.0F;
-
 	// 每帧速度
 	private static final float PER_SPEED_SEC = 1.0F;
-
-	private Random mRandom = new Random();
-
-	// 火花的起始点，终点，塞贝儿曲线拐点1，塞贝儿曲线拐点2
-	private Point start, end, c1, c2;
-
 	// 是否是激活状态
 	boolean isActive = false;
+	// 画笔对象
+	private Paint mSparkPaint;
+	// 花火半径
+	private float radius = 0;
+	// 火花喷射距离
+	private float mDistance = 0;
+	// 当前喷射距离
+	private float mCurDistance = 0;
+	private Random mRandom = new Random();
+	// 火花的起始点，终点，塞贝儿曲线拐点1，塞贝儿曲线拐点2
+	private Point start, end, c1, c2;
 
 	SparkManager() {
 		// 初始化画笔

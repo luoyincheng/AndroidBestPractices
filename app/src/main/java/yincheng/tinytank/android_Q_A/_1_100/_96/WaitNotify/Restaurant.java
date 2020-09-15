@@ -4,10 +4,10 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class Restaurant {
-	Meal meal;
-	ExecutorService executorService = Executors.newCachedThreadPool();
 	final Chef chef = new Chef(this);
 	final Waiter waiter = new Waiter(this);
+	Meal meal;
+	ExecutorService executorService = Executors.newCachedThreadPool();
 
 	private Restaurant() {
 		executorService.execute(chef);

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <yincheng.tinytank.android_Q_A._1_100._33.EventDispatchFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+   android:layout_width="match_parent"
+   android:layout_height="match_parent">
 
-    <yincheng.tinytank.android_Q_A._1_100._33.EventDispatchButton
-        android:id="@+id/eventButton"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
-        android:background="@android:color/holo_orange_light" />
+   <yincheng.tinytank.android_Q_A._1_100._33.EventDispatchButton
+      android:id="@+id/eventButton"
+      android:layout_width="300dp"
+      android:layout_height="300dp"
+      android:background="@android:color/holo_orange_light" />
 
 </yincheng.tinytank.android_Q_A._1_100._33.EventDispatchFrameLayout>

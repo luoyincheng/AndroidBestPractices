@@ -24,6 +24,7 @@ public class FlipTextView extends ViewFlipper implements View.OnClickListener {
 
 	private Context mContext;
 	private List<String> mNotices;
+	private OnNoticeClickListener mOnNoticeClickListener;
 
 	public FlipTextView(Context context) {
 		super(context);
@@ -81,15 +82,6 @@ public class FlipTextView extends ViewFlipper implements View.OnClickListener {
 	}
 
 	/**
-	 * 通知点击监听接口
-	 */
-	public interface OnNoticeClickListener {
-		void onNotieClick(int position, String notice);
-	}
-
-	private OnNoticeClickListener mOnNoticeClickListener;
-
-	/**
 	 * 设置通知点击监听器
 	 *
 	 * @param onNoticeClickListener 通知点击监听器
@@ -102,5 +94,12 @@ public class FlipTextView extends ViewFlipper implements View.OnClickListener {
 		return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
 				dpValue,
 				mContext.getResources().getDisplayMetrics());
+	}
+
+	/**
+	 * 通知点击监听接口
+	 */
+	public interface OnNoticeClickListener {
+		void onNotieClick(int position, String notice);
 	}
 }

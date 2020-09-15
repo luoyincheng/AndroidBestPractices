@@ -14,37 +14,37 @@ import yincheng.tinytank.R;
 import yincheng.tinytank.android_Q_A._101_200._145.helper.ItemDragHelperCallback;
 
 public class DragActivity extends AppCompatActivity {
-    private RecyclerView mRecy;
+	private RecyclerView mRecy;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recyclerview);
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_recyclerview);
 
-        mRecy = (RecyclerView) findViewById(R.id.rv);
-        init();
-    }
+		mRecy = (RecyclerView) findViewById(R.id.rv);
+		init();
+	}
 
-    private void init() {
-        final List<String> items = new ArrayList<>();
-        for (int i = 0; i < 18; i++) {
-            items.add("Index " + i);
-        }
+	private void init() {
+		final List<String> items = new ArrayList<>();
+		for (int i = 0; i < 18; i++) {
+			items.add("Index " + i);
+		}
 
-        GridLayoutManager manager = new GridLayoutManager(this, 2);
-        mRecy.setLayoutManager(manager);
+		GridLayoutManager manager = new GridLayoutManager(this, 2);
+		mRecy.setLayoutManager(manager);
 
-        ItemDragHelperCallback callback = new ItemDragHelperCallback(){
-            @Override
-            public boolean isLongPressDragEnabled() {
-                // 长按拖拽打开
-                return true;
-            }
-        };
-        ItemTouchHelper helper = new ItemTouchHelper(callback);
-        helper.attachToRecyclerView(mRecy);
+		ItemDragHelperCallback callback = new ItemDragHelperCallback() {
+			@Override
+			public boolean isLongPressDragEnabled() {
+				// 长按拖拽打开
+				return true;
+			}
+		};
+		ItemTouchHelper helper = new ItemTouchHelper(callback);
+		helper.attachToRecyclerView(mRecy);
 
-        DragAdapter adapter = new DragAdapter(this, items);
-        mRecy.setAdapter(adapter);
-    }
+		DragAdapter adapter = new DragAdapter(this, items);
+		mRecy.setAdapter(adapter);
+	}
 }

@@ -1,6 +1,13 @@
 package yincheng.tinytank.android_Q_A.javadesignpatterns.factorymethod._2;
 
 public class Implementation2 implements Service {
+	public static ServiceFactory factory = new ServiceFactory() {
+		@Override
+		public Service getService() {
+			return new Implementation2();
+		}
+	};
+
 	private Implementation2() {
 	}
 
@@ -8,11 +15,4 @@ public class Implementation2 implements Service {
 	public void method() {
 		System.out.println("Implementation2.method()");
 	}
-
-	public static ServiceFactory factory = new ServiceFactory() {
-		@Override
-		public Service getService() {
-			return new Implementation2();
-		}
-	};
 }

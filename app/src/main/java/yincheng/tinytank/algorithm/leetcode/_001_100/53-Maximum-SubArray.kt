@@ -3,10 +3,10 @@ package yincheng.tinytank.algorithm.leetcode._001_100
 import kotlin.math.max
 
 fun main() {
-    val source1 = intArrayOf(-4, 3, 4, 6, -1, -3, -50, 4, -9, 7, 8)
-    val source2 = intArrayOf(-2, 1, -3, 4, -1, 2, 1, -5, 4)
-    println(maximumSubArray(source1))
-    println(maximumSubArray(source2))
+   val source1 = intArrayOf(-4, 3, 4, 6, -1, -3, -50, 4, -9, 7, 8)
+   val source2 = intArrayOf(-2, 1, -3, 4, -1, 2, 1, -5, 4)
+   println(maximumSubArray(source1))
+   println(maximumSubArray(source2))
 }
 
 /**
@@ -18,15 +18,15 @@ fun main() {
  * 等于array[0]的原因。
  */
 fun maximumSubArray(array: IntArray): Int {
-    var answer = array[0]
-    var sum = 0
-    for (i in array) {
-        if (sum > 0) {
-            sum += i
-        } else {
-            sum = i
-        }
-        answer = max(answer, sum)
-    }
-    return answer
+   var answer = array[0]
+   var sum = 0
+   for (i in array) {
+      if (sum > 0) {
+         sum += i
+      } else {
+         sum = i
+      }
+      answer = max(answer, sum)
+   }
+   return answer
 }

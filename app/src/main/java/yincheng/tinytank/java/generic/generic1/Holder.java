@@ -20,17 +20,17 @@ public class Holder<T> {
 		this.a = t;
 	}
 
+	public static void main(String[] args) {
+		Holder<Automobile> holder = new Holder<>(new Automobile());
+		Automobile automobile = holder.get();
+		System.out.print(automobile.getClass().getSimpleName());
+	}
+
 	public T get() {
 		return a;
 	}
 
 	public void set(T a) {
 		this.a = a;
-	}
-
-	public static void main(String[] args) {
-		Holder<Automobile> holder = new Holder<>(new Automobile());
-		Automobile automobile = holder.get();
-		System.out.print(automobile.getClass().getSimpleName());
 	}
 }

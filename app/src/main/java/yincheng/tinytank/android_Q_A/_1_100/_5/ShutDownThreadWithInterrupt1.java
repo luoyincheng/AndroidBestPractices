@@ -6,6 +6,18 @@ import java.util.Vector;
 public final class ShutDownThreadWithInterrupt1 implements Runnable {
 	private final Vector<Integer> vector = new Vector<Integer>(1000);
 
+	public static void main(String[] args) {
+		ShutDownThreadWithInterrupt1 c = new ShutDownThreadWithInterrupt1();
+		Thread thread = new Thread(c);
+		thread.start();
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		thread.interrupt();
+	}
+
 	public Vector<Integer> getVector() {
 		return vector;
 	}
@@ -25,17 +37,5 @@ public final class ShutDownThreadWithInterrupt1 implements Runnable {
 			e.printStackTrace();
 			System.out.println(e.toString() + ":" + Thread.currentThread().isInterrupted());
 		}
-	}
-
-	public static void main(String[] args) {
-		ShutDownThreadWithInterrupt1 c = new ShutDownThreadWithInterrupt1();
-		Thread thread = new Thread(c);
-		thread.start();
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		thread.interrupt();
 	}
 }

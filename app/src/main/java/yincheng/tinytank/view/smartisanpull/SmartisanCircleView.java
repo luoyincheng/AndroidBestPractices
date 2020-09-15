@@ -19,13 +19,13 @@ public class SmartisanCircleView extends View {
 //    private static final float ARROW_LENGTH = 8;
 //    public static final float CIRCLE_RADIUS = 20;
 
-	float Width;
-	float Height;
 	public float mLineLength;
 	public float mArrowLength;
 	public float mCircleRadius;
 	public float mStrokeWidth;
 	public float mLineSpaceHalf;
+	float Width;
+	float Height;
 	Paint mPaint;
 
 	private int mRefreshStatus;

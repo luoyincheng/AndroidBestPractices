@@ -110,93 +110,10 @@ class IViewBoundsChecker {
 	final Callback mCallback;
 	BoundFlags mBoundFlags;
 
-	/**
-	 * The set of flags that can be passed for checking the view boundary conditions.
-	 * CVS in the flag name indicates the child view, and PV indicates the parent view.\
-	 * The following S, E indicate a view's start and end points, respectively.
-	 * GT and LT indicate a strictly greater and less than relationship.
-	 * Greater than or equal (or less than or equal) can be specified by setting both GT and EQ (or
-	 * LT and EQ) flags.
-	 * For instance, setting both {@link #FLAG_CVS_GT_PVS} and {@link #FLAG_CVS_EQ_PVS} indicate the
-	 * child view's start should be greater than or equal to its parent start.
-	 */
-	@IntDef(flag = true, value = {
-			FLAG_CVS_GT_PVS, FLAG_CVS_EQ_PVS, FLAG_CVS_LT_PVS,
-			FLAG_CVS_GT_PVE, FLAG_CVS_EQ_PVE, FLAG_CVS_LT_PVE,
-			FLAG_CVE_GT_PVS, FLAG_CVE_EQ_PVS, FLAG_CVE_LT_PVS,
-			FLAG_CVE_GT_PVE, FLAG_CVE_EQ_PVE, FLAG_CVE_LT_PVE
-	})
-	@Retention(RetentionPolicy.SOURCE)
-	public @interface ViewBounds {
-	}
-
 	IViewBoundsChecker(Callback callback) {
 		mCallback = callback;
 		mBoundFlags = new BoundFlags();
 	}
-
-	static class BoundFlags {
-		int mBoundFlags = 0;
-		int mRvStart, mRvEnd, mChildStart, mChildEnd;
-
-		void setBounds(int rvStart, int rvEnd, int childStart, int childEnd) {
-			mRvStart = rvStart;
-			mRvEnd = rvEnd;
-			mChildStart = childStart;
-			mChildEnd = childEnd;
-		}
-
-		void setFlags(@ViewBounds int flags, int mask) {
-			mBoundFlags = (mBoundFlags & ~mask) | (flags & mask);
-		}
-
-		void addFlags(@ViewBounds int flags) {
-			mBoundFlags |= flags;
-		}
-
-		void resetFlags() {
-			mBoundFlags = 0;
-		}
-
-		int compare(int x, int y) {
-			if (x > y) {
-				return GT;
-			}
-			if (x == y) {
-				return EQ;
-			}
-			return LT;
-		}
-
-		boolean boundsMatch() {
-			if ((mBoundFlags & (MASK << CVS_PVS_POS)) != 0) {
-				if ((mBoundFlags & (compare(mChildStart, mRvStart) << CVS_PVS_POS)) == 0) {
-					return false;
-				}
-			}
-
-			if ((mBoundFlags & (MASK << CVS_PVE_POS)) != 0) {
-				if ((mBoundFlags & (compare(mChildStart, mRvEnd) << CVS_PVE_POS)) == 0) {
-					return false;
-				}
-			}
-
-			if ((mBoundFlags & (MASK << CVE_PVS_POS)) != 0) {
-				if ((mBoundFlags & (compare(mChildEnd, mRvStart) << CVE_PVS_POS)) == 0) {
-					return false;
-				}
-			}
-
-			if ((mBoundFlags & (MASK << CVE_PVE_POS)) != 0) {
-				if ((mBoundFlags & (compare(mChildEnd, mRvEnd) << CVE_PVE_POS)) == 0) {
-					return false;
-				}
-			}
-			return true;
-		}
-	}
-
-	;
 
 	/**
 	 * Returns the first view starting from fromIndex to toIndex in views whose bounds lie within
@@ -265,6 +182,28 @@ class IViewBoundsChecker {
 		return false;
 	}
 
+	;
+
+	/**
+	 * The set of flags that can be passed for checking the view boundary conditions.
+	 * CVS in the flag name indicates the child view, and PV indicates the parent view.\
+	 * The following S, E indicate a view's start and end points, respectively.
+	 * GT and LT indicate a strictly greater and less than relationship.
+	 * Greater than or equal (or less than or equal) can be specified by setting both GT and EQ (or
+	 * LT and EQ) flags.
+	 * For instance, setting both {@link #FLAG_CVS_GT_PVS} and {@link #FLAG_CVS_EQ_PVS} indicate the
+	 * child view's start should be greater than or equal to its parent start.
+	 */
+	@IntDef(flag = true, value = {
+			FLAG_CVS_GT_PVS, FLAG_CVS_EQ_PVS, FLAG_CVS_LT_PVS,
+			FLAG_CVS_GT_PVE, FLAG_CVS_EQ_PVE, FLAG_CVS_LT_PVE,
+			FLAG_CVE_GT_PVS, FLAG_CVE_EQ_PVS, FLAG_CVE_LT_PVS,
+			FLAG_CVE_GT_PVE, FLAG_CVE_EQ_PVE, FLAG_CVE_LT_PVE
+	})
+	@Retention(RetentionPolicy.SOURCE)
+	public @interface ViewBounds {
+	}
+
 	/**
 	 * Callback provided by the user of this class in order to retrieve information about child and
 	 * parent boundaries.
@@ -283,5 +222,66 @@ class IViewBoundsChecker {
 		int getChildStart(View view);
 
 		int getChildEnd(View view);
+	}
+
+	static class BoundFlags {
+		int mBoundFlags = 0;
+		int mRvStart, mRvEnd, mChildStart, mChildEnd;
+
+		void setBounds(int rvStart, int rvEnd, int childStart, int childEnd) {
+			mRvStart = rvStart;
+			mRvEnd = rvEnd;
+			mChildStart = childStart;
+			mChildEnd = childEnd;
+		}
+
+		void setFlags(@ViewBounds int flags, int mask) {
+			mBoundFlags = (mBoundFlags & ~mask) | (flags & mask);
+		}
+
+		void addFlags(@ViewBounds int flags) {
+			mBoundFlags |= flags;
+		}
+
+		void resetFlags() {
+			mBoundFlags = 0;
+		}
+
+		int compare(int x, int y) {
+			if (x > y) {
+				return GT;
+			}
+			if (x == y) {
+				return EQ;
+			}
+			return LT;
+		}
+
+		boolean boundsMatch() {
+			if ((mBoundFlags & (MASK << CVS_PVS_POS)) != 0) {
+				if ((mBoundFlags & (compare(mChildStart, mRvStart) << CVS_PVS_POS)) == 0) {
+					return false;
+				}
+			}
+
+			if ((mBoundFlags & (MASK << CVS_PVE_POS)) != 0) {
+				if ((mBoundFlags & (compare(mChildStart, mRvEnd) << CVS_PVE_POS)) == 0) {
+					return false;
+				}
+			}
+
+			if ((mBoundFlags & (MASK << CVE_PVS_POS)) != 0) {
+				if ((mBoundFlags & (compare(mChildEnd, mRvStart) << CVE_PVS_POS)) == 0) {
+					return false;
+				}
+			}
+
+			if ((mBoundFlags & (MASK << CVE_PVE_POS)) != 0) {
+				if ((mBoundFlags & (compare(mChildEnd, mRvEnd) << CVE_PVE_POS)) == 0) {
+					return false;
+				}
+			}
+			return true;
+		}
 	}
 }

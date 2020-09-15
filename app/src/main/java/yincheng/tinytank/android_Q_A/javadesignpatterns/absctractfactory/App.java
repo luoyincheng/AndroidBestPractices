@@ -10,6 +10,20 @@ public class App {
 	private Castle castle;
 	private Army army;
 
+	public static void main(String[] args) {
+		App app = new App();
+
+		app.createKingdom(FactoryMaker.makeFactory(FactoryMaker.kingdomType.ELF));
+		System.out.println(app.getArmy().getDescription());
+		System.out.println(app.getCastle().getDescription());
+		System.out.println(app.getKing().getDescription());
+
+		app.createKingdom(FactoryMaker.makeFactory(FactoryMaker.kingdomType.ORC));
+		System.out.println(app.getKing().getDescription());
+		System.out.println(app.getCastle().getDescription());
+		System.out.println(app.getKing().getDescription());
+	}
+
 	King getKing(final KingdomFactory factory) {
 		return factory.createKing();
 	}
@@ -52,12 +66,7 @@ public class App {
 		setCastle(factory.createCastle());
 	}
 
-
 	public static class FactoryMaker {
-		public enum kingdomType {
-			ORC, ELF
-		}
-
 		public static KingdomFactory makeFactory(kingdomType type) {
 			switch (type) {
 				case ORC:
@@ -68,19 +77,9 @@ public class App {
 					throw new IllegalArgumentException("暂时不支持该类型");
 			}
 		}
-	}
 
-	public static void main(String[] args) {
-		App app = new App();
-
-		app.createKingdom(FactoryMaker.makeFactory(FactoryMaker.kingdomType.ELF));
-		System.out.println(app.getArmy().getDescription());
-		System.out.println(app.getCastle().getDescription());
-		System.out.println(app.getKing().getDescription());
-
-		app.createKingdom(FactoryMaker.makeFactory(FactoryMaker.kingdomType.ORC));
-		System.out.println(app.getKing().getDescription());
-		System.out.println(app.getCastle().getDescription());
-		System.out.println(app.getKing().getDescription());
+		public enum kingdomType {
+			ORC, ELF
+		}
 	}
 }

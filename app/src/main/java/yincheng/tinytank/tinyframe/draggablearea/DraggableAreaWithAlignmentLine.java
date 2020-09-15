@@ -39,6 +39,11 @@ public class DraggableAreaWithAlignmentLine extends FrameLayout implements Adsor
 
 	Paint alignLinePaint = new Paint();
 	int alignLineWidth = 4;
+	/**
+	 * AlignAbout-----------------------------------------------------------------------------------------------------------------------
+	 */
+	ArrayList<Integer> knownHorizontalLines = new ArrayList<>();
+	ArrayList<Integer> knownVerticalLines = new ArrayList<>();
 
 	public DraggableAreaWithAlignmentLine(Context context) {
 		this(context, null);
@@ -130,12 +135,6 @@ public class DraggableAreaWithAlignmentLine extends FrameLayout implements Adsor
 		viewList.get(selectedFloor - 1).floor = selectedFloor;
 		layout(0, 0, 0, 0);
 	}
-
-	/**
-	 * AlignAbout-----------------------------------------------------------------------------------------------------------------------
-	 */
-	ArrayList<Integer> knownHorizontalLines = new ArrayList<>();
-	ArrayList<Integer> knownVerticalLines = new ArrayList<>();
 
 	@Override
 	public void onAlignLineFound(@NotNull ArrayList<Integer> horizontalLines, @NotNull ArrayList<Integer> verticalLines) {

@@ -11,10 +11,15 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
-import androidx.lifecycle.LiveData;
 
 public class MessengerService extends Service {
 	private final Messenger messenger = new Messenger(new MessengerHandler());
+
+	@Nullable
+	@Override
+	public IBinder onBind(Intent intent) {
+		return messenger.getBinder();
+	}
 
 	private static class MessengerHandler extends Handler {
 		@Override
@@ -38,11 +43,5 @@ public class MessengerService extends Service {
 			}
 			super.handleMessage(msg);
 		}
-	}
-
-	@Nullable
-	@Override
-	public IBinder onBind(Intent intent) {
-		return messenger.getBinder();
 	}
 }

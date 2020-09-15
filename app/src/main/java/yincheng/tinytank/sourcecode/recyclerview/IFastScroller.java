@@ -42,62 +42,41 @@ import yincheng.tinytank.sourcecode.recyclerview.IRecyclerView.OnScrollListener;
  */
 @VisibleForTesting
 class IFastScroller extends ItemDecoration implements OnItemTouchListener {
-	@IntDef({STATE_HIDDEN, STATE_VISIBLE, STATE_DRAGGING})
-	@Retention(RetentionPolicy.SOURCE)
-	private @interface State {
-	}
-
 	// Scroll thumb not showing
 	private static final int STATE_HIDDEN = 0;
 	// Scroll thumb visible and moving along with the scrollbar
 	private static final int STATE_VISIBLE = 1;
 	// Scroll thumb being dragged by user
 	private static final int STATE_DRAGGING = 2;
-
-	@IntDef({DRAG_X, DRAG_Y, DRAG_NONE})
-	@Retention(RetentionPolicy.SOURCE)
-	private @interface DragState {
-	}
-
 	private static final int DRAG_NONE = 0;
 	private static final int DRAG_X = 1;
 	private static final int DRAG_Y = 2;
-
-	@IntDef({ANIMATION_STATE_OUT, ANIMATION_STATE_FADING_IN, ANIMATION_STATE_IN,
-			ANIMATION_STATE_FADING_OUT})
-	@Retention(RetentionPolicy.SOURCE)
-	private @interface AnimationState {
-	}
-
 	private static final int ANIMATION_STATE_OUT = 0;
 	private static final int ANIMATION_STATE_FADING_IN = 1;
 	private static final int ANIMATION_STATE_IN = 2;
 	private static final int ANIMATION_STATE_FADING_OUT = 3;
-
 	private static final int SHOW_DURATION_MS = 500;
 	private static final int HIDE_DELAY_AFTER_VISIBLE_MS = 1500;
 	private static final int HIDE_DELAY_AFTER_DRAGGING_MS = 1200;
 	private static final int HIDE_DURATION_MS = 500;
 	private static final int SCROLLBAR_FULL_OPAQUE = 255;
-
 	private static final int[] PRESSED_STATE_SET = new int[]{android.R.attr.state_pressed};
 	private static final int[] EMPTY_STATE_SET = new int[]{};
-
 	private final int mScrollbarMinimumRange;
 	private final int mMargin;
-
 	// Final values for the vertical scroll bar
 	private final StateListDrawable mVerticalThumbDrawable;
 	private final Drawable mVerticalTrackDrawable;
 	private final int mVerticalThumbWidth;
 	private final int mVerticalTrackWidth;
-
 	// Final values for the horizontal scroll bar
 	private final StateListDrawable mHorizontalThumbDrawable;
 	private final Drawable mHorizontalTrackDrawable;
 	private final int mHorizontalThumbHeight;
 	private final int mHorizontalTrackHeight;
-
+	private final int[] mVerticalRange = new int[2];
+	private final int[] mHorizontalRange = new int[2];
+	private final ValueAnimator mShowHideAnimator = ValueAnimator.ofFloat(0, 1);
 	// Dynamic values for the vertical scroll bar
 	@VisibleForTesting
 	int mVerticalThumbHeight;
@@ -128,10 +107,6 @@ class IFastScroller extends ItemDecoration implements OnItemTouchListener {
 	private int mState = STATE_HIDDEN;
 	@DragState
 	private int mDragState = DRAG_NONE;
-
-	private final int[] mVerticalRange = new int[2];
-	private final int[] mHorizontalRange = new int[2];
-	private final ValueAnimator mShowHideAnimator = ValueAnimator.ofFloat(0, 1);
 	@AnimationState
 	private int mAnimationState = ANIMATION_STATE_OUT;
 	private final Runnable mHideRunnable = new Runnable() {
@@ -241,7 +216,6 @@ class IFastScroller extends ItemDecoration implements OnItemTouchListener {
 	boolean isHidden() {
 		return mState == STATE_HIDDEN;
 	}
-
 
 	public void show() {
 		switch (mAnimationState) {
@@ -565,6 +539,22 @@ class IFastScroller extends ItemDecoration implements OnItemTouchListener {
 		mHorizontalRange[0] = mMargin;
 		mHorizontalRange[1] = mRecyclerViewWidth - mMargin;
 		return mHorizontalRange;
+	}
+
+	@IntDef({STATE_HIDDEN, STATE_VISIBLE, STATE_DRAGGING})
+	@Retention(RetentionPolicy.SOURCE)
+	private @interface State {
+	}
+
+	@IntDef({DRAG_X, DRAG_Y, DRAG_NONE})
+	@Retention(RetentionPolicy.SOURCE)
+	private @interface DragState {
+	}
+
+	@IntDef({ANIMATION_STATE_OUT, ANIMATION_STATE_FADING_IN, ANIMATION_STATE_IN,
+			ANIMATION_STATE_FADING_OUT})
+	@Retention(RetentionPolicy.SOURCE)
+	private @interface AnimationState {
 	}
 
 	private class AnimatorListener extends AnimatorListenerAdapter {

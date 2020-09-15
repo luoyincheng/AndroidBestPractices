@@ -4,8 +4,8 @@ import java.util.LinkedList;
 
 /**
  * final void checkForComodification() {
- *     if (modCount != expectedModCount)
- *          throw new ConcurrentModificationException();
+ * if (modCount != expectedModCount)
+ * throw new ConcurrentModificationException();
  * }
  * 增强型for循环使用了迭代器，迭代器在创建的时候会对expectedModCount进行赋值，这个值在迭代过程中不会变化
  * 但是如果在迭代过程中添加或者删除了元素，modCount值就会增加 这个时候两个值就不一样了，导致异常
