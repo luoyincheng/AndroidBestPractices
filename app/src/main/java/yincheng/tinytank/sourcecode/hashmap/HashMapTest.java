@@ -17,6 +17,7 @@ public class HashMapTest {
 		hashMap.put("d", "d");
 		hashMap.put("e", "e");
 		hashMap.put("s", "s");
+		hashMap.size();
 		for (Object value : hashMap.values()) {
 			System.out.println(value);
 		}
