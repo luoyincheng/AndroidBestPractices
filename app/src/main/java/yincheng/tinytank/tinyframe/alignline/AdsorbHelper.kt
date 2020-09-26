@@ -4,9 +4,9 @@ import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import yincheng.tinytank.provider.utils.IMathUtil
 import yincheng.tinytank.tinyframe.draggablearea.LayerView
 import yincheng.tinytank.tinyframe.draggablearea.ViewDragHelper
-import yincheng.tinytank.util.IMathUtils
 
 class AdsorbHelper constructor(var parentView: ViewGroup, private var isCombineEdgeCenterTogether: Boolean) {
    // todo gestureoverlayview
@@ -221,7 +221,7 @@ class AdsorbHelper constructor(var parentView: ViewGroup, private var isCombineE
                rightMargin = Math.abs(capturedView.right - mPentaArrayList.verticalLines[mPentaArrayList.nearestIndex[2]])
             }
 
-            val nearestIndexs = IMathUtils.findAllSmallestIndexes(intArrayOf(leftMargin, centerMargin, rightMargin))
+            val nearestIndexs = IMathUtil.findAllSmallestIndexes(intArrayOf(leftMargin, centerMargin, rightMargin))
             Log.i("nearestIndexs", "$nearestIndexs | $leftMargin | $centerMargin | $rightMargin")
 
             destinationCoordinate
@@ -254,7 +254,7 @@ class AdsorbHelper constructor(var parentView: ViewGroup, private var isCombineE
 
       val array = intArrayOf(Int.MAX_VALUE, Int.MAX_VALUE, Int.MAX_VALUE)
 
-      val nearestIndexs = IMathUtils.findAllSmallestIndexes(array)
+      val nearestIndexs = IMathUtil.findAllSmallestIndexes(array)
       Log.i("emmm...", "nearestIndexs:" + nearestIndexs + ":" + leftOrTopNearestIndex + ":" + centerNearestIndex + ":" + rightOrBottomNearestIndex)
 
       // 往 左边/上边 滑动

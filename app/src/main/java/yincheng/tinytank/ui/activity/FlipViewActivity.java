@@ -1,5 +1,7 @@
 package yincheng.tinytank.ui.activity;
 
+import android.content.Intent;
+
 import butterknife.BindView;
 import yincheng.tinytank.R;
 import yincheng.tinytank.ui.activity.base.BaseActivity;
@@ -23,12 +25,17 @@ public class FlipViewActivity extends BaseActivity {
 
 	@Override
 	protected void initData() {
-		fliptextview.addNotice(testStringList);
-		fliptextview.startFlipping();
+//		fliptextview.addNotice(testStringList);
+//		fliptextview.startFlipping();
 	}
 
 	@Override
 	protected void initView() {
-
+		new Thread(new Runnable() {
+			@Override
+			public void run() {
+				startActivity(new Intent(FlipViewActivity.this,MainActivity.class));
+			}
+		});
 	}
 }
