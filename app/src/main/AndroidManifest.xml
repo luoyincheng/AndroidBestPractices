@@ -11,74 +11,13 @@
       android:supportsRtl="true"
       android:theme="@style/AppTheme"
       tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-      <activity android:name=".android_Q_A._1_100._7.messenger.MessengerActivity">
+      <activity android:name=".upward.performanceoptimization.uiperformance.ClipRectActivity">
          <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
          </intent-filter>
       </activity>
-      <activity android:name="yincheng.tinytank.ui.activity.AlgorithmActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.SortActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.InterviewAlgorithmActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.DataStructureActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.JavaDesignPatternActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.SourceCodeActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.ArchitectureActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.InterviewQuestionActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.ObserverActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.BuilderActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.HotTechActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.CodeCollectionActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.AndroidMiddleLevelActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.ViewActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.SmartisanPullActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.FlipViewActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.AnimationActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.DemoActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.SmartisanSwitchButtonActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.MarkdownViewActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.LambdaActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.JavaAdvancedActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.XmlActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.IntentServiceActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.CodeViewerActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.ProgrammingCornerstoneActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.HttpResponseCodeActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.ProtocolActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.HttpActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.ConcurrentActivity" />
-      <!--<activity android:name="yincheng.tinytank.ui.activity.LeetCodeActivity" />-->
-      <activity android:name="yincheng.tinytank.ui.activity.ViewTestActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.GitActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.NetworkActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.PathViewActivity" />
-      <activity android:name="yincheng.tinytank.ui.activity.ToeflActivity" />
-      <activity android:name=".ui.activity.AlignmentTestActivity" />
-      <activity android:name=".android_Q_A._1_100._4.ServiceCommunicationActivity" />
-      <activity android:name=".ui.activity.MainActivity" />
-      <activity android:name=".android_Q_A._1_100._1.BLifeCycleActivity" />
-      <activity android:name=".android_Q_A._101_200._145.demochannel.ChannelActivity" />
-      <activity android:name=".android_Q_A._101_200._145.demodrag.DragActivity" />
-
-      <!--        <activity-->
-      <!--            android:name=".android_Q_A._1_100._9.TaskAffinityActivity1"-->
-      <!--            android:taskAffinity="com.yincheng.taskAffinityTest" />-->
-      <activity
-         android:name=".android_Q_A._1_100._9.TaskAffinityActivity2"
-         android:launchMode="singleInstance"
-
-         />
-      <activity
-         android:name=".android_Q_A._1_100._9.TaskAffinityActivity3"
-         android:launchMode="singleTask"
-         android:taskAffinity="com.yincheng.taskAffinityTest" />
-      <!--<activity android:name=".kotlin.data.DataActivity" />-->
-      <!--<activity android:name=".cornerstone.matrix.MatrixActivity" />-->
-
-      <!--<activity-->
-      <!--android:name="yincheng.tinytank.cornerstone.matrix.MatrixActivity"-->
-      <!--android:theme="@style/FullScreen" />-->
 
       <provider
          android:name="androidx.core.content.FileProvider"

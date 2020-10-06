@@ -3,6 +3,19 @@
    xmlns:app="http://schemas.android.com/apk/res-auto"
    xmlns:tools="http://schemas.android.com/tools">
 
+   <data>
+
+      <!--<import type="android.graphics.Bitmap" />-->
+
+      <!--<variable-->
+      <!--name="imgResId"-->
+      <!--type="Bitmap" />-->
+
+      <variable
+         name="lruViewModel"
+         type="yincheng.tinytank.tinyframe.lrucache.LruCacheViewModel" />
+   </data>
+
    <androidx.constraintlayout.widget.ConstraintLayout
       android:layout_width="match_parent"
       android:layout_height="match_parent">
@@ -71,18 +84,5 @@
          tools:srcCompat="@drawable/brvah_sample_footer_loading" />
 
    </androidx.constraintlayout.widget.ConstraintLayout>
-
-   <data>
-
-      <!--<import type="android.graphics.Bitmap" />-->
-
-      <!--<variable-->
-      <!--name="imgResId"-->
-      <!--type="Bitmap" />-->
-
-      <variable
-         name="lruViewModel"
-         type="yincheng.tinytank.tinyframe.lrucache.LruCacheViewModel" />
-   </data>
 
 </layout>
