@@ -12,6 +12,9 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import static android.graphics.Canvas.EdgeType.AA;
 
 public class ClipRectView extends View {
@@ -33,6 +36,7 @@ public class ClipRectView extends View {
     public ClipRectView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
+        Executors
     }
 
     @Override
