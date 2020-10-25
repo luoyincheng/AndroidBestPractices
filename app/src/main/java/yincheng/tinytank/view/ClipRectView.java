@@ -36,7 +36,6 @@ public class ClipRectView extends View {
     public ClipRectView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
-        Executors
     }
 
     @Override

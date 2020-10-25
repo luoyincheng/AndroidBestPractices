@@ -5,6 +5,9 @@
 
    <Button
       android:id="@+id/btnStart"
+       android:text="打开activityB"
+       android:textSize="25dp"
+       android:textColor="@android:color/white"
       android:layout_width="200dp"
       android:layout_height="100dp"
       android:layout_alignParentBottom="true"

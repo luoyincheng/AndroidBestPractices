@@ -1,61 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-   xmlns:tools="http://schemas.android.com/tools"
-   package="yincheng.tinytank">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="yincheng.tinytank">
 
-   <application
-      android:name="yincheng.tinytank.App"
-      android:allowBackup="true"
-      android:icon="@drawable/vector_drawable_book"
-      android:label="@string/app_name"
-      android:supportsRtl="true"
-      android:theme="@style/AppTheme"
-      tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-      <activity android:name=".upward.performanceoptimization.uiperformance.ClipRectActivity">
-         <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+    <application
+        android:name="yincheng.tinytank.App"
+        android:allowBackup="true"
+        android:icon="@drawable/vector_drawable_book"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:ignore="AllowBackup,GoogleAppIndexingWarning">
+        <activity android:name=".android_Q_A._1_100._1.ALifeCycleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-         </intent-filter>
-      </activity>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
-      <provider
-         android:name="androidx.core.content.FileProvider"
-         android:authorities="yincheng.tinytank.provider"
-         android:exported="false"
-         android:grantUriPermissions="true">
-         <meta-data
-            android:name="android.support.FILE_PROVIDER_PATHS"
-            android:resource="@xml/file_paths" />
-      </provider>
+        <activity android:name=".android_Q_A._1_100._1.BLifeCycleActivity" />
 
-      <service
-         android:name="yincheng.tinytank.android.service.Service2Activity1"
-         tools:ignore="ExportedService">
-         <intent-filter>
-            <action android:name="com.yincheng.action.service.testbinder" />
-         </intent-filter>
-      </service>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="yincheng.tinytank.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
-      <service
-         android:name="yincheng.tinytank.android.service.DownloadAppService"
-         android:enabled="true" />
-      <service android:name=".android_Q_A._1_100._4.IService" />
-      <service
-         android:name=".android_Q_A._101_200._135.ForegroundService"
-         android:enabled="true" />
-      <service android:name=".android_Q_A._101_200._135.ForegroundServiceNew" />
-      <service android:name=".android_Q_A._101_200._139.IIntentService" />
+        <service
+            android:name="yincheng.tinytank.android.service.Service2Activity1"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="com.yincheng.action.service.testbinder" />
+            </intent-filter>
+        </service>
+        <service
+            android:name="yincheng.tinytank.android.service.DownloadAppService"
+            android:enabled="true" />
+        <service android:name=".android_Q_A._1_100._4.IService" />
+        <service
+            android:name=".android_Q_A._101_200._135.ForegroundService"
+            android:enabled="true" />
+        <service android:name=".android_Q_A._101_200._135.ForegroundServiceNew" />
 
-      <service
-         android:name=".android_Q_A._1_100._7.messenger.MessengerService"
-         android:process=":messengerServer" />
-   </application>
+        <service android:name=".android_Q_A._101_200._139.IIntentService" />
 
-   <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-   <uses-permission android:name="android.permission.INTERNET" />
-   <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-   <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+        <service
+            android:name=".android_Q_A._1_100._7.messenger.MessengerService"
+            android:process=":messengerServer" />
+    </application>
 
-   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 </manifest>

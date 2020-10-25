@@ -23,6 +23,7 @@ public class ALifeCycleActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.i(LIFE_CYCLE, "(A):onCreate");
 		setContentView(R.layout.activity_life_cycle);
 		buttonStart = findViewById(R.id.btnStart);
 		initFragment();
@@ -32,7 +33,6 @@ public class ALifeCycleActivity extends AppCompatActivity {
 				buttonStart.setText(savedInstanceState.getString("btnStart"));
 			}
 		} else Log.i(LIFE_CYCLE, "(A):savedInstanceState不存在");
-		Log.i(LIFE_CYCLE, "(A):onCreate");
 
 		buttonStart.setOnClickListener(v -> {
 			buttonStart.setText("已经启动了");
@@ -88,8 +88,8 @@ public class ALifeCycleActivity extends AppCompatActivity {
 	@Override
 	protected void onSaveInstanceState(@NonNull Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putString("btnStart", "onSaveInstanceState()");
 		Log.i(LIFE_CYCLE, "(A):onSaveInstanceState");
+		outState.putString("btnStart", "onSaveInstanceState()");
 	}
 
 	@Override
